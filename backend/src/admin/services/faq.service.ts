@@ -1,0 +1,36 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateFaqDto } from '../dto/create-faq.dto';
+import { UpdateFaqDto } from '../dto/update-faq.dto';
+import { FaqEntity } from '../entities/faq.entity';
+import { FaqRepository } from '../repository/faq.repository';
+
+@Injectable()
+export class FaqService {
+
+  constructor(
+    @InjectRepository(FaqRepository)
+    private readonly faqRepository: FaqRepository
+  ) {}
+
+  create(createFaqDto: CreateFaqDto):Promise<FaqEntity> {
+    return this.faqRepository.createFaq(createFaqDto);
+  }
+
+  findAll() {
+    return this.faqRepository.find();
+    // return `This action returns all faq`;
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} faq`;
+  }
+
+  update(id: number, updateFaqDto: UpdateFaqDto) {
+    return `This action updates a #${id} faq`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} faq`;
+  }
+}

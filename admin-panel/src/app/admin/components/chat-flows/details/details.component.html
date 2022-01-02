@@ -1,0 +1,125 @@
+<div class="card mb-3">
+    <div class="bg-holder d-none d-lg-block bg-card"
+        style="background-image:url(/assets/admin/img/icons/spot-illustrations/corner-4.png);"></div>
+    <div class="card-body position-relative">
+        <div class="row">
+            <div class="col-lg-8">
+                <h3>Manage Bots</h3>
+                <p class="mb-0">Create beautiful bots for different website or FAQ group.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row flex-between-end">
+            <div class="col-auto align-self-center">
+                <h5 class="mb-0" data-anchor="data-anchor">My bots</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-body bg-light">
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+            <div class="form-floating mb-3">
+                <input class="form-control" formControlName="name" id="floatingInput" type="text"
+                    placeholder="Bot Name" />
+                <label for="floatingInput">Bot Name</label>
+            </div>
+            <br>
+            <h5>Customize your chat widget</h5>
+            <div formGroupName="jsondata">
+                <div class="form-check my-4">
+                    <input class="form-check-input" formControlName="isGradient" id="flexCheckChecked" type="checkbox"
+                        value="" checked="">
+                    <label class="form-check-label" for="flexCheckChecked">Use Gradient Color</label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">First Gradient Color</label>
+                        <div class="input-group mb-3 admin-color-picker">
+                            <input type="text" class="form-control" formControlName="bgColor1">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-white"><span
+                                        class="p-3 border rounded pt-1" [ngClass]="'bg-'+colorActive['bgColor1']"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-row ml-2 mt-2">
+                            <admin-color-picker [colorActive]="colorActive['bgColor1']" (onSelect)="onColorSelect($event, 'bgColor1')"></admin-color-picker>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Second Gradient Color</label>
+                        <div class="input-group mb-3 admin-color-picker">
+                            <input type="text" class="form-control" formControlName="bgColor2">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-white"><span
+                                        class="p-3 border rounded pt-1" [ngClass]="'bg-'+colorActive['bgColor2']"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-row ml-2 mt-2">
+                            <admin-color-picker [colorActive]="colorActive['bgColor2']" (onSelect)="onColorSelect($event, 'bgColor2')"></admin-color-picker>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Text Color</label>
+                        <div class="input-group mb-3 admin-color-picker">
+                            <input type="text" class="form-control" formControlName="textColor">
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-white"><span
+                                        class="p-3 border rounded pt-1" [ngClass]="'bg-'+colorActive['textColor']"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-row ml-2 mt-2">
+                            <admin-color-picker [colorActive]="colorActive['textColor']" (onSelect)="onColorSelect($event, 'textColor')"></admin-color-picker>
+                        </div>
+                    </div>
+                </div>
+                <div formGroupName="header">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Header Text Title</label>
+                            <input type="email" class="form-control" id="inputEmail4" formControlName="text">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label class="form-label" for="customFile">Header Icon / Logo</label>
+                            <input class="form-control" id="customFile" type="file" accept="image/*" (change)="handleFileInput($event)">
+                            <input type="hidden" formControlName="logo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="">
+                            <admin-image-picker iconType="header" [iconActive]="iconActive['header']" (onSelect)="onIconSelect($event, 'header')"></admin-image-picker>
+                        </div>
+                    </div>
+                </div>
+                <div formGroupName="launcher">
+                    <div class="form-row mt-4">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Launcher Text</label>
+                            <input type="email" class="form-control" id="inputEmail4" formControlName="text">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0">
+                            <label class="form-label" for="customFile">Launcher Icon / Logo</label>
+                            <input class="form-control" id="customFile" type="file" accept="image/*" (change)="handleFileInput($event)">
+                            <input type="hidden" formControlName="logo">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="">
+                            <admin-image-picker iconType="launcher" [iconActive]="iconActive['launcher']" (onSelect)="onIconSelect($event, 'launcher')"></admin-image-picker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-row-reverse col-6">
+                <button type="submit" class="btn btn-primary mr-3">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

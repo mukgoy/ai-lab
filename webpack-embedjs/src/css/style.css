@@ -1,0 +1,89 @@
+.isChatOpen{
+	width : 350px;
+	height : calc(100% - 50px);
+	position: fixed; 
+	right: 10px; 
+	bottom: 10px; 
+	z-index: 99999;
+	border: 0px;
+	display: block !important;
+	max-height: 500px;
+	box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+	margin-bottom: 70px;
+}
+.chatbotInitiating{
+	right: -100% !important; 
+}
+
+.isChatClose{
+	display: none;
+}
+
+@media (max-width: 575px) {
+    .isChatOpen{
+		width: 100%;
+		height: 100%;
+		bottom: 0px !important;
+		left: 0px !important;
+		right: 0px !important;
+		max-height: 100%;
+		margin-bottom: 0px;
+	}
+}
+
+
+
+/**/
+
+.mybot-launcher-btn{
+	/* background-image: linear-gradient(-225deg, rgb(80, 204, 204) 35%, rgb(69, 174, 202) 100%); */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px, rgba(0, 0, 0, 0.2) 0px 2px 24px;
+    border: medium none;
+    transition: box-shadow 150ms ease-in-out 0s;
+    border-radius: 50px;
+    height: 60px;
+	width: fit-content;
+	padding: 0px 15px;
+	display: flex;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.mybot-launcher-btn.init{
+	position: absolute;
+	bottom: -100%;
+	left: -100%;
+}
+
+.mybot-launcher-btn.right{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.mybot-launcher-btn.left{
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+
+.mybot-launcher-btn  img{
+	max-height: 40px;
+	min-width: 30px;
+	width: auto;
+	height: auto;
+	margin: auto;
+}
+
+.mybot-launcher-html{
+	display: none;
+	
+}
+
+.mybot-launcher-btn.close .mybot-launcher-html.closed{
+	display: flex;
+}
+
+.mybot-launcher-btn.open .mybot-launcher-html.opened{
+	display: flex;
+}

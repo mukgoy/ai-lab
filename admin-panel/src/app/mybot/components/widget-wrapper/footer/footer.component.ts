@@ -1,0 +1,43 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+
+@Component({
+  selector: 'mybot-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss']
+})
+export class FooterComponent implements OnInit {
+
+  textMsg="";
+  @ViewChild('textMsgBox') textMsgBox: ElementRef<HTMLInputElement> = {} as ElementRef;
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  previousKey = "";
+  onChangeHTML(event:any){
+    let textMsg = this.textMsgBox.nativeElement.textContent || "";
+    if(!textMsg){
+      this.textMsgBox.nativeElement.textContent = "";
+      return;
+    }
+
+    this.textMsg = this.textMsgBox.nativeElement.innerHTML || "";
+    this.textMsg = this.textMsg.replace(/<[\/]?div>/gi, "");
+    this.textMsg = this.textMsg.replace(/<br\s*[\/]?>/gi, "\n");
+    this.textMsg = this.textMsg.trim();
+
+    if(event.key == "Enter" && this.previousKey!="Shift"){
+      this.textMsgBox.nativeElement.innerHTML = "";
+      this.onSubmit();
+    }else{
+      this.previousKey = event.key;
+    }
+    
+  }
+
+  onSubmit(){
+    console.log(this.textMsg);
+  }
+
+}

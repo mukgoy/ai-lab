@@ -1,0 +1,52 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChatFlowsComponent } from './components/chat-flows/chat-flows.component';
+import { DetailsComponent } from './components/chat-flows/details/details.component';
+import { FaqsComponent } from './components/faqs/faqs.component';
+import { ConversationsComponent } from './components/conversations/conversations.component';
+import { CrmComponent } from './components/crm/crm.component';
+import { MyprofileComponent } from './components/myprofile/myprofile.component';
+import { LayoutComponent } from './components/shared/layout/layout.component';
+import { HeaderComponent } from './components/shared/header/header.component';
+import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
+import { AdminRoutingModule } from './admin-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ColorPickerComponent } from './components/shared/utils/color-picker/color-picker.component';
+import { ImagePickerComponent } from './components/shared/utils/image-picker/image-picker.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor, JwtInterceptor } from './interceptors';
+import { AddEditFaqModelComponent } from './components/faqs/models/add-edit-faq-model/add-edit-faq-model.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
+
+
+@NgModule({
+  declarations: [
+    DashboardComponent,
+    ChatFlowsComponent,
+    DetailsComponent,
+    FaqsComponent,
+    ConversationsComponent,
+    CrmComponent,
+    MyprofileComponent,
+    LayoutComponent,
+    HeaderComponent,
+    SidebarComponent,
+    FooterComponent,
+    ColorPickerComponent,
+    ImagePickerComponent,
+    AddEditFaqModelComponent
+  ],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    CKEditorModule
+  ],
+  providers: [BsModalService],
+})
+export class AdminModule { }
