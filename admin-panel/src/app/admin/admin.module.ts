@@ -20,7 +20,7 @@ import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 import { AddEditFaqModelComponent } from './components/faqs/models/add-edit-faq-model/add-edit-faq-model.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-
+import { AccordionModule } from 'ngx-bootstrap/accordion'
 
 
 @NgModule({
@@ -45,7 +45,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     AdminRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    CKEditorModule
+    CKEditorModule,
+    AccordionModule.forRoot()
   ],
   providers: [BsModalService],
 })
