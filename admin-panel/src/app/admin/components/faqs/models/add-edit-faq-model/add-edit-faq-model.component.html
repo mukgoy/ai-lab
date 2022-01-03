@@ -8,8 +8,8 @@
         <div class="form-group">
             <label>Select Bot:</label>
             <select class="form-select" formControlName="botId">
-                <option selected="">Select Bot</option>
-                <option [value]="bot.botId" *ngFor="let bot of mybots">{{bot.name}}</option>
+                <option value="">Select Bot</option>
+                <option [ngValue]="bot.botId" *ngFor="let bot of mybots">{{bot.name}}</option>
             </select>
         </div>
         <div class="form-group">

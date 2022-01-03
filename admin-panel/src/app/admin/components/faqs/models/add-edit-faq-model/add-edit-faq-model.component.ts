@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BotService } from 'src/app/admin/services/bot.service';
+import { FaqService } from 'src/app/admin/services/faq.service';
 
 @Component({
   selector: 'admin-add-edit-faq-model',
@@ -16,6 +17,8 @@ export class AddEditFaqModelComponent implements OnInit {
 
   public Editor = ClassicEditor;
 
+  
+
   isEditMode = false;
   formSubmited = false;
   formGroup  = this.fb.group({
@@ -23,10 +26,12 @@ export class AddEditFaqModelComponent implements OnInit {
     question  : ["",[Validators.required]],
     answer  : ["",[Validators.required]],
   });
+  faqId: any;
 
   constructor(
     private fb : FormBuilder,
-    private botService: BotService
+    private botService: BotService,
+    private faqService: FaqService
   ) { }
 
   ngOnInit(): void {
@@ -37,28 +42,56 @@ export class AddEditFaqModelComponent implements OnInit {
     var editingFaq = changes.editingFaq.currentValue;
     if(editingFaq){
       this.isEditMode = true;
+      this.faqId = editingFaq.faqId;
+      this.getFaqById();
     }
   }
 
-  onSubmit(){
-    console.log(this.formGroup.value);
+  onSubmit() {
     this.formSubmited = true;
-    if(this.formGroup.status == 'VALID'){
-      // this.helperService.notify('success', messages.success.createGroup);
-      this.onSuccess.emit('success');
-      this.modalRef.hide();
+    if (this.formGroup.status == 'VALID') {
+      let httpService;
+      if (this.faqId) {
+        let faqId = this.faqId;
+        httpService = this.faqService.updateFaqById({ ...this.formGroup.value, faqId });
+      } else {
+        httpService = this.faqService.createFaq(this.formGroup.value);
+      }
+      httpService.subscribe((res: any) => {
+        console.log(res);
+        this.onSuccess.emit('success');
+        this.modalRef.hide();
+
+      }, (error) => {
+        console.log(error);
+      });
     }
   }
-
 
   mybots: any[] = [];
+
   getBots(){
     this.botService.getBots()
     .subscribe((res:any)=>{
       console.log(res);
-      this.mybots = res;
+      this.mybots = res.map((o:any)=>{
+        o.jsondata = JSON.parse(o.jsondata)
+        return o;
+      });
     },(error:any)=>{
         // this.helperService.notify('error', error);
     });
   }
+
+  getFaqById() {
+    console.log(this.faqId)
+    this.faqService.getFaqById(this.faqId)
+      .subscribe((res: any) => {
+        this.editingFaq = res;
+        this.formGroup.patchValue({...this.editingFaq, botId: res.bot.botId});
+      }, (error: any) => {
+        // this.helperService.notify('error', error);
+      });
+  }
+  
 }

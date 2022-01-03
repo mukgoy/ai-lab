@@ -15,11 +15,9 @@
     <div class="card-header border-bottom">
         <div class="row flex-between-end">
             <div class="col-auto align-self-center">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected="">Select Bot</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-select" [(ngModel)]="botId">
+                    <option value="">Select Bot</option>
+                    <option [value]="bot.botId" *ngFor="let bot of mybots">{{bot.name}}</option>
                 </select>
             </div>
             <div class="col-auto align-self-center">
@@ -29,34 +27,33 @@
             </div>
         </div>
     </div>
-    
-    <div class="card-body" *ngIf="faqs.length">
+
+    <div class="card-body" *ngIf="(faqs | filterBy: ['botId']: botId).length">
+
         <accordion [isAnimated]="true" class="faq-accordion-box border rounded">
-            <accordion-group>
-                <div accordion-heading>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    Open By Default
-                </div>
-                <div class="pl-3">Open By Default1</div>
-            </accordion-group>
-            <accordion-group>
-                <div accordion-heading>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    Open By Default
-                </div>
-                <div class="pl-3">Open By Default1</div>
-            </accordion-group>
-            <accordion-group>
-                <div accordion-heading>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    Open By Default
-                </div>
-                <div class="pl-3">Open By Default1</div>
-            </accordion-group>
+            <ng-container *ngFor="let faq of faqs | filterBy: ['botId']: botId">
+                <accordion-group>
+                    <div accordion-heading>
+                        <i class="fa fa-angle-right " aria-hidden="true"></i>
+                        <i class="fa fa-angle-down d-none  " aria-hidden="true"></i>
+                        {{faq.question}} 
+                    
+                    <div class="pull-right">
+                        <button class="btn btn-info btn-sm mr-1 " (click)="openModal(faq)" >
+                            <i class="fa fa-pencil"></i> Edit
+                        </button>
+                    <button type="button" class="btn btn-danger btn-sm " ><i class="fa fa-times"></i> Delete </button>
+                    </div>
+                        
+
+                    </div>
+                    <div class="pl-3" [innerHtml]="faq.answer"></div>
+                </accordion-group>
+            </ng-container>
         </accordion>
     </div>
 
-    <div class="card-body p-4 p-sm-5" *ngIf="!faqs.length">
+    <div class="card-body p-4 p-sm-5" *ngIf="!(faqs | filterBy: ['botId']: botId).length">
         <div class="text-center"><img class="d-block mx-auto mb-4"
                 src="../../../assets/admin/img/icons/spot-illustrations/45.png" alt="shield" width="100" />
             <h4>Create FAQ</h4>
@@ -67,7 +64,7 @@
         </div>
     </div>
 
-    
+
 </div>
 <ng-template #faqModel>
     <admin-add-edit-faq-model [modalRef]="modalRef" [editingFaq]="editingFaq" (onSuccess)="onSuccess($event)">

@@ -21,6 +21,10 @@
 .faq-accordion-box i{
     transition-duration: .5s;
 }
-.faq-accordion-box .panel-open i{
-    rotate: 90deg;
+.faq-accordion-box .panel-open i.fa-angle-down{
+    display: initial !important;
+}
+
+.faq-accordion-box .panel-open i.fa-angle-right{
+    display: none;
 }

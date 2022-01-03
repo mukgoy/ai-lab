@@ -21,6 +21,7 @@ import { AddEditFaqModelComponent } from './components/faqs/models/add-edit-faq-
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule } from 'ngx-bootstrap/accordion'
+import { NgPipesModule } from 'ngx-pipes';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { AccordionModule } from 'ngx-bootstrap/accordion'
     FormsModule, 
     ReactiveFormsModule,
     CKEditorModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
+    NgPipesModule
   ],
   providers: [BsModalService],
 })
