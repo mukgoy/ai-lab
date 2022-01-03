@@ -23,12 +23,10 @@ export class FaqService {
     }else{
       return this.faqRepository.find({where:{owner: req.user.owner.userId}});
     }
-    
-    // return `This action returns all faq`;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} faq`;
+    return this.faqRepository.findOne(+id);
   }
 
   update(id: number, updateFaqDto: UpdateFaqDto) {
