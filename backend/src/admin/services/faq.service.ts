@@ -26,7 +26,7 @@ export class FaqService {
   }
 
   findOne(id: number) {
-    return this.faqRepository.findOne(+id, {relations: [ "owner" ]});
+    return this.faqRepository.findOne(+id, {relations: [ "bot" ]});
   }
 
   update(id: number, updateFaqDto: UpdateFaqDto) {
