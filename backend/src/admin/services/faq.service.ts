@@ -17,8 +17,13 @@ export class FaqService {
     return this.faqRepository.createFaq(createFaqDto);
   }
 
-  findAll() {
-    return this.faqRepository.find();
+  findAll(req, botId=null) {
+    if(botId){
+      return this.faqRepository.find({where:{botId}});
+    }else{
+      return this.faqRepository.find({where:{owner: req.user.owner.userId}});
+    }
+    
     // return `This action returns all faq`;
   }
 
@@ -27,7 +32,7 @@ export class FaqService {
   }
 
   update(id: number, updateFaqDto: UpdateFaqDto) {
-    return `This action updates a #${id} faq`;
+    return this.faqRepository.updateFaq(updateFaqDto);
   }
 
   remove(id: number) {

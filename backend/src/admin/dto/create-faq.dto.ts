@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsInt, IsString } from "class-validator";
 
 export class CreateFaqDto {
     
@@ -11,7 +11,7 @@ export class CreateFaqDto {
     @ApiProperty()
     public answer: string;
 
-    @IsString()
+    @IsInt()
     @ApiProperty()
     public botId: number;
 

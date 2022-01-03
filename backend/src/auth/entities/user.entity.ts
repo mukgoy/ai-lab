@@ -1,4 +1,4 @@
-import { BotEntity, UploadEntity } from 'src/admin/entities';
+import { BotEntity, FaqEntity, UploadEntity } from 'src/admin/entities';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent} from 'typeorm';
 import { CommonProperty } from './common.property';
 
@@ -35,6 +35,11 @@ export class UserEntity extends CommonProperty{
         cascade: true,
     })
     bots: BotEntity[];
+
+    @OneToMany(() => FaqEntity, faq => faq.owner,{
+        cascade: true,
+    })
+    faqs: BotEntity[];
 
     @OneToMany(() => UploadEntity, upload => upload.owner,{
         cascade: true,
