@@ -14,6 +14,7 @@ export class AddEditFaqModelComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<any>() ;
   @Input() modalRef : BsModalRef = new BsModalRef();
   @Input() editingFaq: any;
+  @Input() botId: any;
 
   public Editor = ClassicEditor;
 
@@ -44,6 +45,11 @@ export class AddEditFaqModelComponent implements OnInit {
       this.isEditMode = true;
       this.faqId = editingFaq.faqId;
       this.getFaqById();
+    }
+
+    var botId = changes.botId.currentValue;
+    if(botId){
+      this.formGroup.patchValue({botId: +botId});
     }
   }
 
