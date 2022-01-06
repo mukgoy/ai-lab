@@ -21,9 +21,13 @@
     <div class="card-body bg-light">
         <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
             <div class="form-floating mb-3">
-                <input class="form-control" formControlName="name" id="floatingInput" type="text"
-                    placeholder="Bot Name" />
+                <input class="form-control" formControlName="name" id="floatingInput" type="text" placeholder="Bot Name" />
                 <label for="floatingInput">Bot Name</label>
+                <ng-container *ngIf="formGroup.controls.name?.touched || formSubmited">
+                    <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.controls.name.errors | keyvalue">
+                        {{"Bot name" | errortostring : errorMsg}}
+                    </small>
+                </ng-container>
             </div>
             <br>
             <h5>Customize your chat widget</h5>
@@ -46,6 +50,11 @@
                                 </span>
                             </div>
                         </div>
+                        <ng-container *ngIf="formGroup.get('jsondata')?.get('bgColor1')?.touched || formSubmited">
+                            <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('bgColor1').errors | keyvalue">
+                                {{"First Gradient Color" | errortostring : errorMsg}}
+                            </small>
+                        </ng-container>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="inputPassword4">Second Gradient Color</label>

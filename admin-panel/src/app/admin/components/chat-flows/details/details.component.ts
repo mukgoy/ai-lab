@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { adminNotify } from 'src/app/admin/enums';
 import { BotService } from 'src/app/admin/services/bot.service';
+import { HelperService } from 'src/app/admin/services/helper.service';
 import { UploadService } from 'src/app/admin/services/upload.service';
 
 @Component({
@@ -45,7 +47,9 @@ export class DetailsComponent implements OnInit {
     private fb: FormBuilder,
     private upload: UploadService,
     private botService: BotService,
+    private help: HelperService,
     private route: ActivatedRoute,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -62,17 +66,26 @@ export class DetailsComponent implements OnInit {
     this.formSubmited = true;
     if (this.formGroup.status == 'VALID') {
       let httpService;
+      let notify:string;
       if (this.botId) {
         let botId = this.botId;
         httpService = this.botService.updateBotById({ ...this.formGroup.value, botId });
+        notify = adminNotify.success.updateBot
       } else {
         httpService = this.botService.createBot(this.formGroup.value);
+        notify = adminNotify.success.createBot
       }
       httpService.subscribe((res: any) => {
         console.log(res);
+        this.help.notify('success', notify);
+        this.router.navigate(['/admin/manage-bots']);
       }, (error) => {
         console.log(error);
       });
+    }else{
+      console.log(this.formGroup)
+      console.log(this.formGroup.get('jsondata')?.get('bgColor1'))
+      this.help.notify('error', "notify");
     }
   }
 

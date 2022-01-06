@@ -21,6 +21,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { NgPipesModule } from 'ngx-pipes';
 import { NgxColorsModule } from 'ngx-colors';
+import { ErrortostringPipe } from './pipes/errortostring.pipe';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { NgxColorsModule } from 'ngx-colors';
     FooterComponent,
     ColorPickerComponent,
     ImagePickerComponent,
-    AddEditFaqModelComponent
+    AddEditFaqModelComponent,
+    ErrortostringPipe
   ],
   imports: [
     CommonModule,

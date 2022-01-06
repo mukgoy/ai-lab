@@ -28,3 +28,27 @@ export const adminApi = {
     },
     upload: adminConfig.backend + "upload"
 }
+
+export const adminNotify = {
+    success : {
+        createBot: 'Bot have been created.',
+        updateBot: 'Bot have been updated.',
+        createFaq: 'Faq have been created.',
+        updateFaq: 'Faq have been updated.',
+    },
+    error : {
+        updateProfileDetails: 'Some thing is not correct.',
+    },
+    confirm : {
+        groupMemberDelete: "Delete member",
+        currencyDelete: "Delete currency",
+        feeDelete: "Delete fee",
+        tradePairDelete: "Delete trade pair",
+        ticketDelete: "Delete ticket",
+        limitDelete:"Delete limit"
+    },
+    texts : {
+        noDataToDisplay : "No data to display",
+        dataFatching : "Please wait... data is fatching from server."
+    }
+}
