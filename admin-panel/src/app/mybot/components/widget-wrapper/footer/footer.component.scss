@@ -3,7 +3,7 @@
     max-height: 100px;
     overflow-y: auto;
 }
-[contenteditable][placeholder]:empty::after{
+[contenteditable][placeholder]:empty::before{
     content: attr(placeholder);
     color: rgb(123, 152, 182);
 }

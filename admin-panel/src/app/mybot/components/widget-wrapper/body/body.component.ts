@@ -28,12 +28,18 @@ export class BodyComponent implements OnInit {
   }
 
   ngStyle(msg:any){
-    let style = msg.type=='human' ? "8px 0px 8px 8px" : "0px 8px 8px 8px"
-    return {
-      'color' : this.botConfig.jsondata.textColor,
-      "background-color": "#e6e5ec",
-      "border-radius": style
+    if(msg.type=='human'){
+      let botConfig = this.botConfig;
+      let styles:any = {}
+      styles["color"] = botConfig.jsondata.textColor;
+      if(botConfig.jsondata.isGradient){
+          styles["background-image"] = `linear-gradient(-225deg, ${botConfig.jsondata.bgColor1} 35%, ${botConfig.jsondata.bgColor2} 100%)`;
+      }else{
+          styles["background-color"] = `${botConfig.jsondata.bgColor1}`;
+      }
+      return styles
     }
+    return { }
   }
 
 }
