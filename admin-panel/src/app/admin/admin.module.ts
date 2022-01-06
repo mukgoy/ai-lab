@@ -15,13 +15,12 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorPickerComponent } from './components/shared/utils/color-picker/color-picker.component';
 import { ImagePickerComponent } from './components/shared/utils/image-picker/image-picker.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorInterceptor, JwtInterceptor } from './interceptors';
 import { AddEditFaqModelComponent } from './components/faqs/models/add-edit-faq-model/add-edit-faq-model.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { NgPipesModule } from 'ngx-pipes';
+import { NgxColorsModule } from 'ngx-colors';
 
 
 @NgModule({
@@ -48,7 +47,8 @@ import { NgPipesModule } from 'ngx-pipes';
     ReactiveFormsModule,
     CKEditorModule,
     AccordionModule.forRoot(),
-    NgPipesModule
+    NgPipesModule,
+    NgxColorsModule
   ],
   providers: [BsModalService],
 })

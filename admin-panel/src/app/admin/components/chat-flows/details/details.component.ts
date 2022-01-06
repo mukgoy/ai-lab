@@ -14,9 +14,9 @@ export class DetailsComponent implements OnInit {
     launcher : "http://localhost:4200/assets/mybot/images/launcher-3.svg"
   }
   colorActive: any = {
-    bgColor1: "info",
-    bgColor2: "info",
-    textColor: "info"
+    bgColor1: "#ef5350",
+    bgColor2: "#c62828",
+    textColor: "#ffffff"
   }
 
   botId: number = 0;

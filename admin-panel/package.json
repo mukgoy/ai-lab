@@ -27,6 +27,7 @@
     "font-awesome": "^4.7.0",
     "js-channel": "^1.0.1839",
     "ngx-bootstrap": "^7.1.2",
+    "ngx-colors": "^2.10.2",
     "ngx-pipes": "^2.7.6",
     "ngx-toastr": "^14.2.1",
     "rxjs": "~6.6.0",
