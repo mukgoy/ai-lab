@@ -10,6 +10,7 @@
 	max-height: 500px;
 	box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
 	margin-bottom: 70px;
+	border-radius: 10px;
 }
 .chatbotInitiating{
 	right: -100% !important; 

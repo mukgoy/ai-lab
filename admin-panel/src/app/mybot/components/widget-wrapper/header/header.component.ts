@@ -21,11 +21,11 @@ export class HeaderComponent implements OnInit {
   ngStyle(){
     let botConfig = this.botConfig;
     let styles:any = {}
-    styles["color"] = botConfig.ui.textColor;
-    if(botConfig.ui.isGradient){
-        styles["background-image"] = `linear-gradient(-225deg, ${botConfig.ui.bgColor1} 35%, ${botConfig.ui.bgColor2} 100%)`;
+    styles["color"] = botConfig.jsondata.textColor;
+    if(botConfig.jsondata.isGradient){
+        styles["background-image"] = `linear-gradient(-225deg, ${botConfig.jsondata.bgColor1} 35%, ${botConfig.jsondata.bgColor2} 100%)`;
     }else{
-        styles["background-color"] = `${botConfig.ui.bgColor1}`;
+        styles["background-color"] = `${botConfig.jsondata.bgColor1}`;
     }
     return styles
   }

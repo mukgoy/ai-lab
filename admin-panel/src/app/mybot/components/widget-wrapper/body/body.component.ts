@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MsgService } from 'src/app/mybot/services/msg.service';
+import { StoreService } from 'src/app/mybot/services/store.service';
 
 @Component({
   selector: 'mybot-body',
@@ -7,30 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BodyComponent implements OnInit {
 
-  msgs = ["","","","","","","","","",""]
-  constructor() { }
+  botConfig:any = {}
+  constructor(
+    public msgService:MsgService,
+    public store:StoreService,
+    private ref:ChangeDetectorRef
+  ){ }
 
   ngOnInit(): void {
+    this.store.botConfig.subscribe((botConfig)=>{
+      this.botConfig = botConfig;
+      this.ref.detectChanges();
+    })
   }
 
-  ngStyleBot(){
-    let style = this.ngStyle();
-    return {
-      ...style,
-      "border-radius": "0px 8px 8px 8px"
-    }
+  get msgs(){
+    return this.msgService.msgs;
   }
-  ngStyleUser(){
-    let style = this.ngStyle();
+
+  ngStyle(msg:any){
+    let style = msg.type=='human' ? "8px 0px 8px 8px" : "0px 8px 8px 8px"
     return {
-      ...style,
-      "border-radius": "8px 0px 8px 8px"
-    }
-  }
-  ngStyle(){
-    return {
-      'color' : "white",
-      "background-color": "rgb(0, 164, 189)"
+      'color' : this.botConfig.jsondata.textColor,
+      "background-color": "#e6e5ec",
+      "border-radius": style
     }
   }
 

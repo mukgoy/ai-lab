@@ -10,7 +10,7 @@ export class StoreService {
 
   public botConfig: BehaviorSubject<any> = new BehaviorSubject<any>({
       "businessId":5,
-      "ui":{
+      "jsondata":{
           "isGradient":true,
           "bgColor1":"#50cccc",
           "bgColor2":"#45aeca",

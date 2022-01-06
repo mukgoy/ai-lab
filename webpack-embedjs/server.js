@@ -13,8 +13,8 @@ app.get("*", (req, res) => {
     });
 });
 
-var server = app.listen(80, function () {
+var server = app.listen(8080, function () {
    var host = server.address().address
    var port = server.address().port
-   console.log("Example app listening at http://blog.chatboot.com/index.html");
+   console.log("Example app listening at http://blog.chatboot.com:8080/index.html");
 })

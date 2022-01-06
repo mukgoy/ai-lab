@@ -16,5 +16,8 @@ import { UploadService } from './services/upload.service';
       ...repositories
     ]),
   ],
+  exports: [
+    TypeOrmModule
+  ]
 })
 export class AdminModule {}

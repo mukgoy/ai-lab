@@ -1,18 +1,11 @@
-<div class="card-body" style="height: calc(100vh - 90px);overflow: auto;">
+ <div class="card-body" style="height: calc(100vh - 90px);overflow: auto;">
     <div class="direct-chat-messages">
       <ng-container *ngFor="let msg of msgs">
-        <div class="d-flex align-items-start flex-column">
-          <div class="p-2 px-3" [style]="ngStyleBot()">
-            what is your name
-          </div>
-          <small class="text-secondary">12:33 AM</small>
-        </div>
-        <div class="d-flex align-items-end flex-column">
-          <div class="p-2 px-3" [style]="ngStyleUser()">My name is mukesh</div>
-          <small class="text-secondary">12:33 AM</small>
+        <div class="d-flex flex-column" [ngClass]="msg.type=='human' ? 'align-items-end':'align-items-start'">
+          <div class="p-2 px-3" [style]="ngStyle(msg)" [innerHtml]="msg.msg"></div>
+          <small class="text-secondary" appBotuiScroll>{{msg.time  | date:'shortTime'}}</small>
         </div>
       </ng-container>
-      
     </div>
   </div>
   

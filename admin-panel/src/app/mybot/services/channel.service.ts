@@ -28,6 +28,7 @@ export class ChannelService {
         method: "getBotConfig",
         params: {},
         success: (botConfig:any)=>{
+          console.log(botConfig)
           this.store.botConfig.next(botConfig)
           // console.log("getBotConfig callback called", botConfig);
         }

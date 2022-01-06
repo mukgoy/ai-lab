@@ -10,9 +10,9 @@ export default class LauncherBtn{
 
     closedHtml(){
         return `<div class="mybot-launcher-html closed">
-                    <img class="bubble-btn" src="${env.botConfig.ui.launcher.icon}">
+                    <img class="bubble-btn" src="${env.botConfig.jsondata.launcher.logo}">
                     <div>&nbsp;<h3 style="margin: auto;">
-                    &nbsp;${env.botConfig.ui.launcher.text}
+                    &nbsp;${env.botConfig.jsondata.launcher.text}
                     </h3></div>
                 </div>`
     }
@@ -36,11 +36,11 @@ export default class LauncherBtn{
 
     addStyle(){
         let styles = {}
-        styles["color"] = env.botConfig.ui.textColor;
-        if(env.botConfig.ui.isGradient){
-            styles["background-image"] = `linear-gradient(-225deg, ${env.botConfig.ui.bgColor1} 35%, ${env.botConfig.ui.bgColor2} 100%)`;
+        styles["color"] = env.botConfig.jsondata.textColor;
+        if(env.botConfig.jsondata.isGradient){
+            styles["background-image"] = `linear-gradient(-225deg, ${env.botConfig.jsondata.bgColor1} 35%, ${env.botConfig.jsondata.bgColor2} 100%)`;
         }else{
-            styles["background-color"] = `${env.botConfig.ui.bgColor1}`;
+            styles["background-color"] = `${env.botConfig.jsondata.bgColor1}`;
         }
         dom("#"+this.launcherId).style(styles)
     }

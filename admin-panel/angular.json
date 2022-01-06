@@ -34,7 +34,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/js-channel/src/jschannel.js"
+              "node_modules/js-channel/src/jschannel.js",
+              "src/assets/mybot/js/nlpjs.js"
             ]
           },
           "configurations": {

@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MsgService } from 'src/app/mybot/services/msg.service';
 
 @Component({
   selector: 'mybot-footer',
@@ -9,7 +10,10 @@ export class FooterComponent implements OnInit {
 
   textMsg="";
   @ViewChild('textMsgBox') textMsgBox: ElementRef<HTMLInputElement> = {} as ElementRef;
-  constructor() { }
+  
+  constructor(
+    public msgService:MsgService
+  ){ }
 
   ngOnInit(): void {
   }
@@ -38,6 +42,7 @@ export class FooterComponent implements OnInit {
 
   onSubmit(){
     console.log(this.textMsg);
+    this.msgService.onUserReply(this.textMsg);
   }
 
 }
