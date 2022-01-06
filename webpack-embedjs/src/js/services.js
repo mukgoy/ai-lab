@@ -1,14 +1,16 @@
 
 import axios from 'axios'
 import { env } from './config'
-
+import LauncherBtn from "./launcher-btn"
 let urls = {
-    getbotConfig : "/api/v1/userbot/get-botui/6"
+    getbotConfig : "/api/v1/userbot/get-botui/"
 }
 
-export async function getbotConfig(){
-    return axios.get(env.apiURL + urls.getbotConfig)
+export async function getbotConfig(botId){
+    return axios.get(env.apiURL + urls.getbotConfig + botId)
     .then(function (response) {
-        return response.data
+        env.botConfig = response.data
+        var launcherBtn = new LauncherBtn();
+        launcherBtn.createBtn();
     })
 }
