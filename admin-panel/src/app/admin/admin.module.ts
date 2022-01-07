@@ -22,6 +22,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { NgPipesModule } from 'ngx-pipes';
 import { NgxColorsModule } from 'ngx-colors';
 import { ErrortostringPipe } from './pipes/errortostring.pipe';
+import { InstallGuideModelComponent } from './components/chat-flows/models/install-guide-model/install-guide-model.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { ErrortostringPipe } from './pipes/errortostring.pipe';
     ColorPickerComponent,
     ImagePickerComponent,
     AddEditFaqModelComponent,
-    ErrortostringPipe
+    ErrortostringPipe,
+    InstallGuideModelComponent
   ],
   imports: [
     CommonModule,

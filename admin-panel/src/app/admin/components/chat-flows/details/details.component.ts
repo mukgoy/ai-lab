@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { adminNotify } from 'src/app/admin/enums';
 import { BotService } from 'src/app/admin/services/bot.service';
 import { HelperService } from 'src/app/admin/services/helper.service';
@@ -36,13 +37,13 @@ export class DetailsComponent implements OnInit {
         logo: [this.iconActive.header, [Validators.required]]
       }),
       launcher: this.fb.group({
-        text: ["", [Validators.required]],
+        text: ["", []],
         logo: [this.iconActive.header, [Validators.required]]
       }),
     })
   });
 
-  
+  @ViewChild('installGuideModel') installGuideModel?: TemplateRef<any>;
   constructor(
     private fb: FormBuilder,
     private upload: UploadService,
@@ -50,6 +51,7 @@ export class DetailsComponent implements OnInit {
     private help: HelperService,
     private route: ActivatedRoute,
     private router: Router,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -78,7 +80,8 @@ export class DetailsComponent implements OnInit {
       httpService.subscribe((res: any) => {
         console.log(res);
         this.help.notify('success', notify);
-        this.router.navigate(['/admin/manage-bots']);
+        // this.router.navigate(['/admin/manage-bots']);
+        this.openModal()
       }, (error) => {
         console.log(error);
       });
@@ -135,5 +138,11 @@ export class DetailsComponent implements OnInit {
     let obj:any = {};
     obj[colorType] = color
     this.formGroup.controls.jsondata.patchValue(obj)
+  }
+
+  openModal() {
+    if(this.installGuideModel){
+      this.modalService.show(this.installGuideModel, {class: 'modal-xl bg-transparent',backdrop : 'static',keyboard : false});
+    }
   }
 }

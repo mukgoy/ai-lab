@@ -30,6 +30,7 @@ ng g m admin
 ng g c admin/components/dashboard
 ng g c admin/components/chat-flows
 ng g c admin/components/chat-flows/details
+ng g c admin/components/chat-flows/models/install-guide-model
 ng g c admin/components/faqs
 ng g c admin/components/faqs/models/add-edit-faq-model
 ng g c admin/components/conversations
@@ -42,6 +43,7 @@ ng g c admin/components/shared/footer
 
 ng g c admin/components/shared/utils/color-picker
 ng g c admin/components/shared/utils/image-picker
+
 
 
 ng g c admin/components/businesses
