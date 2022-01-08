@@ -1,46 +1,22 @@
 <div class="card mb-3">
     <div class="card-header">
-        <h5 class="mb-0" data-anchor="data-anchor">Get Embed Code or Install </h5>
+        <a [routerLink]="['/admin/manage-bots',botId]" type="button" class="close pull-right mr-1" aria-label="Close"   >
+            <span  aria-hidden="true">×</span>
+        </a>
+        <h5 class="mb-0 " data-anchor="data-anchor">Chatbot Embed Code for your website</h5>
     </div>
     <div class="card-body bg-light">
-        <p>Follow the steps below to install Talking Lala Chat in your websites and web apps.</p>
-        <p>Edit the <code>src/js/config.js</code> file.</p>
-        <h5>Install Talking Lala on your website:
-        </h5>
-        <p>Edit the <code>public/assets/js/config.js</code> file.</p>
         <p>Copy the Javascript code from below and paste just before the closing of body tag (&lt;/body&gt;) on your website
-
         </p>
-
-        <pre class="language-js">
-        <code class="lang-js">
-            &lt;script src=&quot;http://localhost:8080/bundle.js&quot;&gt;&lt;/script&gt;
-            &lt;script&gt;lalabot.init(5)&lt;/script&gt;
-        </code>
+        <pre  class="language-js" >
+<code  class="lang-js pl-2 ">
+&lt;script src=&quot;http://localhost:8080/bundle.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;lalabot.init({{botId}})&lt;/script&gt;
+</code>
         </pre>
-    </div>
-    <div class="container">
-        <div class="row  ">
-            
-          <div class="col">
-            <span>App Id :</span>
-            <pre class="language-js">
-                <code class="lang-js">
-                    werhtdgsdfghgfdsfawery5ergdfb
-                </code>
-                </pre>
-          </div>
-          <div class="col">
-            <span>Api Key :</span>
-
-            <pre class="language-js">
-                <code class="lang-js">
-                werhtdgsdfghgfdsfawery5ergdfb
-                </code>
-                </pre>
-          </div>
-         
-        </div>
-        </div>
-    
+        <div class="pull-right  mt-2 ">
+            <button  class="btn btn-secondary btn-sm mr-2" (click)="copyText()" > Copy Code </button>
+            <button  class="btn btn-primary  btn-sm " > Manage FAQs </button>
+       </div>
+    </div>    
 </div>

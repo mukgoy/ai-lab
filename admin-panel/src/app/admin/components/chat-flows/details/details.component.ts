@@ -80,6 +80,8 @@ export class DetailsComponent implements OnInit {
       httpService.subscribe((res: any) => {
         console.log(res);
         this.help.notify('success', notify);
+        this.botId = +res.botId;
+        
         // this.router.navigate(['/admin/manage-bots']);
         this.openModal()
       }, (error) => {
