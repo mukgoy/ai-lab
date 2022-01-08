@@ -7,7 +7,7 @@
       <div class="flex-1">
         <div class="w-xxl-75">
           <div class="hover-actions-trigger d-flex align-items-center">
-            <div class="chat-message bg-200 p-2 rounded-2" [style]="ngStyle(msg)" [innerHtml]="msg.msg"></div>
+            <div class="chat-message bg-200 p-2 mybot-bot-msg-box" [style]="ngStyle(msg)" [innerHtml]="msg.msg"></div>
           </div>
           <div class="text-400 fs--2" appBotuiScroll><span>{{msg.time  | date:'shortTime'}}</span></div>
         </div>
@@ -17,7 +17,7 @@
       <div class="flex-1 d-flex justify-content-end">
         <div class="w-100 w-xxl-75">
           <div class="hover-actions-trigger d-flex flex-end-center">
-            <div class="p-2 rounded-2 chat-message light" [style]="ngStyle(msg)">
+            <div class="p-2 mybot-human-msg-box chat-message light" [style]="ngStyle(msg)">
               <p class="mb-0" [innerHtml]="msg.msg"></p>
               <!-- <a href="../assets/img/chat/1.jpg" data-gallery="gallery-3"><img class="rounded" src="../assets/img/chat/1.jpg" alt="" width="150"></a> -->
             </div>
@@ -27,4 +27,18 @@
       </div>
     </div>
   </ng-container>
+  <div class="d-flex p-3" *ngIf="msgService.isBotReplying">
+    <div class="avatar avatar-l me-2">
+      <img class="rounded-circle" [src]="botConfig?.jsondata?.header?.logo" alt="" />
+    </div>
+    <div class="flex-1">
+      <div class="w-xxl-75">
+        <div class="hover-actions-trigger d-flex align-items-center">
+          <div class="chat-message bg-200 p-2 mybot-bot-msg-box" [style]="ngStyle({})">
+            <img src="./assets/mybot/images/isBotReplying.gif" style="height: 1rem;margin: 5px;" appBotuiScroll>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 </div>
