@@ -19,7 +19,7 @@ export class MsgService {
         this.isBotReplying = false;
         res = res.replace(/<p>(.*?)<\/p>/, '$1');
         this.msgs.push({type:"bot", msg:res, time:new Date().getTime()});
-      },1500)
+      },1000)
     })
   }
 }
