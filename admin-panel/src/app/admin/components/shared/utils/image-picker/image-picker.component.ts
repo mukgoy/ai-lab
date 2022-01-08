@@ -10,6 +10,9 @@ export class ImagePickerComponent implements OnInit {
 
   @Input() iconType = "";
   @Input() iconActive = "";
+  @Input() bgColor = "";
+  @Input() textColor = "";
+
   @Output() onSelect = new EventEmitter<any>() ;
 
   constructor(private upload: UploadService,) { }

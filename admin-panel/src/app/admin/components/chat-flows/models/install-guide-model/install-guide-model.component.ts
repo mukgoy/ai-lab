@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'admin-install-guide-model',
@@ -7,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class InstallGuideModelComponent implements OnInit {
 
 
+    @Input() modalRef: BsModalRef = new BsModalRef();
     @Input() botId: any;
 
     copyText(){

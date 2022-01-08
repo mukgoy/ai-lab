@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -104,6 +104,29 @@ export class ValidationService {
       return { 'mustHasSpecialChar': true }
     }
     return null;
+  }
+
+  static getError(form: AbstractControl): any{
+    if (form instanceof FormGroup) {
+      let formErrors: any = {};
+      Object.keys(form.controls).forEach(key => {
+          let control = form.get(key);
+          if(control){
+            formErrors[key] = this.getError(control)
+          }
+      });
+      return formErrors
+    }
+    if (form instanceof FormControl) {
+      return {errors:form.errors};
+    }
+    if (form instanceof FormArray) {
+      let arrayErr: any = [];
+      form?.controls?.forEach(e => {
+        arrayErr.push(this.getError(e));
+      });
+      return arrayErr
+    }
   }
 } 
 

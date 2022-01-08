@@ -1,11 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { adminNotify } from 'src/app/admin/enums';
 import { BotService } from 'src/app/admin/services/bot.service';
 import { HelperService } from 'src/app/admin/services/helper.service';
 import { UploadService } from 'src/app/admin/services/upload.service';
+import { ValidationService } from 'src/app/admin/services/validation.service';
 
 @Component({
   selector: 'app-details',
@@ -43,6 +44,7 @@ export class DetailsComponent implements OnInit {
     })
   });
 
+  modalRef: BsModalRef = new BsModalRef();
   @ViewChild('installGuideModel') installGuideModel?: TemplateRef<any>;
   constructor(
     private fb: FormBuilder,
@@ -81,16 +83,16 @@ export class DetailsComponent implements OnInit {
         console.log(res);
         this.help.notify('success', notify);
         this.botId = +res.botId;
-        
-        // this.router.navigate(['/admin/manage-bots']);
+        this.router.navigate(['/admin/manage-bots',this.botId]);
         this.openModal()
       }, (error) => {
         console.log(error);
       });
     }else{
-      console.log(this.formGroup)
-      console.log(this.formGroup.get('jsondata')?.get('bgColor1'))
-      this.help.notify('error', "notify");
+      // let errors = ValidationService.getError(this.formGroup);
+      // console.log(errors);
+      // let error = ValidationService.getFirstError(errors);
+      // this.help.notify('error', error);
     }
   }
 
@@ -142,9 +144,10 @@ export class DetailsComponent implements OnInit {
     this.formGroup.controls.jsondata.patchValue(obj)
   }
 
+
   openModal() {
     if(this.installGuideModel){
-      this.modalService.show(this.installGuideModel, {class: 'modal-xl bg-transparent',backdrop : 'static',keyboard : false});
+      this.modalRef  = this.modalService.show(this.installGuideModel, {class: 'modal-xl bg-transparent',backdrop : 'static',keyboard : false});
     }
   }
 }

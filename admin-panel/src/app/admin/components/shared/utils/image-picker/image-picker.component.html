@@ -1,12 +1,15 @@
-<div class="avatar avatar-2xl border border-3 border-light rounded-circle" 
-    *ngFor="let icon of systemHeaderIcons()"
-    [ngClass]="{'opacity-25' : iconActive!=icon}"
-    (click)="afterSelect(icon)">
-    <img class="rounded-circle" [src]="icon" alt="">
+<div class="d-flex flex-wrap" >
+    <div class="mt-1" *ngFor="let icon of systemHeaderIcons()" style="border-radius: 50%;"
+        [ngStyle]="{'background-color':iconActive==icon ? bgColor : '#fff'}"
+        (click)="afterSelect(icon)">
+        <img class="rounded-circle p-1" [src]="icon" alt="" style="width: 50px;;height: 50px;" [ngStyle]="{'color':textColor}">
+    </div>
 </div>
-<div class="avatar avatar-2xl border border-3 border-light rounded-circle p-2 bg-secondary" 
-    *ngFor="let icon of systemLauncherIcons()" 
-    [ngClass]="{'opacity-25' : iconActive!=icon}"
-    (click)="afterSelect(icon)">
-    <img class="rounded-circle" [src]="icon" alt="">
+
+<div class="d-flex flex-wrap" >
+    <div class="mt-1" *ngFor="let icon of systemLauncherIcons()" style="border-radius: 50%;"
+        [ngStyle]="{'background-color':iconActive==icon ? bgColor : '#fff'}"
+        (click)="afterSelect(icon)">
+        <img class="rounded-circle p-1" [src]="icon" alt="" style="width: 50px;;height: 50px;" [ngStyle]="{'color':textColor}">
+    </div>
 </div>

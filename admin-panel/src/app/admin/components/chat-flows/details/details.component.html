@@ -24,9 +24,9 @@
                 <input class="form-control" formControlName="name" id="floatingInput" type="text" placeholder="Bot Name" />
                 <label for="floatingInput">Bot Name</label>
                 <ng-container *ngIf="formGroup.controls.name?.touched || formSubmited">
-                    <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.controls.name.errors | keyvalue">
+                    <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.name.errors | keyvalue" appBotuiScroll>
                         {{"Bot name" | errortostring : errorMsg}}
-                    </small>
+                    </p>
                 </ng-container>
             </div>
             <br>
@@ -51,9 +51,9 @@
                             </div>
                         </div>
                         <ng-container *ngIf="formGroup.get('jsondata')?.get('bgColor1')?.touched || formSubmited">
-                            <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('bgColor1').errors | keyvalue">
+                            <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('bgColor1').errors | keyvalue">
                                 {{"First Gradient Color" | errortostring : errorMsg}}
-                            </small>
+                            </p>
                         </ng-container>
                     </div>
                     <div class="form-group col-md-6 mb-3 ">
@@ -69,9 +69,9 @@
                             </div>
                         </div>
                         <ng-container *ngIf="formGroup.get('jsondata')?.get('bgColor2')?.touched || formSubmited">
-                            <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('bgColor2').errors | keyvalue">
+                            <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('bgColor2').errors | keyvalue">
                                 {{"Second Gradient Color" | errortostring : errorMsg}}
-                            </small>
+                            </p>
                         </ng-container>
                     </div>
                 </div>
@@ -89,9 +89,9 @@
                             </div>
                         </div>
                         <ng-container *ngIf="formGroup.get('jsondata')?.get('textColor')?.touched || formSubmited">
-                            <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('textColor').errors | keyvalue">
+                            <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('textColor').errors | keyvalue">
                                 {{"Text Color" | errortostring : errorMsg}}
-                            </small>
+                            </p>
                         </ng-container>
                     </div>
                 </div>
@@ -101,9 +101,9 @@
                             <label for="inputEmail4">Header Text Title</label>
                             <input type="email" class="form-control" id="inputEmail4" formControlName="text">
                             <ng-container *ngIf="formGroup.get('jsondata')?.get('header')?.get('text').touched || formSubmited">
-                                <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('header')?.get('text').errors | keyvalue">
+                                <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('header')?.get('text').errors | keyvalue">
                                     {{"Header Text Title" | errortostring : errorMsg}}
-                                </small>
+                                </p>
                             </ng-container>
                         </div>
                     </div>
@@ -116,7 +116,13 @@
                     </div>
                     <div class="form-row">
                         <div class="">
-                            <admin-image-picker iconType="header" [iconActive]="iconActive['header']" (onSelect)="onIconSelect($event, 'header')"></admin-image-picker>
+                            <admin-image-picker 
+                                iconType="header" 
+                                [iconActive]="iconActive['header']" 
+                                (onSelect)="onIconSelect($event, 'header')"
+                                [bgColor]="formGroup.value.jsondata.bgColor1"
+                                [textColor]="formGroup.value.jsondata.textColor"
+                            ></admin-image-picker>
                         </div>
                     </div>
                 </div>
@@ -126,9 +132,9 @@
                             <label for="inputEmail4">Launcher Text</label>
                             <input type="email" class="form-control" id="inputEmail4" formControlName="text">
                             <ng-container *ngIf="formGroup.get('jsondata')?.get('launcher')?.get('text').touched || formSubmited">
-                                <small class="form-text text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('launcher')?.get('text').errors | keyvalue">
+                                <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('launcher')?.get('text').errors | keyvalue">
                                     {{"Laucher Text" | errortostring : errorMsg}}
-                                </small>
+                                </p>
                             </ng-container>
                         </div>
                     </div>
@@ -141,12 +147,18 @@
                     </div>
                     <div class="form-row">
                         <div class="">
-                            <admin-image-picker iconType="launcher" [iconActive]="iconActive['launcher']" (onSelect)="onIconSelect($event, 'launcher')"></admin-image-picker>
+                            <admin-image-picker 
+                                iconType="launcher" 
+                                [iconActive]="iconActive['launcher']" 
+                                (onSelect)="onIconSelect($event, 'launcher')"
+                                [bgColor]="formGroup.value.jsondata.bgColor1"
+                                [textColor]="formGroup.value.jsondata.textColor"
+                            ></admin-image-picker>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-row-reverse col-6">
+            <div class="d-flex flex-row-reverse col-6 mt-5">
                 <button type="submit" class="btn btn-primary mr-3">Save</button>
             </div>
         </form>
