@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsString } from "class-validator";
-import { BotDefaultJsondata } from "../entities/bot.entity";
+import { BotDefaultJsondata, BotDefaultOnboardjson } from "../entities/bot.entity";
 
 export class CreateBotDto {
     
@@ -10,6 +10,9 @@ export class CreateBotDto {
 
     @ApiProperty()
     public jsondata: BotDefaultJsondata;
+
+    @ApiProperty()
+    public onboardjson: BotDefaultOnboardjson;
 
     public req?: any
 

@@ -3,19 +3,26 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'ty
 import { CommonProperty } from './common.property';
 import { FaqEntity } from './faq.entity';
 
-export interface BotDefaultJsondata {
-    isGradient : true,
-    bgColor1 : "#50cccc",
-    bgColor2 : "#45aeca",
-    textColor : "#FFFFFF",
-    header : {
-        title : "I am a Robot",
-        logo : "http://localhost:4200/assets/mybot/images/bot-icon.png"
-    },
-    launcher : {
-        icon : "http://blog.chatboot.com/images/logo.svg",
-        text : "Ask us"
+export class BotDefaultJsondata {
+    isGradient = true;
+    bgColor1 = "#50cccc";
+    bgColor2 = "#45aeca";
+    textColor = "#FFFFFF";
+    header = {
+        text : "I am a Robot",
+        logo : "http://localhost:4200/assets/mybot/images/bot-header-1.svg"
+    };
+    launcher = {
+        logo : "http://localhost:4200/assets/mybot/images/launcher-3.svg",
+        text : "Help"
     }
+}
+
+export class BotDefaultOnboardjson {
+    welcomeMsg = "welcomeMsg";
+    askEmailMsg = "askEmailMsg";
+    askPhoneMsg = "askPhoneMsg";
+    askNameMsg = "askNameMsg";
 }
 
 @Entity({name: 'bots'})
@@ -26,8 +33,11 @@ export class BotEntity extends CommonProperty{
     @Column()
     name: string;
 
-    @Column({ nullable: true, type: "text" })
+    @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultJsondata()) })
     jsondata: string;
+
+    @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultOnboardjson()) })
+    onboardjson: string;
 
     @Column({ default: true })
     isActive: boolean;
