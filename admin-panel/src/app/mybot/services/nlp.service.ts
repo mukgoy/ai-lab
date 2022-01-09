@@ -15,7 +15,7 @@ export class NlpService {
 
   init(botId:number){
     return new Promise<boolean>((resolve: (a: boolean) => void): void => {
-      this.http.get(userbotApi.getFaqs+botId).subscribe((faqs:any)=>{
+      this.http.get(userbotApi.getFaqs + botId).subscribe((faqs:any)=>{
         this.nlpManager(faqs).then(async(nlp)=>{
           this.nlp = nlp;
           resolve(true);

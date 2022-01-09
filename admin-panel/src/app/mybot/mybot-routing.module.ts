@@ -8,6 +8,10 @@ const routes: Routes = [
     component: IframeWindowComponent
   },
   {
+    path: ':botId',
+    component: IframeWindowComponent
+  },
+  {
     path: '**',
     component: IframeWindowComponent,
   },

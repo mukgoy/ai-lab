@@ -35,6 +35,7 @@ export const adminNotify = {
         updateBot: 'Bot have been updated.',
         createFaq: 'Faq have been created.',
         updateFaq: 'Faq have been updated.',
+        copyContent: 'Copied successfully.',
     },
     error : {
         updateProfileDetails: 'Some thing is not correct.',

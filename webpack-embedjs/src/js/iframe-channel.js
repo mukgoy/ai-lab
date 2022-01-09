@@ -34,7 +34,8 @@ export default class IframeChannel{
             }else if (iframe.attachEvent){
                 iframe.attachEvent("onload", this.onIframeLoad.bind(this), false);
             }
-            iframe.src = env.botURL;
+            // iframe.src = env.botURL;
+            iframe.src = env.botURL + env.botConfig.botId;
             this.iframeElem = iframe;
         });
     }

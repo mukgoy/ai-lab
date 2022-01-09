@@ -16,7 +16,7 @@
         </pre>
         <div class="pull-right  mt-2 ">
             <button  class="btn btn-secondary btn-sm mr-2" (click)="copyText()" > Copy Code </button>
-            <button  class="btn btn-primary  btn-sm " [routerLink]="['/admin/manage-faqs',botId]" > Manage FAQs </button>
+            <button  class="btn btn-primary  btn-sm " [routerLink]="['/admin/manage-faqs',botId]" (click)="modalRef.hide()"> Manage FAQs </button>
        </div>
     </div>    
 </div>

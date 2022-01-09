@@ -16,7 +16,7 @@
         <div class="row flex-between-end">
             <div class="col-auto align-self-center">
                 <select class="form-select" [(ngModel)]="botId">
-                    <option value="">Select Bot</option>
+                    <option [value]="0">Select Bot</option>
                     <option [value]="bot.botId" *ngFor="let bot of mybots">{{bot.name}}</option>
                 </select>
             </div>
@@ -28,10 +28,10 @@
         </div>
     </div>
 
-    <div class="card-body" *ngIf="(faqs | filterBy: ['botId']: botId).length">
+    <div class="card-body" *ngIf="getFilteredFaqs().length">
 
         <accordion [isAnimated]="true" class="faq-accordion-box border rounded">
-            <ng-container *ngFor="let faq of faqs | filterBy: ['botId']: botId">
+            <ng-container *ngFor="let faq of getFilteredFaqs()">
                 <accordion-group>
                     <div accordion-heading>
                         <i class="fa fa-angle-right " aria-hidden="true"></i>
@@ -42,10 +42,8 @@
                         <button class="btn btn-info btn-sm mr-1 " (click)="openModal(faq)" >
                             <i class="fa fa-pencil"></i> Edit
                         </button>
-                    <button type="button" class="btn btn-danger btn-sm " ><i class="fa fa-times"></i> Delete </button>
+                        <button type="button" class="btn btn-danger btn-sm " ><i class="fa fa-times"></i> Delete </button>
                     </div>
-                        
-
                     </div>
                     <div class="pl-3" [innerHtml]="faq.answer"></div>
                 </accordion-group>
@@ -53,7 +51,7 @@
         </accordion>
     </div>
 
-    <div class="card-body p-4 p-sm-5" *ngIf="!(faqs | filterBy: ['botId']: botId).length">
+    <div class="card-body p-4 p-sm-5" *ngIf="!getFilteredFaqs().length">
         <div class="text-center"><img class="d-block mx-auto mb-4"
                 src="../../../assets/admin/img/icons/spot-illustrations/45.png" alt="shield" width="100" />
             <h4>Create FAQ</h4>

@@ -57,13 +57,13 @@
 }
 
 .mybot-launcher-btn.right{
-	position: absolute;
+	position: fixed;
 	bottom: 10px;
 	right: 10px;
 }
 
 .mybot-launcher-btn.left{
-	position: absolute;
+	position: fixed;
 	bottom: 10px;
 	left: 10px;
 }
@@ -81,10 +81,10 @@
 	
 }
 
-.mybot-launcher-btn.close .mybot-launcher-html.closed{
+.mybot-launcher-btn.botclose .mybot-launcher-html.botclosed{
 	display: flex;
 }
 
-.mybot-launcher-btn.open .mybot-launcher-html.opened{
+.mybot-launcher-btn.botopen .mybot-launcher-html.botopened{
 	display: flex;
 }

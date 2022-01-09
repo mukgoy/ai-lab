@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChannelService } from '../../services/channel.service';
 import { NlpService } from '../../services/nlp.service';
 
@@ -9,16 +10,24 @@ import { NlpService } from '../../services/nlp.service';
 })
 export class IframeWindowComponent implements OnInit {
 
+  botId = 0;
   constructor(
+    private route: ActivatedRoute,
     public channelService: ChannelService,
     public nlpService: NlpService
   ) { }
 
   ngOnInit(): void {
-    this.channelService.init();
-    this.channelService.getBotConfig();
-    this.channelService.initChatBox();
-    this.nlpService.init(6);
+    this.route.params.subscribe(params => {
+      if(params.botId){
+        this.botId = +params.botId;
+        this.channelService.init();
+        this.channelService.getBotConfig();
+        this.channelService.initChatBox();
+        this.nlpService.init(this.botId);
+      }
+    });
+    
   }
 
 }

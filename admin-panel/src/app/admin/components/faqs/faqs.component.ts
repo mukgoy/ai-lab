@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FaqService } from '../../services/faq.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BotService } from '../../services/bot.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -11,7 +12,7 @@ import { BotService } from '../../services/bot.service';
   templateUrl: './faqs.component.html'
 })
 export class FaqsComponent implements OnInit {
-  botId=""
+  botId = 0
   editingFaq = null;
   modalRef?: BsModalRef;
   @ViewChild('faqModel') faqModel?: TemplateRef<any>;
@@ -19,6 +20,7 @@ export class FaqsComponent implements OnInit {
   faqs: any[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private faqService: FaqService,
     private botService: BotService,
     private modalService: BsModalService,
@@ -26,8 +28,13 @@ export class FaqsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getFaqs();
-    this.getBots();
+    this.route.params.subscribe(params => {
+      if(params.botId){
+        this.botId = +params.botId;
+      }
+      this.getFaqs();
+      this.getBots();
+    });
   }
 
   getFaqs(){
@@ -65,4 +72,11 @@ export class FaqsComponent implements OnInit {
     this.getFaqs();
   }
  
+  getFilteredFaqs(){
+    if(this.botId > 0){
+      return this.faqs.filter(faq => faq.botId == this.botId)
+    }else{
+      return this.faqs
+    }
+  }
 }

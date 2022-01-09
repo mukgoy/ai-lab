@@ -9,16 +9,15 @@ export default class LauncherBtn{
     closeSVG = ""
 
     closedHtml(){
-        return `<div class="mybot-launcher-html closed">
+        return `<div class="mybot-launcher-html botclosed">
                     <img class="bubble-btn" src="${env.botConfig.jsondata.launcher.logo}">
-                    <div>&nbsp;<h3 style="margin: auto;">
-                    &nbsp;${env.botConfig.jsondata.launcher.text}
-                    </h3></div>
+                    &nbsp;<div style="margin: auto;font-size: 1.8rem;">${env.botConfig.jsondata.launcher.text}
+                    </div>
                 </div>`
     }
     openedHtml(){
-        return `<div class="mybot-launcher-html opened">
-                    <img class="bubble-btn" src="./images/close.svg">
+        return `<div class="mybot-launcher-html botopened">
+                    <img class="bubble-btn" src="${env.botHost}assets/mybot/images/close.svg">
                 </div>`
     }
     createBtn(){
@@ -26,7 +25,7 @@ export default class LauncherBtn{
         launcher.id = this.launcherId
         launcher.classList.add("mybot-launcher-btn");
         launcher.classList.add("right");
-        launcher.classList.add("close");
+        launcher.classList.add("botclose");
         launcher.innerHTML = this.closedHtml() + this.openedHtml();
         document.body.appendChild(launcher);
         this.addStyle();
@@ -47,7 +46,7 @@ export default class LauncherBtn{
 
     addListner(){
         dom("#"+this.launcherId).on("click",()=>{
-            dom("#"+this.launcherId).toggleClass("open").toggleClass("close");
+            dom("#"+this.launcherId).toggleClass("botopen").toggleClass("botclose");
             this.createIframeChannel();
         });
     }
