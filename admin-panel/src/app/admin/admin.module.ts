@@ -25,6 +25,7 @@ import { ErrortostringPipe } from './pipes/errortostring.pipe';
 import { InstallGuideModelComponent } from './components/chat-flows/models/install-guide-model/install-guide-model.component';
 import { BotuiScrollDirective } from './directives/botui-scroll.directive';
 import { BotuiFocusDirective } from './directives/botui-focus.directive';
+import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/manage-welcome.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { BotuiFocusDirective } from './directives/botui-focus.directive';
     ErrortostringPipe,
     InstallGuideModelComponent,
     BotuiScrollDirective,
-    BotuiFocusDirective
+    BotuiFocusDirective,
+    ManageWelcomeComponent
   ],
   imports: [
     CommonModule,

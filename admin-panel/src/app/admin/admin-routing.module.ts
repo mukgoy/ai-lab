@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { ChatFlowsComponent } from './components/chat-flows/chat-flows.component';
 import { DetailsComponent } from './components/chat-flows/details/details.component';
+import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/manage-welcome.component';
 import { ConversationsComponent } from './components/conversations/conversations.component';
 import { CrmComponent } from './components/crm/crm.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'myprofile',
         component: MyprofileComponent,
+      },
+      {
+        path: 'manage-bots/:botId/welcome',
+        component: ManageWelcomeComponent,
       },
       {
         path: '**',
