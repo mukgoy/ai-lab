@@ -32,7 +32,6 @@ export class FooterComponent implements OnInit {
     this.textMsg = this.textMsg.trim();
 
     if(event.key == "Enter" && this.previousKey!="Shift"){
-      this.textMsgBox.nativeElement.innerHTML = "";
       this.onSubmit();
     }else{
       this.previousKey = event.key;
@@ -42,6 +41,7 @@ export class FooterComponent implements OnInit {
 
   onSubmit(){
     console.log(this.textMsg);
+    this.textMsgBox.nativeElement.innerHTML = "";
     this.msgService.onUserReply(this.textMsg);
   }
 

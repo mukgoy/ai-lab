@@ -88,3 +88,30 @@
 .mybot-launcher-btn.botopen .mybot-launcher-html.botopened{
 	display: flex;
 }
+
+.mybot-launcher-html img{
+	-webkit-animation-delay: 0;
+    -webkit-animation-duration: .5s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-delay: 0;
+    -moz-animation-duration: .5s;
+    -moz-animation-fill-mode: forwards;
+    animation-delay: 0;
+    animation-duration: .5s;
+    animation-fill-mode: forwards
+}
+.mybot-launcher-html.botopened img{
+	-webkit-animation-name: rotation-rl;
+    -moz-animation-name: rotation-rl;
+    animation-name: rotation-rl;
+}
+.mybot-launcher-html.botclosed img{
+	-webkit-animation-name: rotation-lr;
+    -moz-animation-name: rotation-lr;
+    animation-name: rotation-lr;
+}
+
+@-webkit-keyframes rotation-lr{0%{transform:rotate(-90deg)}to{transform:rotate(0)}}
+@keyframes rotation-lr{0%{transform:rotate(-90deg)}to{transform:rotate(0)}}
+@-webkit-keyframes rotation-rl{0%{transform:rotate(90deg)}to{transform:rotate(0)}}
+@keyframes rotation-rl{0%{transform:rotate(90deg)}to{transform:rotate(0)}}
