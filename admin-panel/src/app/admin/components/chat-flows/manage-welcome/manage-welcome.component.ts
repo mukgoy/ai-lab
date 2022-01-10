@@ -14,35 +14,16 @@ import { ValidationService } from 'src/app/admin/services/validation.service';
   templateUrl: './manage-welcome.component.html',
 })
 export class ManageWelcomeComponent implements OnInit {
-  iconActive: any = {
-    header : "http://localhost:4200/assets/mybot/images/bot-header-1.svg",
-    launcher : "http://localhost:4200/assets/mybot/images/launcher-3.svg"
-  }
-  colorActive: any = {
-    bgColor1: "#ef5350",
-    bgColor2: "#c62828",
-    textColor: "#ffffff"
-  }
 
   botId: number = 0;
   editingBot: any = {};
   formSubmited = false;
   formGroup = this.fb.group({
-    name: ["", [Validators.required]],
-    jsondata: this.fb.group({
-      isGradient: [true, [Validators.required]],
-      bgColor1: [this.colorActive.bgColor1, [Validators.required]],
-      bgColor2: [this.colorActive.bgColor2, [Validators.required]],
-      textColor: [this.colorActive.textColor, [Validators.required]],
-      header: this.fb.group({
-        text: ["", [Validators.required]],
-        logo: [this.iconActive.header, [Validators.required]]
-      }),
-      launcher: this.fb.group({
-        text: ["", []],
-        logo: [this.iconActive.header, [Validators.required]]
-      }),
-    })
+    welcomeMsg: ["", [Validators.required]],
+    askEmailMsg: ["", ],
+    askPhoneMsg: ["", ],
+    askNameMsg: ["", ],
+   
   });
 
   modalRef: BsModalRef = new BsModalRef();
@@ -70,26 +51,17 @@ export class ManageWelcomeComponent implements OnInit {
   onSubmit() {
     this.formSubmited = true;
     if (this.formGroup.status == 'VALID') {
-      let httpService;
-      let notify:string;
-      if (this.botId) {
-        let botId = this.botId;
-        httpService = this.botService.updateBotById({ ...this.formGroup.value, botId });
-        notify = adminNotify.success.updateBot
-      } else {
-        httpService = this.botService.createBot(this.formGroup.value);
-        notify = adminNotify.success.createBot
-      }
-      httpService.subscribe((res: any) => {
+      let botId = this.botId;
+      this.botService.updateBotById({ onboardjson:this.formGroup.value, botId })
+      .subscribe((res: any) => {
         console.log(res);
-        this.help.notify('success', notify);
-        this.botId = +res.botId;
-        this.router.navigate(['/admin/manage-bots',this.botId]);
+        this.help.notify('success', adminNotify.success.updateBot);
         this.openModal()
       }, (error) => {
         console.log(error);
       });
-    }else{
+    }
+    else{
       // let errors = ValidationService.getError(this.formGroup);
       // console.log(errors);
       // let error = ValidationService.getFirstError(errors);
@@ -97,54 +69,25 @@ export class ManageWelcomeComponent implements OnInit {
     }
   }
 
-  handleFileInput(event: any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.upload.post(file).subscribe((res: any) => {
-        console.log(res);
-      }, (err) => {
-        console.log(err.message);
-      })
-    }
-  };
+ 
 
   getBotById() {
     this.botService.getBotById(this.botId)
       .subscribe((res: any) => {
         console.log(res);
-        res.jsondata = JSON.parse(res.jsondata)
+        res.onboardjson = JSON.parse(res.onboardjson)
         this.editingBot = res;
-        this.formGroup.patchValue(this.editingBot);
+        this.formGroup.patchValue(this.editingBot.onboardjson);
 
-        this.iconActive = {
-          header : this.editingBot.jsondata.header.logo,
-          launcher : this.editingBot.jsondata.launcher.logo,
-        }
-        this.colorActive = {
-          bgColor1: this.editingBot.jsondata.bgColor1,
-          bgColor2: this.editingBot.jsondata.bgColor2,
-          textColor: this.editingBot.jsondata.textColor
-        }
+    
 
       }, (error: any) => {
         // this.helperService.notify('error', error);
       });
   }
 
-  onIconSelect(icon:string, iconType:string){
-    this.iconActive[iconType] = icon;
-    this.formGroup.controls.jsondata.get(iconType)?.patchValue({
-      logo : icon
-    })
-  }
-  
-  onColorSelect(color:string, colorType:string){
-    this.colorActive[colorType] = color;
-    let obj:any = {};
-    obj[colorType] = color
-    this.formGroup.controls.jsondata.patchValue(obj)
-  }
 
+ 
 
   openModal() {
     if(this.installGuideModel){

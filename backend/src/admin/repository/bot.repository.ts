@@ -17,6 +17,7 @@ export class BotRepository extends Repository<BotEntity> {
         let bot = await this.findOne(updateBotDto.botId);
         bot.name = updateBotDto.name;
         bot.jsondata = JSON.stringify(updateBotDto.jsondata);
+        bot.onboardjson = JSON.stringify(updateBotDto.onboardjson);
         bot.updatedBy = updateBotDto.req.user.userId;
         return bot.save();
     }

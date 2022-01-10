@@ -83,8 +83,7 @@ export class DetailsComponent implements OnInit {
         console.log(res);
         this.help.notify('success', notify);
         this.botId = +res.botId;
-        this.router.navigate(['/admin/manage-bots',this.botId]);
-        this.openModal()
+        this.router.navigate(['/admin/manage-bots',this.botId,'welcome']);
       }, (error) => {
         console.log(error);
       });

@@ -21,57 +21,36 @@
     <div class="card-body bg-light">
         <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
             <div class="form-floating mb-3">
-                <input class="form-control" formControlName="name" id="floatingInput" type="text" placeholder="Bot Name" />
+                <input class="form-control" formControlName="welcomeMsg" id="floatingInput" type="text" placeholder="Welcome Message" />
                 <label for="floatingInput">Welcome Message</label>
-                <ng-container *ngIf="formGroup.controls.name?.touched || formSubmited">
-                    <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.name.errors | keyvalue" appBotuiScroll>
-                        {{"Bot name" | errortostring : errorMsg}}
+                <ng-container *ngIf="formGroup.controls.welcomeMsg?.touched || formSubmited">
+                    <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.welcomeMsg.errors | keyvalue" appBotuiScroll>
+                        {{"Welcome Message" | errortostring : errorMsg}}
                     </p>
                 </ng-container>
             </div>
             <br>
             <h5>Get user information</h5>
-            <div formGroupName="jsondata">
-                <div formGroupName="header">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputEmail4">Ask email</label>
-                            <input type="email" class="form-control" id="inputEmail4" formControlName="text">
-                            <ng-container *ngIf="formGroup.get('jsondata')?.get('header')?.get('text').touched || formSubmited">
-                                <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('header')?.get('text').errors | keyvalue">
-                                    {{"Header Text Title" | errortostring : errorMsg}}
-                                </p>
-                            </ng-container>
-                        </div>
+          
+            <div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Ask email</label>
+                        <input type="email" class="form-control" id="inputEmail4" formControlName="askEmailMsg">
                     </div>
                 </div>
-                <div formGroupName="header">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputEmail4">Ask phone number</label>
-                            <input type="email" class="form-control" id="inputEmail4" formControlName="text">
-                            <ng-container *ngIf="formGroup.get('jsondata')?.get('header')?.get('text').touched || formSubmited">
-                                <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('header')?.get('text').errors | keyvalue">
-                                    {{"Header Text Title" | errortostring : errorMsg}}
-                                </p>
-                            </ng-container>
-                        </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Ask phone number</label>
+                        <input type="email" class="form-control" id="inputEmail4" formControlName="askPhoneMsg">
                     </div>
                 </div>
-                <div formGroupName="header">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inputEmail4">Ask name</label>
-                            <input type="email" class="form-control" id="inputEmail4" formControlName="text">
-                            <ng-container *ngIf="formGroup.get('jsondata')?.get('header')?.get('text').touched || formSubmited">
-                                <p class="text-danger" *ngFor="let errorMsg of formGroup.get('jsondata')?.get('header')?.get('text').errors | keyvalue">
-                                    {{"Header Text Title" | errortostring : errorMsg}}
-                                </p>
-                            </ng-container>
-                        </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Ask name</label>
+                        <input type="email" class="form-control" id="inputEmail4" formControlName="askNameMsg">
                     </div>
                 </div>
-                
             </div>
             <div class="d-flex flex-row-reverse col-6 mt-5">
                 <button type="submit" class="btn btn-primary mr-3">Save</button>
