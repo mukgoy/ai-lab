@@ -6,12 +6,12 @@ export const authConfig = {
     faqEntity : "faq",
 }
 
-
 export const authApi = {
     cdn : authConfig.cdn,
     backend : authConfig.backend,
     frontend : authConfig.faqEntity,
     auth:{
         login: authConfig.backend + "login",
+        signup: authConfig.backend + "signup",
     }
 }

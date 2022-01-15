@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
+  isCollapsed = false;
+
 
   constructor() { }
 

@@ -26,6 +26,10 @@ import { InstallGuideModelComponent } from './components/chat-flows/models/insta
 import { BotuiScrollDirective } from './directives/botui-scroll.directive';
 import { BotuiFocusDirective } from './directives/botui-focus.directive';
 import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/manage-welcome.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+
+
 
 
 @NgModule({
@@ -48,7 +52,7 @@ import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/m
     InstallGuideModelComponent,
     BotuiScrollDirective,
     BotuiFocusDirective,
-    ManageWelcomeComponent
+    ManageWelcomeComponent,
   ],
   imports: [
     CommonModule,
@@ -58,7 +62,11 @@ import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/m
     CKEditorModule,
     AccordionModule.forRoot(),
     NgPipesModule,
-    NgxColorsModule
+    NgxColorsModule,
+    BsDropdownModule.forRoot(),
+    CollapseModule.forRoot(),
+
+
   ],
   providers: [BsModalService],
 })
