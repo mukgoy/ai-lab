@@ -39,21 +39,16 @@ export class AuthService {
   
   postUserSignup(form:any){
     // console.log(form);
-    const url = authApi.auth.login;
+    const url = authApi.auth.signup;
     const body = {
-      "username": form.username,
-      "password": form.password
+      "name":form.name,
+      "email": form.email,
+      "password": form.password,
+      "cpassword": form.cpassword,
     };
     return this.http.post(url, body).pipe(
       tap((response:any)=>{
         console.log(response);
-        const { access_token } = response;
-        if (access_token && access_token.length) {
-          this.userService.login(response);
-          return true;
-        } else {
-          throw new Error('no token')
-        }
       })
     );
   }
