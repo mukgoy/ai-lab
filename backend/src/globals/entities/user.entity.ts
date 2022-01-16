@@ -1,4 +1,4 @@
-import { BotEntity, FaqEntity, UploadEntity } from 'src/admin/entities';
+import { BotEntity, FaqEntity, UploadEntity } from 'src/globals/entities';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent} from 'typeorm';
 import { CommonProperty } from './common.property';
 

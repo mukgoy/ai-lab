@@ -1,6 +1,6 @@
-import { UserEntity } from 'src/auth/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
 import { CommonProperty } from './common.property';
+import { UserEntity } from './user.entity';
 
 @Entity({name: 'uploads'})
 export class UploadEntity extends CommonProperty{

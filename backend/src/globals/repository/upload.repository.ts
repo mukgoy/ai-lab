@@ -1,4 +1,3 @@
-import { UserEntity } from "src/auth/entities/user.entity";
 import { EntityRepository, Repository } from "typeorm";
 import { UploadEntity } from "../entities/upload.entity";
 import { createRepo } from "./help";

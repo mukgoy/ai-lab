@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SignupDto } from '../dto/singup.dto';
-import { UserEntity } from '../entities/user.entity';
+import { UserEntity } from '../../globals/entities/user.entity';
 import { Permission } from '../enums';
-import { UserRepository } from '../repository/user.repository';
+import { UserRepository } from 'src/globals/repository/user.repository';
 
 export type User = any;
 

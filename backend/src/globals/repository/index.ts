@@ -1,9 +1,13 @@
 import { BotRepository } from "./bot.repository";
+import { ChatMessageRepository } from "./chat-message.repository";
 import { FaqRepository } from "./faq.repository";
 import { UploadRepository } from "./upload.repository";
+import { UserRepository } from "./user.repository";
 
 export default [
     BotRepository,
     FaqRepository,
-    UploadRepository
+    UploadRepository,
+    UserRepository,
+    ChatMessageRepository,
 ]

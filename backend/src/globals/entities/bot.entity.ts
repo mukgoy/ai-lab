@@ -1,7 +1,9 @@
-import { UserEntity } from 'src/auth/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { ChatMessageEntity } from './chat-message.entity';
+import { ChatUserEntity } from './chat-user.entity';
 import { CommonProperty } from './common.property';
 import { FaqEntity } from './faq.entity';
+import { UserEntity } from './user.entity';
 
 export class BotDefaultJsondata {
     isGradient = true;
@@ -50,4 +52,13 @@ export class BotEntity extends CommonProperty{
     @ManyToOne(() => UserEntity, owner => owner.bots)
     owner: UserEntity;
 
+    @OneToMany(() => ChatMessageEntity, chat => chat.bot,{
+        cascade: true,
+    })
+    chats: ChatMessageEntity[];
+
+    @OneToMany(() => ChatUserEntity, chatUser => chatUser.bot,{
+        cascade: true,
+    })
+    chatUsers: ChatUserEntity[];
 }

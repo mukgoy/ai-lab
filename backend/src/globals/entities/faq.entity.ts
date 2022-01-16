@@ -1,7 +1,7 @@
-import { UserEntity } from 'src/auth/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, RelationId} from 'typeorm';
 import { BotEntity } from './bot.entity';
 import { CommonProperty } from './common.property';
+import { UserEntity } from './user.entity';
 
 @Entity({name: 'faqs'})
 export class FaqEntity extends CommonProperty{
@@ -14,7 +14,7 @@ export class FaqEntity extends CommonProperty{
     @Column({ nullable: true, type: "text" })
     answer: string;
 
-    @ManyToOne(() => BotEntity, bots => bots.faqs)
+    @ManyToOne(() => BotEntity, bot => bot.faqs)
     bot: BotEntity;
 
     @RelationId((faq: FaqEntity) => faq.bot) // you need to specify target relation

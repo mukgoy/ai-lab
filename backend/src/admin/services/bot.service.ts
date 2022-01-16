@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBotDto } from '../dto/create-bot.dto';
 import { UpdateBotDto } from '../dto/update-bot.dto';
-import { BotEntity } from '../entities/bot.entity';
-import { BotRepository } from '../repository/bot.repository';
+import { BotEntity } from '../../globals/entities/bot.entity';
+import { BotRepository } from 'src/globals/repository/bot.repository';
 
 @Injectable()
 export class BotService {

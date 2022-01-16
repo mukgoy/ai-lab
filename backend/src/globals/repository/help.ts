@@ -1,4 +1,4 @@
-import { UserEntity } from "src/auth/entities/user.entity";
+import { UserEntity } from "src/globals/entities/user.entity";
 
 export function createRepo(entity, createDto){
     let owner = new UserEntity();

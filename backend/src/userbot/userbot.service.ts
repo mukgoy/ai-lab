@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BotRepository } from 'src/admin/repository/bot.repository';
-import { FaqRepository } from 'src/admin/repository/faq.repository';
+import { BotRepository } from 'src/globals/repository/bot.repository';
+import { FaqRepository } from 'src/globals/repository/faq.repository';
 
 @Injectable()
 export class UserbotService {
