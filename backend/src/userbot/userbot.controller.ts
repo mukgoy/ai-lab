@@ -12,7 +12,7 @@ export class UserbotController {
     return this.userbotService.getFaqs(botId);
   }
 
-  @Get("get-botui/:botId")
+  @Get("get-bot/:botId")
   async getBotUi(@Param('botId') botId: number) {
     let botUi = await this.userbotService.getBotUi(botId);
     botUi.jsondata = JSON.parse(botUi.jsondata)

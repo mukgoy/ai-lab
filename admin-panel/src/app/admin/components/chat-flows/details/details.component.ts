@@ -4,9 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { adminNotify } from 'src/app/admin/enums';
 import { BotService } from 'src/app/admin/services/bot.service';
-import { HelperService } from 'src/app/admin/services/helper.service';
 import { UploadService } from 'src/app/admin/services/upload.service';
-import { ValidationService } from 'src/app/admin/services/validation.service';
+import { HelperService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-details',
