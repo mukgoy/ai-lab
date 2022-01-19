@@ -25,17 +25,16 @@ export class ChatGateway implements NestGateway {
   
   @SubscribeMessage('message')
   async handleNewMessage(socket: Socket, data: any) {
-    console.log(data);
-    console.log(data.user + 'send the message : ' + data.message);
-    socket.broadcast.to(data.room).emit('new message', data.message);
+    console.log("handleNewMessage", data);
+    // console.log(data.senderId + 'send the message : ' + data.message);
+    socket.broadcast.to(data.room).emit('new message', data);
   }
 
   @SubscribeMessage('joinRoom')
-  joinRoom(socket: Socket, data: any) {
-    socket.join(data.room);
-    console.log(data);
-    console.log(data.user + 'joined the room : ' + data.room);
-    socket.broadcast.to(data.room).emit('new user joined', {user:data.user, message:'has joined this room.'});
+  joinRoom(socket: Socket, room: any) {
+    socket.join(room);
+    console.log('user joined the room : ' + room);
+    socket.broadcast.to(room).emit('new user joined', 'user has joined this room.');
   }
 
   @SubscribeMessage('leaveRoom')

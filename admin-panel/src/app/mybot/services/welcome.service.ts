@@ -28,7 +28,9 @@ export class WelcomeService {
 
   welcomeMsg() {
     console.log(this.store.botUser);
-    this.startLiveChat();
+    if(this.store.botUser.id){
+      this.msgService.connectChatServer()
+    }
     this.msgService.onBotReply(this.onboardjson.welcomeMsg);
     this.askEmailMsg()
   }
@@ -43,6 +45,7 @@ export class WelcomeService {
       console.log({ email: res });
       this.http.post(userbotApi.createUser, { email: res }).subscribe((user: any) => {
         this.store.botUser = user
+        this.msgService.connectChatServer()
         this.askPhoneMsg()
       }, err => {
         this.askEmailMsg(err.error.message || this.onboardjson.askEmailMsg)
@@ -89,12 +92,6 @@ export class WelcomeService {
 
   getChatHistory(){
     console.log("call method to get chat history");
-  }
-
-  startLiveChat(){
-    let user = this.store.botUser.id;
-    let room = this.store.botUser.id;
-    this.chatService.init(user, room);
   }
 
 }

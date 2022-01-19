@@ -14,12 +14,19 @@ export class MsgService {
   isBotReplying: boolean = false;
   msgs: ChatMessage[] = [];
   promiseResolveInput: any = null
+  msgQueue: ChatMessage[] = [];
   constructor(public nlpService:NlpService, public chatService: ChatService,public store: StoreService,){
+    
+  }
+
+  connectChatServer(){
+    this.chatService.connect(this.store.botUser.id)
     this.chatService.newMessageReceived().subscribe((data:ChatMessage) => {
       console.log(data);
       this.msgs.push(data)
     });
   }
+
   onUserReply(msg:string){
     this.publishMsg({senderType:SenderType.USER, message:msg})
     if(this.promiseResolveInput){
@@ -50,6 +57,7 @@ export class MsgService {
     })
   }
 
+
   publishMsg(msgObj:any){
     msgObj.room = this.store.botUser.id;
     msgObj.createdAt = new Date();
@@ -62,7 +70,11 @@ export class MsgService {
     }
 
     this.msgs.push(msgObj);
-    this.chatService.sendMessage(msgObj);
+    if(this.store.botUser.id){
+      this.chatService.sendMessage(msgObj);
+    }else{
+      this.msgQueue.push(msgObj);
+    }
   }
-  
+
 }
