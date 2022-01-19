@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { SenderType } from 'src/app/mybot/enums';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
 
@@ -28,7 +29,7 @@ export class BodyComponent implements OnInit {
   }
 
   ngStyle(msg:any){
-    if(msg.type=='human'){
+    if(msg.senderType==SenderType.USER){
       let botConfig = this.botConfig;
       let styles:any = {}
       styles["color"] = botConfig.jsondata.textColor;

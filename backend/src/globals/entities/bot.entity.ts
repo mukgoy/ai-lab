@@ -21,10 +21,10 @@ export class BotDefaultJsondata {
 }
 
 export class BotDefaultOnboardjson {
-    welcomeMsg = "welcomeMsg";
-    askEmailMsg = "askEmailMsg";
-    askPhoneMsg = "askPhoneMsg";
-    askNameMsg = "askNameMsg";
+    welcomeMsg = "<p>Hey there, I am LALA!. Hope you are doing good.</p><p>Thanks for reaching out to our support</p>";
+    askEmailMsg = "Please provide your email to connect.";
+    askPhoneMsg = "Please provide your phone number to connect.";
+    askNameMsg = "Please provide your name.";
 }
 
 @Entity({name: 'bots'})

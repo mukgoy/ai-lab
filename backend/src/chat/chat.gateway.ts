@@ -1,47 +1,47 @@
-import {  ConnectedSocket,  MessageBody,  SubscribeMessage,  WebSocketGateway,} from '@nestjs/websockets';
+import {  ConnectedSocket,  MessageBody,  SubscribeMessage,  WebSocketGateway, WebSocketServer, WsResponse,} from '@nestjs/websockets';
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
 import { ChatService } from './chat.service';
 import { Bind, UseInterceptors } from '@nestjs/common';
 import { ChatMessageEntity } from 'src/globals/entities';
+import { Socket } from 'socket.io';
 
-@WebSocketGateway({ namespace: 'chat' })
+@WebSocketGateway({ namespace: 'chat',  cors: true  })
 export class ChatGateway implements NestGateway {
   count = 0;
   constructor(private chatService: ChatService) { }
 
-  afterInit(server: any) {
-    // console.log('Init', server);
-  }
+  @WebSocketServer()
+  server;
 
   handleConnection(socket: any) {
-    const query = socket.handshake.query;
-    console.log('Connect', query);
-    this.chatService.userConnected(query.userName, query.registrationToken);
-    process.nextTick(async () => {
-      socket.emit('allChats', await this.chatService.getChats());
-    });
+    console.log('new connection made.');
+    socket.emit('connected', "messages");
   }
 
   handleDisconnect(socket: any) {
-    const query = socket.handshake.query;
-    console.log('Disconnect', socket.handshake.query);
-    this.chatService.userDisconnected(query.userName);
+    console.log('new desconnection made.');
+    // console.log(socket);
+  }
+  
+  @SubscribeMessage('message')
+  async handleNewMessage(socket: Socket, data: any) {
+    console.log(data);
+    console.log(data.user + 'send the message : ' + data.message);
+    socket.broadcast.to(data.room).emit('new message', data.message);
   }
 
-  @Bind(MessageBody(), ConnectedSocket())
-  @SubscribeMessage('chat')
-  async handleNewMessage(chat: ChatMessageEntity, sender: any) {
-    let count = this.count++;
-    console.log('New Chat', chat);
-    await this.chatService.saveChat(chat);
-    sender.emit('newChat', this.count);
-    sender.broadcast.emit('newChat', this.count);
-    await this.chatService.sendMessagesToOfflineUsers(chat);
+  @SubscribeMessage('joinRoom')
+  joinRoom(socket: Socket, data: any) {
+    socket.join(data.room);
+    console.log(data);
+    console.log(data.user + 'joined the room : ' + data.room);
+    socket.broadcast.to(data.room).emit('new user joined', {user:data.user, message:'has joined this room.'});
+  }
 
-    
-    setInterval(()=>{
-      sender.emit('emit', count);
-      sender.broadcast.emit('broadcast', count);
-    },3000)
+  @SubscribeMessage('leaveRoom')
+  leaveRoom(socket: Socket, data: any) {
+    console.log(data.user + 'left the room : ' + data.room);
+    socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
+    socket.leave(data.room);
   }
 }

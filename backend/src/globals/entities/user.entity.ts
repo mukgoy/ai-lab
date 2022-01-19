@@ -1,4 +1,4 @@
-import { BotEntity, FaqEntity, UploadEntity } from 'src/globals/entities';
+import { BotEntity, ChatUserEntity, FaqEntity, UploadEntity } from 'src/globals/entities';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent} from 'typeorm';
 import { CommonProperty } from './common.property';
 
@@ -45,4 +45,9 @@ export class UserEntity extends CommonProperty{
         cascade: true,
     })
     uploads: UploadEntity[];
+
+    @OneToMany(() => ChatUserEntity, chatUser => chatUser.agent,{
+        cascade: true,
+    })
+    chatUsers: ChatUserEntity[];
 }
