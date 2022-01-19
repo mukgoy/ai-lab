@@ -1,7 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Socket } from 'socket.io';
 import { ChatMessageEntity } from 'src/globals/entities';
 import { ChatMessageRepository } from 'src/globals/repository/chat-message.repository';
+
+export interface SocketData { 
+  botId:number
+  user:any
+  room:string 
+}
 
 @Injectable()
 export class ChatService {
@@ -10,8 +17,7 @@ export class ChatService {
     private readonly chatRepository: ChatMessageRepository
   ) {}
 
-  private allUsers = [];
-  private connectedUsers = [];
+  public connectedUsers:any = {};
 
   async getChats(): Promise<ChatMessageEntity[]> {
     return await this.chatRepository.find();
@@ -22,49 +28,25 @@ export class ChatService {
     await createdChat.save();
   }
 
-  userConnected(userName: string, registrationToken: string) {
-    let user = { userName: userName, registrationToken: registrationToken };
-    const filteredUsers = this.allUsers.filter(u => u.userName === userName);
-    if (filteredUsers.length == 0) {
-      this.allUsers.push(user);
-    } else {
-      user = filteredUsers[0];
-      user.registrationToken = registrationToken;
-    }
-    this.connectedUsers.push(userName);
-    console.log("All Users", this.allUsers);
-    console.log("Connected Users", this.connectedUsers);
+  userConnected(socket: Socket) {
+    this.connectedUsers[socket.id] = socket.data;
   }
 
-  userDisconnected(userName: string) {
-    let userIndex = this.connectedUsers.indexOf(userName);
-    this.connectedUsers.splice(userIndex, 1);
-    console.log("All Users", this.allUsers);
-    console.log("Connected Users", this.connectedUsers);
+  userDisconnected(socket: Socket) {
+    delete this.connectedUsers[socket.id];
   }
 
-  async sendMessagesToOfflineUsers(chat: any) {
-    var messagePayload = {
-      data: {
-        type: "CHAT",
-        title: 'chat',
-        message: chat.message,
-        sender: chat.sender,
-        recipient: chat.recipient,
-        time: chat.time
-      },
-      tokens: []
-    };
-    const userTokens = this.allUsers.filter(user => !this.connectedUsers.includes(user.userName)).map(user => { return user.registrationToken });
-    if (userTokens.length == 0) {
-      return;
+  getConnectedUsers(data:any){
+    let users = [];
+    for(let socketId in this.connectedUsers){
+      let socketdata = this.connectedUsers[socketId];
+      if(data.botId && socketdata.botId == data.botId){
+        users.push(socketdata.user)
+      }else if(data.botIds && data.botIds.indexOf(socketdata.botId) > -1){
+        users.push(socketdata.user)
+      }
     }
-    messagePayload.tokens = userTokens;
-    try {
-      // await defaultApp.messaging().sendMulticast(messagePayload);
-    } catch (ex) {
-      console.log(JSON.stringify(ex));
-    }
+    return users
   }
 
 }

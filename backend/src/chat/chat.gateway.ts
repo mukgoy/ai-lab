@@ -1,6 +1,6 @@
 import {  ConnectedSocket,  MessageBody,  SubscribeMessage,  WebSocketGateway, WebSocketServer, WsResponse,} from '@nestjs/websockets';
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
-import { ChatService } from './chat.service';
+import { ChatService, SocketData } from './chat.service';
 import { Bind, UseInterceptors } from '@nestjs/common';
 import { ChatMessageEntity } from 'src/globals/entities';
 import { Socket } from 'socket.io';
@@ -20,7 +20,7 @@ export class ChatGateway implements NestGateway {
 
   handleDisconnect(socket: any) {
     console.log('new desconnection made.');
-    // console.log(socket);
+    this.chatService.userDisconnected(socket)
   }
   
   @SubscribeMessage('message')
@@ -31,10 +31,15 @@ export class ChatGateway implements NestGateway {
   }
 
   @SubscribeMessage('joinRoom')
-  joinRoom(socket: Socket, room: any) {
-    socket.join(room);
-    console.log('user joined the room : ' + room);
-    socket.broadcast.to(room).emit('new user joined', 'user has joined this room.');
+  joinRoom(socket: Socket, data: SocketData) {
+    // console.log(socket);
+    console.log(data);
+
+    socket.data = data
+    socket.join(data.room);
+    console.log(data.user.id + ' joined the room : ' + data.room);
+    socket.broadcast.to(data.room).emit('new user joined', 'user has joined this room.');
+    this.chatService.userConnected(socket)
   }
 
   @SubscribeMessage('leaveRoom')
@@ -42,5 +47,11 @@ export class ChatGateway implements NestGateway {
     console.log(data.user + 'left the room : ' + data.room);
     socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
     socket.leave(data.room);
+  }
+
+  @SubscribeMessage('getOnlineUsers')
+  getOnlineUsers(socket: Socket, data: any) {
+    console.log("getOnlineUsers");
+    socket.emit('getOnlineUsers', this.chatService.getConnectedUsers(data));
   }
 }

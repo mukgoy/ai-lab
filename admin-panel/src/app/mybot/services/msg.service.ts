@@ -20,7 +20,7 @@ export class MsgService {
   }
 
   connectChatServer(){
-    this.chatService.connect(this.store.botUser.id)
+    this.chatService.connect({ botId:this.store.botId, user:this.store.botUser, room:this.store.botUser.id })
     this.chatService.newMessageReceived().subscribe((data:ChatMessage) => {
       console.log(data);
       this.msgs.push(data)

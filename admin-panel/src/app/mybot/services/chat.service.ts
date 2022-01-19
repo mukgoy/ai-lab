@@ -10,9 +10,9 @@ export class ChatService {
 
     private socket:Socket = {} as Socket;
 
-    connect(userId:any){
+    connect(data:{ botId:number, user:any, room:string }){
         this.socket = io('http://localhost:3000/chat');
-        this.joinRoom(userId)
+        this.joinRoom(data)
     }
 
     joinRoom(data: any) {
