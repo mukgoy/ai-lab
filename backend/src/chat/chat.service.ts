@@ -4,12 +4,6 @@ import { Socket } from 'socket.io';
 import { ChatMessageEntity } from 'src/globals/entities';
 import { ChatMessageRepository } from 'src/globals/repository/chat-message.repository';
 
-export interface SocketData { 
-  botId:number
-  user:any
-  room:string 
-}
-
 @Injectable()
 export class ChatService {
   constructor(

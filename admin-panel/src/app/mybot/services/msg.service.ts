@@ -11,17 +11,27 @@ import { StoreService } from './store.service';
 })
 export class MsgService {
 
+  senderType = SenderType.USER;
   isBotReplying: boolean = false;
   msgs: ChatMessage[] = [];
   promiseResolveInput: any = null
   msgQueue: ChatMessage[] = [];
-  constructor(public nlpService:NlpService, public chatService: ChatService,public store: StoreService,){
-    
-  }
+  constructor(
+    public nlpService:NlpService, 
+    public chatService: ChatService,
+    public store: StoreService
+  ){ }
 
-  connectChatServer(){
-    this.chatService.connect({ botId:this.store.botId, user:this.store.botUser, room:this.store.botUser.id })
-    this.chatService.newMessageReceived().subscribe((data:ChatMessage) => {
+  connectChatServer(senderType = SenderType.USER){
+    this.senderType = senderType;
+    let user = this.store.botUser;
+    let room = SenderType.USER + this.store.botUser.id;
+    if(senderType == SenderType.AGENT){
+      room = SenderType.BOT + this.store.botId;
+    }
+    
+    this.chatService.connect({ botId:this.store.botId, user, room, senderType})
+    this.chatService.onMessageReceived('message').subscribe((data:ChatMessage) => {
       console.log(data);
       this.msgs.push(data)
     });
@@ -48,6 +58,10 @@ export class MsgService {
     this.publishMsg({senderType:SenderType.BOT, message:msg});
   }
 
+  onAgentReply(msg:string){
+    this.publishMsg({senderType:SenderType.AGENT, message:msg});
+  }
+
   requiredUserInput(msg?:string){
     if(msg){
       this.publishMsg({senderType:SenderType.BOT, message:msg});
@@ -66,6 +80,8 @@ export class MsgService {
     if(msgObj.senderType == SenderType.BOT){
       msgObj.senderId = this.store.botId
     }else if(msgObj.senderType == SenderType.USER){
+      msgObj.senderId = this.store.botUser.id;
+    }else if(msgObj.senderType == SenderType.AGENT){
       msgObj.senderId = this.store.botUser.id;
     }
 
