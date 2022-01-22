@@ -1,6 +1,6 @@
 
 {
-    "type": "mysql",
+    "type": "postgres",
     "host": "ec2-34-195-233-155.compute-1.amazonaws.com",
     "port": 5432,
     "username": "ppuevrtxvlvmwa",
