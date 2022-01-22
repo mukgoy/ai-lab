@@ -3,7 +3,7 @@ import axios from 'axios'
 import { env } from './config'
 import LauncherBtn from "./launcher-btn"
 let urls = {
-    getbotConfig : "/api/v1/userbot/get-botui/"
+    getbotConfig : "/api/v1/userbot/get-bot/"
 }
 
 export async function getbotConfig(botId){

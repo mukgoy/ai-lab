@@ -1,0 +1,1 @@
+export const lalabotUrl = 'http://localhost:8080/bundle.js'

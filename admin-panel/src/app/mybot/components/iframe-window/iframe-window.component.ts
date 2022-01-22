@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChannelService } from '../../services/channel.service';
 import { NlpService } from '../../services/nlp.service';
+import { StoreService } from '../../services/store.service';
+import { WelcomeService } from '../../services/welcome.service';
 
 @Component({
   selector: 'app-iframe-window',
@@ -14,17 +16,21 @@ export class IframeWindowComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public channelService: ChannelService,
-    public nlpService: NlpService
+    public welcomeService: WelcomeService,
+    public nlpService: NlpService,
+    public store: StoreService
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe(async params => {
       if(params.botId){
-        this.botId = +params.botId;
+        this.store.botId = +params.botId;;
+        this.botId = this.store.botId
         this.channelService.init();
-        this.channelService.getBotConfig();
-        this.channelService.initChatBox();
+        await this.channelService.getBotConfig();
+        await this.channelService.initChatBox();
         this.nlpService.init(this.botId);
+        this.welcomeService.init();
       }
     });
     

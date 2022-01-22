@@ -21,13 +21,13 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { NgPipesModule } from 'ngx-pipes';
 import { NgxColorsModule } from 'ngx-colors';
-import { ErrortostringPipe } from './pipes/errortostring.pipe';
 import { InstallGuideModelComponent } from './components/chat-flows/models/install-guide-model/install-guide-model.component';
-import { BotuiScrollDirective } from './directives/botui-scroll.directive';
-import { BotuiFocusDirective } from './directives/botui-focus.directive';
 import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/manage-welcome.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ErrortostringPipe } from '../shared/pipes';
+import { BotuiFocusDirective, BotuiScrollDirective } from '../shared/directives';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -65,8 +65,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
     NgxColorsModule,
     BsDropdownModule.forRoot(),
     CollapseModule.forRoot(),
-
-
+    SharedModule
   ],
   providers: [BsModalService],
 })

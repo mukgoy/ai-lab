@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { authApi } from '../enums';
-import { ApiHttpService } from './api-http.service';
-import { UserService } from './user.service';
+import { UserService } from '../../shared/services/user.service';
+import { ApiHttpService } from 'src/app/shared/services/api-http.service';
 
 @Injectable({
   providedIn: 'root'

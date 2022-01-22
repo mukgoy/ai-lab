@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BeforeloginGuard } from '../shared/guards/beforelogin.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { LoginComponent } from './components/login/login.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { BeforeloginGuard } from './guards';
+
 
 const routes: Routes = [
   {

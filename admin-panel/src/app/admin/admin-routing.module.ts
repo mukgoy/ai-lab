@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard } from '../shared/guards/auth.guard';
 import { ChatFlowsComponent } from './components/chat-flows/chat-flows.component';
 import { DetailsComponent } from './components/chat-flows/details/details.component';
 import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/manage-welcome.component';

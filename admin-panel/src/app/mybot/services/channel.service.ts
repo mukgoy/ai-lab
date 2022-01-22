@@ -1,50 +1,56 @@
 import { Injectable } from '@angular/core';
 import { StoreService } from './store.service';
-declare var Channel:any;
+declare var Channel: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChannelService {
 
-  constructor(public store:StoreService) {
+  constructor(public store: StoreService) {
   }
 
-  channel:any = null;
+  channel: any = null;
   init() {
-    if(window.parent !== window){
+    if (window.parent !== window) {
       this.channel = Channel.build({
         // debugOutput:true,
-        window: window.parent, 
-        origin: "*", 
+        window: window.parent,
+        origin: "*",
         scope: "testScope"
       });
     }
   }
 
   getBotConfig() {
-    if(this.channel){
-      this.channel.call({
-        method: "getBotConfig",
-        params: {},
-        success: (botConfig:any)=>{
-          console.log(botConfig)
-          this.store.botConfig.next(botConfig)
-          // console.log("getBotConfig callback called", botConfig);
-        }
-      });
-    }
+    return new Promise<boolean>((resolve: (a: boolean) => void): void => {
+      if (this.channel) {
+        this.channel.call({
+          method: "getBotConfig",
+          params: {},
+          success: (botConfig: any) => {
+            this.store.botConfig.next(botConfig)
+            resolve(true)
+          }
+        });
+      } else {
+        console.log("channel or getBotConfig not found");
+        resolve(false)
+      }
+    })
   }
 
   initChatBox() {
-    if(this.channel){
-      this.channel.call({
-        method: "initChatBox",
-        params: {},
-        success: function(v:any) {
-            // console.log("initChatBox callback called", v);
-        }
-      });
-    }
+    return new Promise<boolean>((resolve: (a: boolean) => void): void => {
+      if (this.channel) {
+        this.channel.call({
+          method: "initChatBox",
+          params: {},
+          success: function (v: any) {
+            resolve(true);
+          }
+        });
+      }
+    });
   }
 }

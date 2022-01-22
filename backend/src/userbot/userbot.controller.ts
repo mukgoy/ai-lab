@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateChatUserDto } from './dto/create-chat-user.dto';
+import { UpdateChatUserDto } from './dto/update-chat-user.dto';
 import { UserbotService } from './userbot.service';
 
 @ApiTags("userbot")
@@ -12,10 +14,33 @@ export class UserbotController {
     return this.userbotService.getFaqs(botId);
   }
 
-  @Get("get-botui/:botId")
-  async getBotUi(@Param('botId') botId: number) {
-    let botUi = await this.userbotService.getBotUi(botId);
-    botUi.jsondata = JSON.parse(botUi.jsondata)
-    return botUi
+  @Get("get-bot/:botId")
+  async getBot(@Param('botId') botId: number) {
+    let bot = await this.userbotService.getBot(botId);
+    bot.jsondata = JSON.parse(bot.jsondata)
+    bot.onboardjson = JSON.parse(bot.onboardjson)
+    return bot
+  }
+
+  @Post("create-user")
+  async createChatUser(@Body() createChatUserDto: CreateChatUserDto) {
+    return this.userbotService.createChatUser(createChatUserDto).catch(err=>{
+      return err
+      if(err.code == "ER_DUP_ENTRY"){
+        throw new BadRequestException(
+          'Account with this email already exists.',
+        );
+      }
+    });
+  }
+
+  @Put('update-user')
+  updateChatUser(@Body() updateChatUserDto: UpdateChatUserDto) {
+    return this.userbotService.updateChatUser(updateChatUserDto);
+  }
+
+  @Get("get-previous-messages")
+  async getPreviousMessages(@Query('room') room: string = "", @Query('offset') offset: number = 0) {
+    return this.userbotService.getPreviousMessages(room, +offset);
   }
 }

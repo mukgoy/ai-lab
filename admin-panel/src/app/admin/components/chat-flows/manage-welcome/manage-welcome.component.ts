@@ -2,12 +2,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { adminNotify } from 'src/app/admin/enums';
 import { BotService } from 'src/app/admin/services/bot.service';
-import { HelperService } from 'src/app/admin/services/helper.service';
 import { UploadService } from 'src/app/admin/services/upload.service';
-import { ValidationService } from 'src/app/admin/services/validation.service';
+import { HelperService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-manage-welcome',
@@ -26,6 +26,7 @@ export class ManageWelcomeComponent implements OnInit {
    
   });
 
+  public Editor = ClassicEditor;
   modalRef: BsModalRef = new BsModalRef();
   @ViewChild('installGuideModel') installGuideModel?: TemplateRef<any>;
   constructor(

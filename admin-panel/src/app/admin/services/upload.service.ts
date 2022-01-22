@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { ApiHttpService } from 'src/app/shared/services';
 import { adminApi } from '../enums';
-import { ApiHttpService } from './api-http.service';
 
 @Injectable({
   providedIn: 'root'

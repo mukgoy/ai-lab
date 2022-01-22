@@ -20,9 +20,9 @@
     </div>
     <div class="card-body bg-light">
         <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-            <div class="form-floating mb-3">
-                <input class="form-control" formControlName="welcomeMsg" id="floatingInput" type="text" placeholder="Welcome Message" />
-                <label for="floatingInput">Welcome Message</label>
+            <div class="form-group">
+                <label>Welcome Message:</label>
+                <ckeditor [editor]="Editor" data="Your welcome message is here" formControlName="welcomeMsg"></ckeditor>
                 <ng-container *ngIf="formGroup.controls.welcomeMsg?.touched || formSubmited">
                     <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.welcomeMsg.errors | keyvalue" appBotuiScroll>
                         {{"Welcome Message" | errortostring : errorMsg}}
