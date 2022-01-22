@@ -15,7 +15,6 @@
     "start:debug": "nest start --debug --watch",
     "start:prod-hold": "node dist/main",
     "start:prod": "node dist/src/main.js",
-    "postinstall": "npm run prestart:prod",
     "migration:create": "typeorm migration:create -n",
     "migration:run": "typeorm migration:run",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
