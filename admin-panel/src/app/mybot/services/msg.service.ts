@@ -12,6 +12,7 @@ import { StoreService } from './store.service';
 export class MsgService {
 
   senderType = SenderType.USER;
+  room = 0;
   isBotReplying: boolean = false;
   msgs: ChatMessage[] = [];
   promiseResolveInput: any = null
@@ -24,13 +25,13 @@ export class MsgService {
 
   connectChatServer(senderType = SenderType.USER){
     this.senderType = senderType;
+    this.room = this.store.botUser.id;
     let user = this.store.botUser;
-    let room = SenderType.USER + this.store.botUser.id;
     if(senderType == SenderType.AGENT){
-      room = SenderType.BOT + this.store.botId;
+      this.room = this.store.botId;
     }
     
-    this.chatService.connect({ botId:this.store.botId, user, room, senderType})
+    this.chatService.connect({ botId:this.store.botId, user, room:this.room, senderType})
     this.chatService.onMessageReceived('message').subscribe((data:ChatMessage) => {
       console.log(data);
       this.msgs.push(data)
@@ -73,7 +74,7 @@ export class MsgService {
 
 
   publishMsg(msgObj:any){
-    msgObj.room = this.store.botUser.id;
+    msgObj.room = this.room;
     msgObj.createdAt = new Date();
     msgObj.botId = this.store.botId
 

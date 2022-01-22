@@ -4,7 +4,7 @@ import { ChatService } from './chat.service';
 import { Bind, UseInterceptors } from '@nestjs/common';
 import { ChatMessageEntity } from 'src/globals/entities';
 import { Socket } from 'socket.io';
-import { SenderType, SocketData } from 'src/globals/enums';
+import { ChatMessage, SenderType, SocketData } from 'src/globals/enums';
 
 @WebSocketGateway({ namespace: 'chat',  cors: true  })
 export class ChatGateway implements NestGateway {
@@ -25,27 +25,27 @@ export class ChatGateway implements NestGateway {
   }
   
   @SubscribeMessage('message')
-  async handleNewMessage(socket: Socket, data: any) {
-    // console.log("handleNewMessage", data);
-    // console.log(data.senderId + 'send the message : ' + data.message);
-    socket.broadcast.to(data.room).emit('message', data);
+  async handleNewMessage(socket: Socket, data: ChatMessage) {
+    console.log(`${data.senderType}:${data.senderId} send the message in room : ${data.room}: ${data.message}`);
+    socket.broadcast.to(data.room.toString()).emit('message', data);
+    this.chatService.setLastMessage(socket, data)
     if(data.senderType == SenderType.USER){
       socket.broadcast.to(SenderType.BOT + data.botId).emit('lastMessage', data);
-      this.chatService.userConnected(socket)
     }
   }
 
   @SubscribeMessage('joinRoom')
   joinRoom(socket: Socket, data: SocketData) {
-    // console.log(socket);
-    // console.log(data);
-
-    socket.data = data
-    socket.join(data.room);
-    console.log(`${data.senderType} of id = ${data.user.id} joined the room : ${data.room}`);
     if(data.senderType == SenderType.USER){
+      let room = data.room;
+      data.user.room = room;
+      socket.data = data
+      socket.join(room.toString());
+      console.log(`${data.senderType} of id = ${data.user.id} joined the room : ${room}`);
       socket.broadcast.to(SenderType.BOT + data.botId).emit('joinRoom', data);
       this.chatService.userConnected(socket)
+    }else{
+      socket.join(SenderType.BOT + data.botId);
     }
   }
 

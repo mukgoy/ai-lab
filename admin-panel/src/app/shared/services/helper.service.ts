@@ -133,4 +133,11 @@ export class HelperService {
   //     return variations[key];
   // }
 
+  trackByIndex = (index: number): number => {
+    return index;
+  };
+
+  date(time: any){
+    return time ? new Date(time) : new Date()
+  };
 }

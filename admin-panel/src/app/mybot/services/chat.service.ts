@@ -1,21 +1,26 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { io, Socket } from "socket.io-client";
-import { ChatMessage, SenderType } from "../enums";
+import { ChatMessage, ChatUser, SenderType, SocketData, userbotApi } from "../enums";
+import { ApiHttpService } from "./api-http.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ChatService {
 
-    private socket:Socket = {} as Socket;
-    
-    connect(data:{ botId:number, user:any, room:string, senderType: SenderType}){
+    private socket: Socket = {} as Socket;
+
+    constructor(
+        public http: ApiHttpService,
+    ) { }
+
+    connect(data: SocketData) {
         this.socket = io('http://localhost:3000/chat');
         this.joinRoom(data)
     }
 
-    joinRoom(data: any) {
+    joinRoom(data: SocketData) {
         // console.log('joinRoom', data)
         this.socket.emit('joinRoom', data);
     }
@@ -28,13 +33,17 @@ export class ChatService {
         this.socket.emit('getOnlineUsers', data);
     }
 
-    onMessageReceived(key:string) {
-        let observable = new Observable<ChatMessage>(observer => {
-            this.socket.on(key, (data:ChatMessage) => {
+    onMessageReceived(key: string) {
+        let observable = new Observable<any>(observer => {
+            this.socket.on(key, (data: any) => {
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
         });
         return observable;
+    }
+
+    getPreviousMessages(room: number, offset: number = 0) {
+        return this.http.get(userbotApi.getPreviousMessages, {room, offset})
     }
 }

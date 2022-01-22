@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChatMessage, SenderType } from 'src/app/mybot/enums';
+import { ChatMessage, ChatUser, SenderType } from 'src/app/mybot/enums';
 import { ChatService } from 'src/app/mybot/services/chat.service';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
-import { UserService } from 'src/app/shared/services';
+import { HelperService, UserService } from 'src/app/shared/services';
 
 @Component({
   selector: 'app-conversations',
@@ -12,7 +12,10 @@ import { UserService } from 'src/app/shared/services';
 export class ConversationsComponent implements OnInit {
 
   botId:number = 1
+  onlineUsers: ChatUser[] = []
+  selectedUser:ChatUser = {} as ChatUser;
   constructor(
+    public help : HelperService,
     public userService : UserService,
     public store: StoreService,
     public chatService: ChatService,
@@ -63,14 +66,46 @@ export class ConversationsComponent implements OnInit {
   }
 
   initAllSubscribers(){
-    this.chatService.onMessageReceived('joinRoom').subscribe((data:ChatMessage) => {
+    this.chatService.onMessageReceived('joinRoom').subscribe((data:any) => {
       console.log("joinRoom",data);
+      this.onlineUsers.unshift(data.user)
     });
-    this.chatService.onMessageReceived('lastMessage').subscribe((data:ChatMessage) => {
-      console.log("lastMessage",data);
+    this.chatService.onMessageReceived('lastMessage').subscribe((lastMessage:ChatMessage) => {
+      console.log("lastMessage",lastMessage);
+      console.log("onlineUsers",this.onlineUsers);
+      let user = this.onlineUsers.find(item=>item.room == lastMessage.room);
+      if(user){
+        user.lastMessage = lastMessage
+        user.chatMessages.push(lastMessage)
+      }
     });
-    this.chatService.onMessageReceived('getOnlineUsers').subscribe((data:ChatMessage) => {
-      console.log("getOnlineUsers",data);
+    this.chatService.onMessageReceived('getOnlineUsers').subscribe((onlineUsers:ChatUser[]) => {
+      console.log("getOnlineUsers",onlineUsers);
+      onlineUsers.map(item=>item.chatMessages = [])
+      this.onlineUsers = onlineUsers
     });
   }
+
+  onUserSelect(botUserId:number){
+    let user = this.onlineUsers.find(item=>item.id == botUserId);
+    if(user){
+      this.selectedUser = user;
+      this.getPreviousMessages();
+    }
+  }
+
+  getPreviousMessages(){
+    console.log("selectedUser", this.selectedUser)
+    this.selectedUser.chatMessages = this.selectedUser.chatMessages || []
+    let firstMessage = this.selectedUser?.chatMessages[0] || {};
+    let offset = firstMessage.id ? firstMessage.id :0
+    this.chatService.getPreviousMessages(this.selectedUser.room, offset)
+    .subscribe((chatMessages:any)=>{
+      console.log(chatMessages);
+      this.selectedUser.chatMessages = chatMessages.reverse().concat(this.selectedUser.chatMessages)
+    },(error:any)=>{
+        console.log(error);
+    });
+  }
+
 }
