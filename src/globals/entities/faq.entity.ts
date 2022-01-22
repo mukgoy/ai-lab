@@ -1,12 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, RelationId} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, RelationId, ObjectIdColumn, ObjectID} from 'typeorm';
 import { BotEntity } from './bot.entity';
 import { CommonProperty } from './common.property';
 import { UserEntity } from './user.entity';
 
 @Entity({name: 'faqs'})
 export class FaqEntity extends CommonProperty{
-    @PrimaryGeneratedColumn()
-    faqId: number;
+    @ObjectIdColumn()
+    faqId: ObjectID;
 
     @Column({ nullable: true, type: "text" })
     question : string;

@@ -1,3 +1,5 @@
+import { ObjectID } from "typeorm";
+
 export enum SenderType {
     BOT = "bot",
     AGENT = "agent",
@@ -5,14 +7,14 @@ export enum SenderType {
 }
 
 export interface SocketData {
-    botId: number
+    botId: ObjectID
     user: ChatUser
     room: number
     senderType: SenderType
 }
 
 export interface ChatMessage {
-    id: number;
+    id: ObjectID;
     room: number;
     message: string;
     senderType: SenderType;
@@ -21,7 +23,7 @@ export interface ChatMessage {
     createdAt: Date;
 }
 export interface ChatUser {
-    id: number
+    id: ObjectID
     name: string
     email: string
     phone: string

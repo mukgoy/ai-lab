@@ -1,11 +1,11 @@
 import { BotEntity, ChatUserEntity, FaqEntity, UploadEntity } from 'src/globals/entities';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent} from 'typeorm';
+import { Entity, Column, OneToMany, TreeChildren, TreeParent, ObjectIdColumn, ObjectID} from 'typeorm';
 import { CommonProperty } from './common.property';
 
 @Entity({name: 'users'})
 export class UserEntity extends CommonProperty{
-    @PrimaryGeneratedColumn()
-    userId: number;
+    @ObjectIdColumn()
+    userId: ObjectID;
 
     @TreeChildren()
     team: UserEntity[];

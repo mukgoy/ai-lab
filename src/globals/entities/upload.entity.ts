@@ -1,11 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ObjectIdColumn, ObjectID} from 'typeorm';
 import { CommonProperty } from './common.property';
 import { UserEntity } from './user.entity';
 
 @Entity({name: 'uploads'})
 export class UploadEntity extends CommonProperty{
-    @PrimaryGeneratedColumn()
-    uploadId: number;
+    @ObjectIdColumn()
+    uploadId: ObjectID;
 
     @Column({ nullable: true })
     originalname : string;
