@@ -1,11 +1,11 @@
 
 {
-    "type": "mysql",
-    "host": "sql6.freemysqlhosting.net",
+    "type": "postgres",
+    "host": "ec2-34-232-252-124.compute-1.amazonaws.com",
     "port": 5432,
-    "username": "sql6467521",
-    "password": "LQ7WNPevZS",
-    "database": "sql6467521",
+    "username": "wgsqotorwfejeh",
+    "password": "37d5bcd14615d32ec4e16c97daaaa1c66636f81420db3d585950050cfe623b09",
+    "database": "d8libp77blmf6u",
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "synchronize": true,
     "migrations": ["src/migrations/*.js"],
