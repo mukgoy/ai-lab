@@ -1,9 +1,9 @@
 var env_prod = {
     isDevMode: false,
-    apiURL : "http://localhost:3000",
-    botHost : "https://dev.intelliassist.co/",
-    botURL : "https://dev.intelliassist.co/mukesh/mychatbot/",
-    cssURL : "https://dev.intelliassist.co/mukesh/mychatbot/assets/css/embed.css"
+    apiURL : "https://ai-lab-backend.herokuapp.com/",
+    botHost : "https://ai-lab-frontend.herokuapp.com/",
+    botURL : "https://ai-lab-frontend.herokuapp.com/mybot/",
+    cssURL : "https://ai-lab-frontend.herokuapp.com/assets/css/embed.css"
 }
 
 var env_dev = {

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { adminNotify } from 'src/app/admin/enums';
 import { HelperService } from 'src/app/shared/services';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'admin-install-guide-model',
@@ -18,7 +19,7 @@ export class InstallGuideModelComponent implements OnInit {
   }
 
   copyText() {
-    let val = `<script src="http://localhost:8080/bundle.js"></script><script>lalabot.init(${this.botId})</script>`
+    let val = `<script src="${environment.bundleJs}"></script><script>lalabot.init(${this.botId})</script>`
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';

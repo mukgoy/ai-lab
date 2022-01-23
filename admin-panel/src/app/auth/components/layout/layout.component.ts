@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { lalabotUrl } from 'src/app/shared/configs';
 import { ScriptService } from 'src/app/shared/services';
+import { environment } from 'src/environments/environment';
 declare var lalabot: any;
 
 @Component({
@@ -12,7 +12,7 @@ declare var lalabot: any;
 export class LayoutComponent implements OnInit {
 
   constructor(public script: ScriptService) {
-    this.script.load([lalabotUrl]).then(data => {
+    this.script.load([environment.bundleJs]).then(data => {
         console.log('script loaded ', data);
         lalabot.init(1);
     }).catch(error => console.log(error));
