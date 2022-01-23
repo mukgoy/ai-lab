@@ -20,7 +20,7 @@ export class FaqController {
   }
 
   @Get()
-  findAll(@Request() req, @Body('botId') botId: number) {
+  findAll(@Request() req, @Body('botId') botId: string) {
     return this.faqService.findAll(req, botId);
   }
 

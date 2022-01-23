@@ -16,7 +16,7 @@ export class BotService {
     return this.http.get(url);
   }
 
-  getBotById(botId:number){
+  getBotById(botId:string){
     const url = adminApi.bot.findAll+'/'+botId;
     return this.http.get(url);
   }

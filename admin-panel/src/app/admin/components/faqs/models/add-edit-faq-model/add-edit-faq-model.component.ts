@@ -14,7 +14,7 @@ export class AddEditFaqModelComponent implements OnInit {
   @Output() onSuccess = new EventEmitter<any>() ;
   @Input() modalRef : BsModalRef = new BsModalRef();
   @Input() editingFaq: any;
-  @Input() botId: any;
+  @Input() botId: string = "";
 
   public Editor = ClassicEditor;
 
@@ -49,7 +49,7 @@ export class AddEditFaqModelComponent implements OnInit {
 
     var botId = changes.botId.currentValue;
     if(botId){
-      this.formGroup.patchValue({botId: +botId});
+      this.formGroup.patchValue({botId: botId});
     }
   }
 
@@ -80,10 +80,7 @@ export class AddEditFaqModelComponent implements OnInit {
     this.botService.getBots()
     .subscribe((res:any)=>{
       console.log(res);
-      this.mybots = res.map((o:any)=>{
-        o.jsondata = JSON.parse(o.jsondata)
-        return o;
-      });
+      this.mybots = res
     },(error:any)=>{
         // this.helperService.notify('error', error);
     });

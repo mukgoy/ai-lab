@@ -14,12 +14,9 @@ export class FaqEntity extends CommonProperty{
     @Column({ nullable: true, type: "text" })
     answer: string;
 
-    @ManyToOne(() => BotEntity, bot => bot.faqs)
+    @Column({ nullable: true })
     bot: BotEntity;
 
-    @RelationId((faq: FaqEntity) => faq.bot) // you need to specify target relation
-    botId: number;
-
-    @ManyToOne(() => UserEntity, owner => owner.faqs)
+    @Column({ nullable: true })
     owner: UserEntity;
 }

@@ -25,11 +25,8 @@ export class ChatMessageEntity extends BaseEntity{
   @Column()
   senderId: number;
 
-  @ManyToOne(() => BotEntity, bot => bot.chats)
+  @Column({ nullable: true })
   bot: BotEntity;
-
-  @RelationId((faq: ChatMessageEntity) => faq.bot) // you need to specify target relation
-  botId: number;
 
   @CreateDateColumn({
       type: 'timestamp',

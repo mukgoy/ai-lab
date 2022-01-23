@@ -1,4 +1,3 @@
-
 {
     "type": "mongodb",
     "url": "mongodb+srv://mukesh:DEBtGyG8xZQIi7cp@demo.yagpg.mongodb.net/chatbot?retryWrites=true&w=majority",

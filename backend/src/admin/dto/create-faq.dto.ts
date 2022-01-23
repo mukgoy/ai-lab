@@ -11,7 +11,6 @@ export class CreateFaqDto {
     @ApiProperty()
     public answer: string;
 
-    @IsInt()
     @ApiProperty()
     public botId: number;
 

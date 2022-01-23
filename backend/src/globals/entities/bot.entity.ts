@@ -36,29 +36,18 @@ export class BotEntity extends CommonProperty{
     name: string;
 
     @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultJsondata()) })
-    jsondata: string;
+    jsondata: any;
 
     @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultOnboardjson()) })
-    onboardjson: string;
+    onboardjson: any;
 
     @Column({ default: true })
     isActive: boolean;
 
-    @OneToMany(() => FaqEntity, faq => faq.bot,{
-        cascade: true,
-    })
-    faqs: FaqEntity[];
-
-    @ManyToOne(() => UserEntity, owner => owner.bots)
+    @Column({ nullable: true })
     owner: UserEntity;
-
-    @OneToMany(() => ChatMessageEntity, chat => chat.bot,{
-        cascade: true,
-    })
+    
+    faqs: FaqEntity[];
     chats: ChatMessageEntity[];
-
-    @OneToMany(() => ChatUserEntity, chatUser => chatUser.bot,{
-        cascade: true,
-    })
     chatUsers: ChatUserEntity[];
 }

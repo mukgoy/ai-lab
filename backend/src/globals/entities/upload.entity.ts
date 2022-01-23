@@ -19,6 +19,6 @@ export class UploadEntity extends CommonProperty{
     @Column({ nullable: true })
     size : number;
 
-    @ManyToOne(() => UserEntity, owner => owner.uploads)
+    @Column({ nullable: true })
     owner: UserEntity;
 }

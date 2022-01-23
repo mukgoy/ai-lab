@@ -20,14 +20,11 @@ export class ChatUserEntity extends CommonProperty {
     @Column({ nullable: true })
     name: string;
 
-    @ManyToOne(() => BotEntity, bot => bot.chatUsers)
+    @Column({ nullable: true })
     bot: BotEntity;
 
-    @ManyToOne(() => UserEntity, user => user.chatUsers)
+    @Column({ nullable: true })
     agent: UserEntity;
-
-    @RelationId((chatUser: ChatUserEntity) => chatUser.agent) // you need to specify target relation
-    agentUserId: number;
 
     constructor(user?: Partial<ChatMessageEntity>) {
         super()
