@@ -7,14 +7,14 @@ export enum SenderType {
 }
 
 export interface SocketData {
-    botId: ObjectID
+    botId: number
     user: ChatUser
     room: number
     senderType: SenderType
 }
 
 export interface ChatMessage {
-    id: ObjectID;
+    id: number;
     room: number;
     message: string;
     senderType: SenderType;

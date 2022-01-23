@@ -5,8 +5,8 @@ import { CommonProperty } from './common.property';
 
 @Entity({ name: 'chat_users' })
 export class ChatUserEntity extends CommonProperty {
-    @ObjectIdColumn()
-    id: ObjectID;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({ unique: true })
     primaryKey: string;

@@ -4,8 +4,8 @@ import { UserEntity } from './user.entity';
 
 @Entity({name: 'uploads'})
 export class UploadEntity extends CommonProperty{
-    @ObjectIdColumn()
-    uploadId: ObjectID;
+    @PrimaryGeneratedColumn()
+    uploadId: number;
 
     @Column({ nullable: true })
     originalname : string;

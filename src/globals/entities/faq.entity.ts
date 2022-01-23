@@ -5,8 +5,8 @@ import { UserEntity } from './user.entity';
 
 @Entity({name: 'faqs'})
 export class FaqEntity extends CommonProperty{
-    @ObjectIdColumn()
-    faqId: ObjectID;
+    @PrimaryGeneratedColumn()
+    faqId: number;
 
     @Column({ nullable: true, type: "text" })
     question : string;

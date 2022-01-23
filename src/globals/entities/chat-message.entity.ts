@@ -6,8 +6,8 @@ import { ChatUserEntity } from './chat-user.entity';
 @Entity({name: 'chat_messages'})
 export class ChatMessageEntity extends BaseEntity{
 
-  @ObjectIdColumn()
-  id: ObjectID;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   room: number;
