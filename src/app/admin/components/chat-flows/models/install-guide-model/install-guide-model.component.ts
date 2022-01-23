@@ -19,7 +19,7 @@ export class InstallGuideModelComponent implements OnInit {
   }
 
   copyText() {
-    let val = `<script src="${environment.bundleJs}"></script><script>lalabot.init(${this.botId})</script>`
+    let val = `<script src="${environment.bundleJs}"></script><script>lalabot.init("${this.botId}")</script>`
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';

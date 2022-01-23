@@ -16,7 +16,7 @@
         <div class="row flex-between-end">
             <div class="col-auto align-self-center">
                 <select class="form-select" [(ngModel)]="botId">
-                    <option [value]="0">Select Bot</option>
+                    <option value="">Select Bot</option>
                     <option [value]="bot.botId" *ngFor="let bot of mybots">{{bot.name}}</option>
                 </select>
             </div>

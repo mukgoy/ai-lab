@@ -15,7 +15,7 @@ import { HelperService } from 'src/app/shared/services';
 })
 export class ManageWelcomeComponent implements OnInit {
 
-  botId: number = 0;
+  botId: string = "";
   editingBot: any = {};
   formSubmited = false;
   formGroup = this.fb.group({
@@ -42,7 +42,7 @@ export class ManageWelcomeComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if(params.botId){
-        this.botId = +params.botId;
+        this.botId = params.botId;
         this.getBotById();
       }
     });
@@ -70,25 +70,16 @@ export class ManageWelcomeComponent implements OnInit {
     }
   }
 
- 
-
   getBotById() {
     this.botService.getBotById(this.botId)
       .subscribe((res: any) => {
         console.log(res);
-        res.onboardjson = JSON.parse(res.onboardjson)
         this.editingBot = res;
         this.formGroup.patchValue(this.editingBot.onboardjson);
-
-    
-
       }, (error: any) => {
         // this.helperService.notify('error', error);
       });
   }
-
-
- 
 
   openModal() {
     if(this.installGuideModel){

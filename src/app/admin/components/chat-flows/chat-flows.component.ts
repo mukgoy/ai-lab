@@ -20,10 +20,7 @@ export class ChatFlowsComponent implements OnInit {
     this.botService.getBots()
     .subscribe((res:any)=>{
       console.log(res);
-      this.mybots = res.map((o:any)=>{
-        o.jsondata = JSON.parse(o.jsondata)
-        return o;
-      });
+      this.mybots = res
     },(error:any)=>{
         // this.helperService.notify('error', error);
     });

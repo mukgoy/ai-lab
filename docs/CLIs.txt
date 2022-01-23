@@ -10,6 +10,7 @@ ng g c mybot/components/widget-wrapper
 ng g c mybot/components/widget-wrapper/header
 ng g c mybot/components/widget-wrapper/body
 ng g c mybot/components/widget-wrapper/footer
+ng g c mybot/components/bot-test
 ng g s mybot/services/channel
 ng g s mybot/services/store
 ng g s mybot/services/msg

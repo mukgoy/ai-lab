@@ -22,7 +22,7 @@ export class DetailsComponent implements OnInit {
     textColor: "#ffffff"
   }
 
-  botId: number = 0;
+  botId: string = "";
   editingBot: any = {};
   formSubmited = false;
   formGroup = this.fb.group({
@@ -58,7 +58,7 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if(params.botId){
-        this.botId = +params.botId;
+        this.botId = params.botId;
         this.getBotById();
       }
     });
@@ -81,7 +81,7 @@ export class DetailsComponent implements OnInit {
       httpService.subscribe((res: any) => {
         console.log(res);
         this.help.notify('success', notify);
-        this.botId = +res.botId;
+        this.botId = res.botId;
         this.router.navigate(['/admin/manage-bots',this.botId,'welcome']);
       }, (error) => {
         console.log(error);
@@ -109,7 +109,6 @@ export class DetailsComponent implements OnInit {
     this.botService.getBotById(this.botId)
       .subscribe((res: any) => {
         console.log(res);
-        res.jsondata = JSON.parse(res.jsondata)
         this.editingBot = res;
         this.formGroup.patchValue(this.editingBot);
 

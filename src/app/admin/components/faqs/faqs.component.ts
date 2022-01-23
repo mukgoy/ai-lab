@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './faqs.component.html'
 })
 export class FaqsComponent implements OnInit {
-  botId = 0
+  botId = ""
   editingFaq = null;
   modalRef?: BsModalRef;
   @ViewChild('faqModel') faqModel?: TemplateRef<any>;
@@ -30,7 +30,7 @@ export class FaqsComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       if(params.botId){
-        this.botId = +params.botId;
+        this.botId = params.botId;
       }
       this.getFaqs();
       this.getBots();
@@ -52,10 +52,7 @@ export class FaqsComponent implements OnInit {
     this.botService.getBots()
     .subscribe((res:any)=>{
       console.log(res);
-      this.mybots = res.map((o:any)=>{
-        o.jsondata = JSON.parse(o.jsondata)
-        return o;
-      });
+      this.mybots = res
     },(error:any)=>{
         // this.helperService.notify('error', error);
     });
@@ -73,8 +70,8 @@ export class FaqsComponent implements OnInit {
   }
  
   getFilteredFaqs(){
-    if(this.botId > 0){
-      return this.faqs.filter(faq => faq.botId == this.botId)
+    if(this.botId){
+      return this.faqs.filter(faq => faq.bot.botId == this.botId)
     }else{
       return this.faqs
     }
