@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { adminApi } from 'src/app/admin/enums';
 import { UploadService } from 'src/app/admin/services/upload.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'admin-image-picker',
@@ -65,7 +66,7 @@ export class ImagePickerComponent implements OnInit {
     this.upload.get()
       .subscribe((res : any) => {
         this.allUploads = res.map((item:any)=>{
-          return adminApi.cdn + (item.path.replace("uploads\\",""))
+          return environment.uploads + (item.path.replace("uploads\\",""))
         })
       }, (error: any) => {
         console.log(error);
