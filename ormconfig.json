@@ -1,16 +1,21 @@
-
 {
-    "type": "mysql",
-    "host": "ec2-34-195-233-155.compute-1.amazonaws.com",
+    "type": "postgres",
+    "host": "ec2-34-232-252-124.compute-1.amazonaws.com",
     "port": 5432,
-    "username": "ppuevrtxvlvmwa",
-    "password": "6831f65cc3f9554b9e4a2d0b468d89bb89ec1917cbf1958faa1cd02291446e7c",
-    "database": "d60jg8vsf7jdo6",
+    "username": "wgsqotorwfejeh",
+    "password": "37d5bcd14615d32ec4e16c97daaaa1c66636f81420db3d585950050cfe623b09",
+    "database": "d8libp77blmf6u",
     "entities": ["dist/**/*.entity{.ts,.js}"],
     "synchronize": true,
     "migrations": ["src/migrations/*.js"],
     "cli": {
         "migrationsDir": "src/migrations"
+    },
+    "ssl": true,
+    "extra": {
+        "ssl": {
+        "rejectUnauthorized": false
+        }
     }
   }
   
