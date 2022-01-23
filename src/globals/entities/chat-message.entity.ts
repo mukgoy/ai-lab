@@ -6,8 +6,8 @@ import { ChatUserEntity } from './chat-user.entity';
 @Entity({name: 'chat_messages'})
 export class ChatMessageEntity extends BaseEntity{
 
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  id: ObjectID;
 
   @Column()
   room: number;
@@ -25,15 +25,12 @@ export class ChatMessageEntity extends BaseEntity{
   @Column()
   senderId: number;
 
-  @ManyToOne(() => BotEntity, bot => bot.chats)
+  @Column({ nullable: true })
   bot: BotEntity;
-
-  @RelationId((faq: ChatMessageEntity) => faq.bot) // you need to specify target relation
-  botId: number;
 
   @CreateDateColumn({
       type: 'timestamp',
-      // default: () => 'CURRENT_TIMESTAMP(6)',
+      default: () => 'CURRENT_TIMESTAMP(6)',
   })
   public createdAt: Date;
 

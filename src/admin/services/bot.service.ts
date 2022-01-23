@@ -20,20 +20,20 @@ export class BotService {
   findAll(req) {
     return this.botRepository.find({
       where: {
-        owner: req.user.owner.userId
+        "owner.userId": req.user.owner.userId
       }
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.botRepository.findOne(id);
   }
 
-  update(id: number, updateBotDto: UpdateBotDto) {
+  update(id: string, updateBotDto: UpdateBotDto) {
     return this.botRepository.updateBot(updateBotDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} bot`;
   }
 }

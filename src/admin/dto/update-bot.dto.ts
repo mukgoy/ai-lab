@@ -4,7 +4,7 @@ import { IsInt } from 'class-validator';
 import { CreateBotDto } from './create-bot.dto';
 
 export class UpdateBotDto extends PartialType(CreateBotDto) {
-    @IsInt()
+
     @ApiProperty()
-    public botId: number;
+    public botId: string;
 }

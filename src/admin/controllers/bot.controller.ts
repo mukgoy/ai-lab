@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Request } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/auth/services';
+import { BotDefaultJsondata, BotDefaultOnboardjson } from 'src/globals/entities';
 import { CreateBotDto } from '../dto/create-bot.dto';
 import { UpdateBotDto } from '../dto/update-bot.dto';
 import { BotService } from '../services/bot.service';
@@ -26,18 +27,21 @@ export class BotController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.botService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    let bot = await this.botService.findOne(id);
+    bot.jsondata = bot.jsondata || new BotDefaultJsondata()
+    bot.onboardjson = bot.onboardjson || new BotDefaultOnboardjson()
+    return bot;
   }
 
   @Put(':id')
   update(@Request() req, @Param('id') id: string, @Body() updateBotDto: UpdateBotDto) {
     updateBotDto.req = req
-    return this.botService.update(+id, updateBotDto);
+    return this.botService.update(id, updateBotDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.botService.remove(+id);
+    return this.botService.remove(id);
   }
 }

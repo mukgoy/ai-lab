@@ -19,9 +19,9 @@ export class FaqService {
 
   findAll(req, botId=null) {
     if(botId){
-      return this.faqRepository.find({where:{botId}});
+      return this.faqRepository.find({where:{"bot.botId":botId}});
     }else{
-      return this.faqRepository.find({where:{owner: req.user.owner.userId}});
+      return this.faqRepository.find({where:{"owner.userId": req.user.owner.userId}});
     }
   }
 

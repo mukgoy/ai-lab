@@ -4,7 +4,7 @@ import { IsInt } from 'class-validator';
 import { CreateFaqDto } from './create-faq.dto';
 
 export class UpdateFaqDto extends PartialType(CreateFaqDto) {
-    @IsInt()
+
     @ApiProperty()
-    public faqId: number;
+    public faqId: string;
 }

@@ -1,16 +1,12 @@
-
 {
-    "type": "postgres",
-    "host": "ec2-34-232-252-124.compute-1.amazonaws.com",
-    "port": 5432,
-    "username": "wgsqotorwfejeh",
-    "password": "37d5bcd14615d32ec4e16c97daaaa1c66636f81420db3d585950050cfe623b09",
-    "database": "d8libp77blmf6u",
-    "entities": ["dist/**/*.entity{.ts,.js}"],
+    "type": "mongodb",
+    "url": "mongodb+srv://mukesh:DEBtGyG8xZQIi7cp@demo.yagpg.mongodb.net/chatbot?retryWrites=true&w=majority",
+    "useNewUrlParser": true,
+    "logging": true,
+    "entities": ["src/entity/*.*", "dist/**/*.entity{.ts,.js}"],
     "synchronize": true,
     "migrations": ["src/migrations/*.js"],
     "cli": {
         "migrationsDir": "src/migrations"
     }
   }
-  

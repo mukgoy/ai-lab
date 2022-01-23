@@ -8,7 +8,7 @@ export class BotRepository extends Repository<BotEntity> {
     async createBot(createBotDto){
         let bot = new BotEntity();
         bot.name = createBotDto.name;
-        bot.jsondata = JSON.stringify(createBotDto.jsondata);
+        bot.jsondata = createBotDto.jsondata;
         bot = createRepo(bot, createBotDto)
         return bot.save();
     }
@@ -16,8 +16,8 @@ export class BotRepository extends Repository<BotEntity> {
     async updateBot(updateBotDto){
         let bot = await this.findOne(updateBotDto.botId);
         bot.name = updateBotDto.name;
-        bot.jsondata = JSON.stringify(updateBotDto.jsondata);
-        bot.onboardjson = JSON.stringify(updateBotDto.onboardjson);
+        bot.jsondata = updateBotDto.jsondata;
+        bot.onboardjson = updateBotDto.onboardjson;
         bot.updatedBy = updateBotDto.req.user.userId;
         return bot.save();
     }

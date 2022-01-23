@@ -5,23 +5,18 @@ import { UserEntity } from './user.entity';
 
 @Entity({name: 'faqs'})
 export class FaqEntity extends CommonProperty{
-    @PrimaryGeneratedColumn()
-    faqId: number;
+    @ObjectIdColumn()
+    faqId: ObjectID;
 
-    // @Column({ nullable: true, type: "text" })
-    @Column({ nullable: true})
+    @Column({ nullable: true, type: "text" })
     question : string;
 
-    // @Column({ nullable: true, type: "text" })
-    @Column({ nullable: true})
+    @Column({ nullable: true, type: "text" })
     answer: string;
 
-    @ManyToOne(() => BotEntity, bot => bot.faqs)
+    @Column({ nullable: true })
     bot: BotEntity;
 
-    @RelationId((faq: FaqEntity) => faq.bot) // you need to specify target relation
-    botId: number;
-
-    @ManyToOne(() => UserEntity, owner => owner.faqs)
+    @Column({ nullable: true })
     owner: UserEntity;
 }
