@@ -8,6 +8,7 @@ import { FooterComponent } from './components/widget-wrapper/footer/footer.compo
 import { MybotRoutingModule } from './mybot-routing.module';
 import { BotuiScrollDirective } from './directives/botui-scroll.directive';
 import { BotuiFocusDirective } from './directives/botui-focus.directive';
+import { BotTestComponent } from './components/bot-test/bot-test.component';
 
 
 
@@ -19,7 +20,8 @@ import { BotuiFocusDirective } from './directives/botui-focus.directive';
     BodyComponent,
     FooterComponent,
     BotuiScrollDirective,
-    BotuiFocusDirective
+    BotuiFocusDirective,
+    BotTestComponent
   ],
   imports: [
     CommonModule,
