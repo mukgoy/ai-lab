@@ -1,12 +1,12 @@
 import { BotEntity, FaqEntity, UploadEntity, UserEntity } from 'src/globals/entities';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent, ManyToOne, RelationId } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent, ManyToOne, RelationId, ObjectIdColumn, ObjectID } from 'typeorm';
 import { ChatMessageEntity } from './chat-message.entity';
 import { CommonProperty } from './common.property';
 
 @Entity({ name: 'chat_users' })
 export class ChatUserEntity extends CommonProperty {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @ObjectIdColumn()
+    id: ObjectID;
 
     @Column({ unique: true })
     primaryKey: string;

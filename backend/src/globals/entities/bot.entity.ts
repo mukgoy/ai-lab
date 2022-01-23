@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, OneToMany, ManyToOne, ObjectIdColumn, ObjectID } from 'typeorm';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ChatUserEntity } from './chat-user.entity';
 import { CommonProperty } from './common.property';
@@ -29,8 +29,8 @@ export class BotDefaultOnboardjson {
 
 @Entity({name: 'bots'})
 export class BotEntity extends CommonProperty{
-    @PrimaryGeneratedColumn()
-    botId: number;
+    @ObjectIdColumn()
+    botId: ObjectID;
 
     @Column()
     name: string;
