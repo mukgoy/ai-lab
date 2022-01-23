@@ -1,16 +1,14 @@
+import { environment } from "src/environments/environment"
+
 export const adminConfig = {
-    cdn : "http://localhost:3000/",
-    backend : "http://localhost:3000/api/v1/admin/",
-    frontend : "http://localhost:4200/",
+    uploads : environment.uploads,
+    backend : environment.backend + "api/v1/admin/",
+    frontend : environment.frontend,
     botEntity : "bot",
     faqEntity : "faq",
 }
 
-
 export const adminApi = {
-    cdn : adminConfig.cdn,
-    backend : adminConfig.backend,
-    frontend : adminConfig.faqEntity,
     bot:{
         create: adminConfig.backend + adminConfig.botEntity,
         findAll: adminConfig.backend + adminConfig.botEntity,
@@ -19,7 +17,6 @@ export const adminApi = {
         remove: adminConfig.backend + adminConfig.botEntity,
     },
     faq:{
-        entity : "faq",
         create: adminConfig.backend + adminConfig.faqEntity,
         findAll: adminConfig.backend + adminConfig.faqEntity,
         findOne: adminConfig.backend + adminConfig.faqEntity,
