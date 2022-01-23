@@ -35,10 +35,12 @@ export class BotEntity extends CommonProperty{
     @Column()
     name: string;
 
-    @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultJsondata()) })
+    // @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultJsondata()) })
+    @Column({ nullable: true })
     jsondata: string;
 
-    @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultOnboardjson()) })
+    // @Column({ nullable: true, type: "text", default: JSON.stringify(new BotDefaultOnboardjson()) })
+    @Column({ nullable: true })
     onboardjson: string;
 
     @Column({ default: true })

@@ -8,10 +8,12 @@ export class FaqEntity extends CommonProperty{
     @PrimaryGeneratedColumn()
     faqId: number;
 
-    @Column({ nullable: true, type: "text" })
+    // @Column({ nullable: true, type: "text" })
+    @Column({ nullable: true})
     question : string;
 
-    @Column({ nullable: true, type: "text" })
+    // @Column({ nullable: true, type: "text" })
+    @Column({ nullable: true})
     answer: string;
 
     @ManyToOne(() => BotEntity, bot => bot.faqs)
