@@ -21,11 +21,11 @@ export class UserbotService {
 
   ) { }
 
-  getFaqs(botId: number) {
+  getFaqs(botId: string) {
     return this.faqRepository.find({ where: { bot: { botId: botId } } });
   }
 
-  getBot(botId: number) {
+  getBot(botId: string) {
     return this.botRepository.findOne(botId);
   }
 

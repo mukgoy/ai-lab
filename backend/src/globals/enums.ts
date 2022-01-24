@@ -9,17 +9,17 @@ export enum SenderType {
 export interface SocketData {
     botId: ObjectID
     user: ChatUser
-    room: number
+    room: string
     senderType: SenderType
 }
 
 export interface ChatMessage {
     id: ObjectID;
-    room: number;
+    room: string;
     message: string;
     senderType: SenderType;
-    senderId: number;
-    botId: number;
+    senderId: string;
+    botId: string;
     createdAt: Date;
 }
 export interface ChatUser {
@@ -28,7 +28,7 @@ export interface ChatUser {
     email: string
     phone: string
     primaryKey: string
-    agentUserId: number
-    room: number,
+    agentUserId: string
+    room: string,
     lastMessage: ChatMessage
 }

@@ -12,7 +12,7 @@ import { WelcomeService } from '../../services/welcome.service';
 })
 export class IframeWindowComponent implements OnInit {
 
-  botId = 0;
+  botId = "";
   constructor(
     private route: ActivatedRoute,
     public channelService: ChannelService,
@@ -24,7 +24,7 @@ export class IframeWindowComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(async params => {
       if(params.botId){
-        this.store.botId = +params.botId;;
+        this.store.botId = params.botId;;
         this.botId = this.store.botId
         this.channelService.init();
         await this.channelService.getBotConfig();

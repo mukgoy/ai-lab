@@ -23,11 +23,11 @@ export class ChatService {
     this.connectedUsers[socket.data.room] = this.connectedUsers[socket.data.room] || { sockets: [] };
     this.connectedUsers[socket.data.room].sockets.push(socket.id);
     this.connectedUsers[socket.data.room].data = socket.data;
-    console.log(this.connectedUsers)
+    // console.log("userConnected", this.connectedUsers)
   }
 
   setLastMessage(socket: Socket, chat: ChatMessage){
-    console.log(socket.data);
+    console.log("setLastMessage", socket.data, chat);
     socket.data.user.lastMessage = chat
     this.connectedUsers[socket.data.room].data = socket.data;
     const createdChat = this.chatRepository.create(new ChatMessageEntity(chat));

@@ -19,28 +19,28 @@ export enum SenderType {
     USER = "user",
 }
 export interface SocketData {
-    botId: number
+    botId: string
     user: ChatUser
-    room: number
+    room: string
     senderType: SenderType
 }
 export interface ChatMessage {
-    id: number;
-    room: number;
+    id: string;
+    room: string;
     message: string;
     senderType: SenderType;
     senderId: number;
-    botId: number;
+    botId: string;
     createdAt: Date;
 }
 export interface ChatUser {
-    id: number
+    id: string
     name: string
     email: string
     phone: string
     primaryKey: string
     agentUserId: number
-    room: number,
+    room: string,
     lastMessage: ChatMessage
     chatMessages: ChatMessage[]
 }

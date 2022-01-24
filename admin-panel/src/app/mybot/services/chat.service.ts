@@ -43,7 +43,7 @@ export class ChatService {
         return observable;
     }
 
-    getPreviousMessages(room: number, offset: number = 0) {
+    getPreviousMessages(room: string, offset: string = "") {
         return this.http.get(userbotApi.getPreviousMessages, {room, offset})
     }
 }

@@ -10,7 +10,7 @@ export class ChatMessageEntity extends BaseEntity{
   id: ObjectID;
 
   @Column()
-  room: number;
+  room: string;
 
   @Column()
   message: string;
@@ -23,7 +23,7 @@ export class ChatMessageEntity extends BaseEntity{
   public senderType: SenderType;
 
   @Column()
-  senderId: number;
+  senderId: string;
 
   @Column({ nullable: true })
   bot: BotEntity;

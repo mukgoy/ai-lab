@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class StoreService {
 
-  public botId: number = 0;
+  public botId: string = "";
   public botUserSubject: BehaviorSubject<any>;
   ls = localStorage;
   constructor() {

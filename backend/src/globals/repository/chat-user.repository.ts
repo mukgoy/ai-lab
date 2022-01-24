@@ -8,7 +8,7 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
         createChatUserDto.primaryKey = createChatUserDto.email;
         let user = new ChatUserEntity(createChatUserDto);
         return user.save().catch(err => {
-            if (err.code == "ER_DUP_ENTRY") {
+            if (err.writeErrors) {
                 return this.findOne(createChatUserDto);
             }
         });
@@ -16,6 +16,7 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
 
     async updateUser(updateChatUserDto) {
         let user = await this.findOne(updateChatUserDto.id);
+        delete updateChatUserDto.id
         Object.assign(user, updateChatUserDto);
         return user.save();
     }

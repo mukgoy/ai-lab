@@ -11,7 +11,7 @@ import { HelperService, UserService } from 'src/app/shared/services';
 })
 export class ConversationsComponent implements OnInit {
 
-  botId:number = 1
+  botId:string = ""
   onlineUsers: ChatUser[] = []
   selectedUser:ChatUser = {} as ChatUser;
   constructor(
@@ -86,7 +86,7 @@ export class ConversationsComponent implements OnInit {
     });
   }
 
-  onUserSelect(botUserId:number){
+  onUserSelect(botUserId:string){
     let user = this.onlineUsers.find(item=>item.id == botUserId);
     if(user){
       this.selectedUser = user;
@@ -98,7 +98,7 @@ export class ConversationsComponent implements OnInit {
     console.log("selectedUser", this.selectedUser)
     this.selectedUser.chatMessages = this.selectedUser.chatMessages || []
     let firstMessage = this.selectedUser?.chatMessages[0] || {};
-    let offset = firstMessage.id ? firstMessage.id :0
+    let offset = firstMessage.id ? firstMessage.id :""
     this.chatService.getPreviousMessages(this.selectedUser.room, offset)
     .subscribe((chatMessages:any)=>{
       console.log(chatMessages);

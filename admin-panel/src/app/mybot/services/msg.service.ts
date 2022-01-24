@@ -12,7 +12,7 @@ import { StoreService } from './store.service';
 export class MsgService {
 
   senderType = SenderType.USER;
-  room = 0;
+  room = "";
   isBotReplying: boolean = false;
   msgs: ChatMessage[] = [];
   promiseResolveInput: any = null
@@ -76,7 +76,7 @@ export class MsgService {
   publishMsg(msgObj:any){
     msgObj.room = this.room;
     msgObj.createdAt = new Date();
-    msgObj.botId = this.store.botId
+    msgObj.bot = {botId: this.store.botId}
 
     if(msgObj.senderType == SenderType.BOT){
       msgObj.senderId = this.store.botId
@@ -86,6 +86,7 @@ export class MsgService {
       msgObj.senderId = this.store.botUser.id;
     }
 
+    console.log(msgObj);
     this.msgs.push(msgObj);
     if(this.store.botUser.id){
       this.chatService.sendMessage(msgObj);

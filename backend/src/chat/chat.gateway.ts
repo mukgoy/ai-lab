@@ -40,7 +40,8 @@ export class ChatGateway implements NestGateway {
       let room = data.room;
       data.user.room = room;
       socket.data = data
-      socket.join(room.toString());
+      socket.join(room);
+      // console.log("joinRoom", data);
       console.log(`${data.senderType} of id = ${data.user.id} joined the room : ${room}`);
       socket.broadcast.to(SenderType.BOT + data.botId).emit('joinRoom', data);
       this.chatService.userConnected(socket)

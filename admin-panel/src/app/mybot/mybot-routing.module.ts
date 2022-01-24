@@ -9,12 +9,12 @@ const routes: Routes = [
     component: IframeWindowComponent
   },
   {
-    path: ':botId',
-    component: IframeWindowComponent
-  },
-  {
     path: 'bot-test/:botId',
     component: BotTestComponent
+  },
+  {
+    path: ':botId',
+    component: IframeWindowComponent
   },
   {
     path: '**',

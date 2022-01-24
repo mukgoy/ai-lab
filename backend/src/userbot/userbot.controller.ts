@@ -10,15 +10,13 @@ export class UserbotController {
   constructor(private readonly userbotService: UserbotService) {}
 
   @Get("get-faqs/:botId")
-  getFaqs(@Param('botId') botId: number) {
+  getFaqs(@Param('botId') botId: string) {
     return this.userbotService.getFaqs(botId);
   }
 
   @Get("get-bot/:botId")
-  async getBot(@Param('botId') botId: number) {
+  async getBot(@Param('botId') botId: string) {
     let bot = await this.userbotService.getBot(botId);
-    bot.jsondata = JSON.parse(bot.jsondata)
-    bot.onboardjson = JSON.parse(bot.onboardjson)
     return bot
   }
 
