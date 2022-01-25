@@ -13,7 +13,7 @@ export class NlpService {
     public http : ApiHttpService,
   ) { }
 
-  init(botId:number){
+  init(botId:string){
     return new Promise<boolean>((resolve: (a: boolean) => void): void => {
       this.http.get(userbotApi.getFaqs + botId).subscribe((faqs:any)=>{
         this.nlpManager(faqs).then(async(nlp)=>{

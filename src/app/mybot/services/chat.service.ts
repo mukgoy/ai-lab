@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { io, Socket } from "socket.io-client";
-import { ChatMessage, ChatUser, SenderType, SocketData, userbotApi } from "../enums";
+import { ChatMessageEntity, ChatUserEntity } from "src/app/shared/entities";
+import { SocketData, userbotApi } from "../enums";
 import { ApiHttpService } from "./api-http.service";
 
 @Injectable({
@@ -10,27 +11,52 @@ import { ApiHttpService } from "./api-http.service";
 export class ChatService {
 
     private socket: Socket = {} as Socket;
-
+    public isReady: boolean = false;
+    public msgQueue: ChatMessageEntity[] = [];
     constructor(
         public http: ApiHttpService,
     ) { }
 
     connect(data: SocketData) {
         this.socket = io('http://localhost:3000/chat');
-        this.joinRoom(data)
+        this.setSocketData(data)
     }
 
-    joinRoom(data: SocketData) {
-        // console.log('joinRoom', data)
-        this.socket.emit('joinRoom', data);
+    setSocketData(data: SocketData) {
+        this.socket.emit('setSocketData', data, (res: boolean) => {
+            if (res) { 
+                this.isReady = true 
+                this.checkQueue()
+            }
+        });
     }
 
-    sendMessage(message: ChatMessage) {
-        this.socket.emit('message', message);
+    joinRoom(room: string) {
+        this.socket.emit('joinRoom', room);
     }
 
-    getOnlineUsers(data: any) {
-        this.socket.emit('getOnlineUsers', data);
+    sendMessage(message: ChatMessageEntity) {
+        if (this.isReady) {
+            console.log('message', message);
+            this.socket.emit('message', message);
+        } else {
+            this.msgQueue.push(message)
+        }
+    }
+
+    checkQueue() {
+        if (this.msgQueue.length > 0) {
+            this.msgQueue.forEach(item => {
+                this.sendMessage(item);
+            })
+            this.msgQueue = [];
+        }
+    }
+
+    getOnlineUsers(data: any):Promise<ChatUserEntity[]> {
+        return new Promise((resolve, reject)=>{
+            this.socket.emit('getOnlineUsers', data, resolve);
+        })
     }
 
     onMessageReceived(key: string) {
@@ -43,7 +69,7 @@ export class ChatService {
         return observable;
     }
 
-    getPreviousMessages(room: number, offset: number = 0) {
-        return this.http.get(userbotApi.getPreviousMessages, {room, offset})
+    getPreviousMessages(selectedUser: ChatUserEntity, offset: string = "") {
+        return this.http.get(userbotApi.getPreviousMessages, { room: selectedUser.id, offset })
     }
 }

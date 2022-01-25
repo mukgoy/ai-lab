@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 declare var document: any;
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ScriptService {
 
     private scripts: any = {};

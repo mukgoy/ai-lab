@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { SenderType } from 'src/app/mybot/enums';
+import { timeout } from 'rxjs/operators';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
+import { ChatMessageEntity, ChatUserType } from 'src/app/shared/entities';
 
 @Component({
   selector: 'mybot-body',
@@ -10,7 +11,7 @@ import { StoreService } from 'src/app/mybot/services/store.service';
 })
 export class BodyComponent implements OnInit {
 
-  botConfig:any = {}
+  botConfig:any = this.store.bot
   constructor(
     public msgService:MsgService,
     public store:StoreService,
@@ -18,25 +19,24 @@ export class BodyComponent implements OnInit {
   ){ }
 
   ngOnInit(): void {
-    this.store.botConfig.subscribe((botConfig)=>{
-      this.botConfig = botConfig;
-      this.ref.detectChanges();
-    })
+    setTimeout(()=>{
+      this.botConfig = this.store.bot;
+    },100)
   }
 
   get msgs(){
     return this.msgService.msgs;
   }
 
-  ngStyle(msg:any){
-    if(msg.senderType==SenderType.USER){
-      let botConfig = this.botConfig;
+  ngStyle(msg:ChatMessageEntity){
+    let botConfig = this.store.bot;
+    if(msg.sender?.type==ChatUserType.USER){
       let styles:any = {}
-      styles["color"] = botConfig.jsondata.textColor;
-      if(botConfig.jsondata.isGradient){
+      styles["color"] = botConfig?.jsondata.textColor;
+      if(botConfig?.jsondata.isGradient){
           styles["background-image"] = `linear-gradient(-225deg, ${botConfig.jsondata.bgColor1} 35%, ${botConfig.jsondata.bgColor2} 100%)`;
       }else{
-          styles["background-color"] = `${botConfig.jsondata.bgColor1}`;
+          styles["background-color"] = `${botConfig?.jsondata.bgColor1}`;
       }
       return styles
     }

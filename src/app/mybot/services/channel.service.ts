@@ -29,7 +29,7 @@ export class ChannelService {
           method: "getBotConfig",
           params: {},
           success: (botConfig: any) => {
-            this.store.botConfig.next(botConfig)
+            this.store.bot = botConfig
             resolve(true)
           }
         });

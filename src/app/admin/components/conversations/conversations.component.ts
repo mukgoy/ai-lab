@@ -1,47 +1,63 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChatMessage, ChatUser, SenderType } from 'src/app/mybot/enums';
 import { ChatService } from 'src/app/mybot/services/chat.service';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
 import { HelperService, UserService } from 'src/app/shared/services';
-
+import { BotService } from '../../services/bot.service';
+import { BotEntity, ChatMessageEntity, ChatUserEntity, ChatUserType } from 'src/app/shared/entities';
+import { SocketData } from 'src/app/mybot/enums';
+import * as _ from 'lodash';
 @Component({
   selector: 'app-conversations',
   templateUrl: './conversations.component.html'
 })
 export class ConversationsComponent implements OnInit {
-
-  botId:number = 1
-  onlineUsers: ChatUser[] = []
-  selectedUser:ChatUser = {} as ChatUser;
   constructor(
-    public help : HelperService,
-    public userService : UserService,
+    public help: HelperService,
+    public userService: UserService,
     public store: StoreService,
     public chatService: ChatService,
     public msgService: MsgService,
+    private botService: BotService,
   ) { }
 
   ngOnInit(): void {
-    const {userId,email,phone,name,owner} = this.userService.currentUserValue;
-    this.store.botId = this.botId
-    this.store.botUser = {id: userId,email,phone,name,owner}
-    this.msgService.connectChatServer(SenderType.AGENT)
-    this.initAllSubscribers();
-    this.chatService.getOnlineUsers({botId : this.botId});
+    this.getBots();
   }
 
-  get msgs(){
+  getBots() {
+    this.botService.getBots().subscribe((res: any) => {
+      console.log(res);
+      this.store.bots = res
+      if (this.store.bots.length > 0) {
+        const { userId, email, phone, name, owner } = this.userService.currentUserValue;
+        this.store.bot = this.store.bots[0]
+        this.store.botUser = { id: userId, email, phone, name, type: ChatUserType.AGENT }
+        this.msgService.connectChatServer()
+        this.initAllSubscribers();
+        this.chatService.getOnlineUsers({ botId: this.store.bot.botId })
+          .then((onlineUsers: ChatUserEntity[]) => {
+            console.log("getOnlineUsers", onlineUsers);
+            onlineUsers.map(item => { item.chatMessages = [] })
+            this.store.onlineUsers = onlineUsers
+          });
+      }
+    }, (error: any) => {
+      // this.helperService.notify('error', error);
+    });
+  }
+
+  get msgs() {
     return this.msgService.msgs;
   }
 
-  textMsg="";
+  textMsg = "";
   @ViewChild('textMsgBox') textMsgBox: ElementRef<HTMLInputElement> = {} as ElementRef;
 
   previousKey = "";
-  onChangeHTML(event:any){
+  onChangeHTML(event: any) {
     let textMsg = this.textMsgBox.nativeElement.textContent || "";
-    if(!textMsg){
+    if (!textMsg) {
       this.textMsgBox.nativeElement.textContent = "";
       return;
     }
@@ -51,61 +67,69 @@ export class ConversationsComponent implements OnInit {
     this.textMsg = this.textMsg.replace(/<br\s*[\/]?>/gi, "\n");
     this.textMsg = this.textMsg.trim();
 
-    if(event.key == "Enter" && this.previousKey!="Shift"){
+    if (event.key == "Enter" && this.previousKey != "Shift") {
       this.onSubmit();
-    }else{
+    } else {
       this.previousKey = event.key;
     }
-    
+
   }
 
-  onSubmit(){
+  onSubmit() {
     console.log(this.textMsg);
     this.textMsgBox.nativeElement.innerHTML = "";
     this.msgService.onAgentReply(this.textMsg);
   }
 
-  initAllSubscribers(){
-    this.chatService.onMessageReceived('joinRoom').subscribe((data:any) => {
-      console.log("joinRoom",data);
-      this.onlineUsers.unshift(data.user)
+  initAllSubscribers() {
+    this.chatService.onMessageReceived('reconnect').subscribe((res: any) => {
+      console.log("updateOnlineUsers", res);
     });
-    this.chatService.onMessageReceived('lastMessage').subscribe((lastMessage:ChatMessage) => {
-      console.log("lastMessage",lastMessage);
-      console.log("onlineUsers",this.onlineUsers);
-      let user = this.onlineUsers.find(item=>item.room == lastMessage.room);
-      if(user){
+
+    this.chatService.onMessageReceived('updateOnlineUsers').subscribe((res: any) => {
+      console.log("updateOnlineUsers", res);
+      if (res.connect) {
+        this.store.onlineUsers.unshift(res.connect.user)
+      } else if (res.disconnect) {
+        const index = this.store.onlineUsers.findIndex(x => x.id === res.disconnect.user.id);
+        if (index > -1) {
+          this.store.onlineUsers.splice(index, 1);
+        }
+      }
+    });
+    this.chatService.onMessageReceived('lastMessage').subscribe((lastMessage: ChatMessageEntity) => {
+      console.log("lastMessage", lastMessage);
+      console.log("onlineUsers", this.store.onlineUsers);
+      let user = this.store.onlineUsers.find(item => item.id == lastMessage.sender?.id);
+      if (user) {
         user.lastMessage = lastMessage
+        user.chatMessages = user.chatMessages || []
         user.chatMessages.push(lastMessage)
       }
     });
-    this.chatService.onMessageReceived('getOnlineUsers').subscribe((onlineUsers:ChatUser[]) => {
-      console.log("getOnlineUsers",onlineUsers);
-      onlineUsers.map(item=>item.chatMessages = [])
-      this.onlineUsers = onlineUsers
-    });
   }
 
-  onUserSelect(botUserId:number){
-    let user = this.onlineUsers.find(item=>item.id == botUserId);
-    if(user){
-      this.selectedUser = user;
+  onUserSelect(botUserId: string) {
+    let user = this.store.onlineUsers.find(item => item.id == botUserId);
+    if (user) {
+      this.store.selectedUser = user;
       this.getPreviousMessages();
     }
   }
 
-  getPreviousMessages(){
-    console.log("selectedUser", this.selectedUser)
-    this.selectedUser.chatMessages = this.selectedUser.chatMessages || []
-    let firstMessage = this.selectedUser?.chatMessages[0] || {};
-    let offset = firstMessage.id ? firstMessage.id :0
-    this.chatService.getPreviousMessages(this.selectedUser.room, offset)
-    .subscribe((chatMessages:any)=>{
-      console.log(chatMessages);
-      this.selectedUser.chatMessages = chatMessages.reverse().concat(this.selectedUser.chatMessages)
-    },(error:any)=>{
+  getPreviousMessages() {
+    console.log("selectedUser", this.store.selectedUser)
+    if (this.store.selectedUser) {
+      this.store.selectedUser.chatMessages = this.store?.selectedUser?.chatMessages || [];
+      let firstMessage = (this.store.selectedUser?.chatMessages || [])[0];
+      let offset = firstMessage.id ? firstMessage.id : ""
+      let selectedUser = this.store.selectedUser;
+      this.chatService.getPreviousMessages(this.store.selectedUser, offset).subscribe((chatMessages: any) => {
+        console.log(chatMessages);
+        selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+      }, (error: any) => {
         console.log(error);
-    });
+      });
+    }
   }
-
 }
