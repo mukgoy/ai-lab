@@ -1,4 +1,5 @@
 import { environment } from "src/environments/environment"
+import { BotEntity, ChatUserEntity } from "../shared/entities"
 
 export const userbotConfig = {
     uploads : environment.uploads,
@@ -13,34 +14,12 @@ export const userbotApi = {
     updateUser: userbotConfig.backend + 'update-user/',
     getPreviousMessages: userbotConfig.backend + 'get-previous-messages',
 }
-export enum SenderType {
-    BOT = "bot",
-    AGENT = "agent",
-    USER = "user",
-}
-export interface SocketData {
-    botId: string
-    user: ChatUser
-    room: string
-    senderType: SenderType
-}
-export interface ChatMessage {
-    id: string;
-    room: string;
-    message: string;
-    senderType: SenderType;
-    senderId: number;
-    botId: string;
-    createdAt: Date;
-}
-export interface ChatUser {
-    id: string
-    name: string
-    email: string
-    phone: string
-    primaryKey: string
-    agentUserId: number
-    room: string,
-    lastMessage: ChatMessage
-    chatMessages: ChatMessage[]
+
+export class SocketData {
+    bot?: BotEntity
+    user?: ChatUserEntity
+    room?: string
+    constructor(data?: Partial<SocketData>) {
+        Object.assign(this, data);
+    }
 }

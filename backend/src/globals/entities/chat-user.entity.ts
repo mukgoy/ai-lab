@@ -1,7 +1,12 @@
-import { BotEntity, FaqEntity, UploadEntity, UserEntity } from 'src/globals/entities';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, TreeChildren, TreeParent, ManyToOne, RelationId, ObjectIdColumn, ObjectID } from 'typeorm';
-import { ChatMessageEntity } from './chat-message.entity';
+import { BotEntity, ChatMessageEntity, UserEntity } from 'src/globals/entities';
+import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
 import { CommonProperty } from './common.property';
+
+export enum ChatUserType {
+    BOT = "bot",
+    AGENT = "agent",
+    USER = "user",
+}
 
 @Entity({ name: 'chat_users' })
 export class ChatUserEntity extends CommonProperty {
@@ -21,12 +26,19 @@ export class ChatUserEntity extends CommonProperty {
     name: string;
 
     @Column({ nullable: true })
+    @Column({ type: "enum", enum: ChatUserType, default: ChatUserType.USER })
+    type: ChatUserType;
+
+    @Column({ nullable: true })
     bot: BotEntity;
 
     @Column({ nullable: true })
     agent: UserEntity;
 
-    constructor(user?: Partial<ChatMessageEntity>) {
+    @Column({ nullable: true })
+    lastMessage: any
+
+    constructor(user?: Partial<ChatUserEntity>) {
         super()
         Object.assign(this, user);
     }

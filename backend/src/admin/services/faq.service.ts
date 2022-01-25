@@ -25,15 +25,15 @@ export class FaqService {
     }
   }
 
-  findOne(id: number) {
-    return this.faqRepository.findOne(+id, {relations: [ "bot" ]});
+  findOne(id: string) {
+    return this.faqRepository.findOne(id, {relations: [ "bot" ]});
   }
 
-  update(id: number, updateFaqDto: UpdateFaqDto) {
+  update(id: string, updateFaqDto: UpdateFaqDto) {
     return this.faqRepository.updateFaq(updateFaqDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} faq`;
   }
 }

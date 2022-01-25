@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SenderType } from 'src/globals/enums';
 import { BotRepository } from 'src/globals/repository/bot.repository';
 import { ChatMessageRepository } from 'src/globals/repository/chat-message.repository';
 import { ChatUserRepository } from 'src/globals/repository/chat-user.repository';

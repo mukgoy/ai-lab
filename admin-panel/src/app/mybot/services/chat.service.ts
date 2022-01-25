@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { io, Socket } from "socket.io-client";
-import { ChatMessage, ChatUser, SenderType, SocketData, userbotApi } from "../enums";
+import { ChatMessageEntity, ChatUserEntity } from "src/app/shared/entities";
+import { SocketData, userbotApi } from "../enums";
 import { ApiHttpService } from "./api-http.service";
 
 @Injectable({
@@ -17,15 +18,18 @@ export class ChatService {
 
     connect(data: SocketData) {
         this.socket = io('http://localhost:3000/chat');
-        this.joinRoom(data)
+        this.setSocketData(data)
     }
 
-    joinRoom(data: SocketData) {
-        // console.log('joinRoom', data)
-        this.socket.emit('joinRoom', data);
+    setSocketData(data: SocketData) {
+        this.socket.emit('setSocketData', data);
     }
 
-    sendMessage(message: ChatMessage) {
+    joinRoom(room: string) {
+        this.socket.emit('joinRoom', room);
+    }
+
+    sendMessage(message: ChatMessageEntity) {
         this.socket.emit('message', message);
     }
 
@@ -43,7 +47,7 @@ export class ChatService {
         return observable;
     }
 
-    getPreviousMessages(room: string, offset: string = "") {
-        return this.http.get(userbotApi.getPreviousMessages, {room, offset})
+    getPreviousMessages(selectedUser: ChatUserEntity, offset: string = "") {
+        return this.http.get(userbotApi.getPreviousMessages, {room:selectedUser.id, offset})
     }
 }

@@ -17,8 +17,8 @@ export class CommonProperty extends BaseEntity{
     public updatedAt: Date;
 
     @Column({ nullable: false })
-    public createdBy: number;
+    public createdBy: string;
 
     @Column({ nullable: false })
-    public updatedBy: number;
+    public updatedBy: string;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BotEntity } from 'src/app/shared/entities';
 import { ChannelService } from '../../services/channel.service';
 import { NlpService } from '../../services/nlp.service';
 import { StoreService } from '../../services/store.service';
@@ -24,8 +25,8 @@ export class IframeWindowComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(async params => {
       if(params.botId){
-        this.store.botId = params.botId;;
-        this.botId = this.store.botId
+        this.store.bot = new BotEntity({botId : params.botId});
+        this.botId = this.store.bot.botId || ""
         this.channelService.init();
         await this.channelService.getBotConfig();
         await this.channelService.initChatBox();

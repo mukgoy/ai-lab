@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Socket } from 'socket.io';
-import { ChatMessageEntity } from 'src/globals/entities';
-import { ChatMessage, SenderType } from 'src/globals/enums';
+import { ChatMessageEntity, ChatUserType } from 'src/globals/entities';
 import { ChatMessageRepository } from 'src/globals/repository/chat-message.repository';
 
 @Injectable()
@@ -26,8 +25,8 @@ export class ChatService {
     // console.log("userConnected", this.connectedUsers)
   }
 
-  setLastMessage(socket: Socket, chat: ChatMessage){
-    console.log("setLastMessage", socket.data, chat);
+  setLastMessage(socket: Socket, chat: ChatMessageEntity){
+    // console.log("setLastMessage", socket.data, chat);
     socket.data.user.lastMessage = chat
     this.connectedUsers[socket.data.room].data = socket.data;
     const createdChat = this.chatRepository.create(new ChatMessageEntity(chat));
@@ -35,7 +34,7 @@ export class ChatService {
   }
 
   userDisconnected(socket: Socket) {
-    if (socket.data.senderType == SenderType.USER) {
+    if (socket.data.senderType == ChatUserType.USER) {
       let index = this.connectedUsers[socket.data.room].sockets.indexOf(socket.id);
       if (index !== -1) {
         this.connectedUsers[socket.data.room].sockets.splice(index, 1);

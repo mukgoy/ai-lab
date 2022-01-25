@@ -28,6 +28,6 @@ export class UploadController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.uploadService.remove(+id);
+    return this.uploadService.remove(id);
   }
 }

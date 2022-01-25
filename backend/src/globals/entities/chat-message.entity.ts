@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, CreateDateColumn, RelationId, BaseEntity, ObjectIdColumn, ObjectID } from 'typeorm';
-import { SenderType } from '../enums';
 import { BotEntity } from './bot.entity';
 import { ChatUserEntity } from './chat-user.entity';
 
@@ -15,15 +14,8 @@ export class ChatMessageEntity extends BaseEntity{
   @Column()
   message: string;
 
-  @Column({
-    type: "enum",
-    enum: SenderType,
-    default: SenderType.BOT,
-  })
-  public senderType: SenderType;
-
   @Column()
-  senderId: string;
+  sender: ChatUserEntity;
 
   @Column({ nullable: true })
   bot: BotEntity;
@@ -32,7 +24,7 @@ export class ChatMessageEntity extends BaseEntity{
       type: 'timestamp',
       default: () => 'CURRENT_TIMESTAMP(6)',
   })
-  public createdAt: Date;
+  createdAt: Date;
 
   constructor(chat?: Partial<ChatMessageEntity>) {
     super()

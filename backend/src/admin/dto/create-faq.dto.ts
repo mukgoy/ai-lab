@@ -12,7 +12,7 @@ export class CreateFaqDto {
     public answer: string;
 
     @ApiProperty()
-    public botId: number;
+    public botId: string;
 
     public req?: any
 

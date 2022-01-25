@@ -39,6 +39,6 @@ export class UserbotController {
 
   @Get("get-previous-messages")
   async getPreviousMessages(@Query('room') room: string = "", @Query('offset') offset: number = 0) {
-    return this.userbotService.getPreviousMessages(room, +offset);
+    return this.userbotService.getPreviousMessages(room, offset);
   }
 }

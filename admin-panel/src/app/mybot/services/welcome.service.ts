@@ -21,7 +21,7 @@ export class WelcomeService {
 
   init() {
     setTimeout(() => {
-      this.onboardjson = this.store.botConfig.value.onboardjson
+      this.onboardjson = this.store.bot?.onboardjson
       this.welcomeMsg()
     },200)
   }
@@ -43,7 +43,7 @@ export class WelcomeService {
     }
     this.msgService.requiredUserInput().then(res => {
       console.log({ email: res });
-      this.http.post(userbotApi.createUser, { email: res }).subscribe((user: any) => {
+      this.http.post(userbotApi.createUser, { email: res, bot:{botId:this.store.bot?.botId} }).subscribe((user: any) => {
         this.store.botUser = user
         this.msgService.connectChatServer()
         this.askPhoneMsg()
