@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ChatUserType } from 'src/app/shared/entities';
 import { userbotApi } from '../enums';
 import { ApiHttpService } from './api-http.service';
 import { ChatService } from './chat.service';
@@ -43,7 +44,8 @@ export class WelcomeService {
     }
     this.msgService.requiredUserInput().then(res => {
       console.log({ email: res });
-      this.http.post(userbotApi.createUser, { email: res, bot:{botId:this.store.bot?.botId} }).subscribe((user: any) => {
+      // let ChatUserEntity = ChatUserEntity
+      this.http.post(userbotApi.createUser, { email: res, type: ChatUserType.USER, bot:{botId:this.store.bot?.botId} }).subscribe((user: any) => {
         this.store.botUser = user
         this.msgService.connectChatServer()
         this.askPhoneMsg()

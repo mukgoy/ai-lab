@@ -54,7 +54,7 @@ export class MsgService {
   }
 
   onAgentReply(msg:string){
-    this.publishMsg({sender: this.store.botUser, message:msg});
+    this.publishMsg({sender: this.store.botUser, message:msg, room: ChatUserType.USER + this.store.selectedUser?.id});
   }
 
   requiredUserInput(msg?:string){
@@ -67,11 +67,30 @@ export class MsgService {
   }
 
   publishMsg(msgObj:ChatMessageEntity){
+    msgObj.bot = this.store.bot;
+    if(msgObj.sender?.type == ChatUserType.BOT){
+      msgObj.sender = new ChatUserEntity({...this.store.botUser, ...msgObj.sender })
+    }
+    else if(msgObj.sender?.type == ChatUserType.AGENT){
+      this.store.selectedUser?.chatMessages?.push(msgObj)
+    }
+
     this.msgs.push(msgObj);
     if(this.store.botUser.id){
+      this.checkQueue();
       this.chatService.sendMessage(msgObj);
     }else{
       this.msgQueue.push(msgObj);
+    }
+  }
+
+  checkQueue(){
+    if(this.msgQueue.length > 0){
+      this.msgQueue.forEach(item=>{
+        item.sender = new ChatUserEntity({...this.store.botUser, ...item.sender })
+        this.chatService.sendMessage(item);
+      })
+      this.msgQueue = [];
     }
   }
 

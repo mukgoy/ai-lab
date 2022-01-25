@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { timeout } from 'rxjs/operators';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
 import { ChatMessageEntity, ChatUserType } from 'src/app/shared/entities';
@@ -10,7 +11,7 @@ import { ChatMessageEntity, ChatUserType } from 'src/app/shared/entities';
 })
 export class BodyComponent implements OnInit {
 
-  // botConfig:any = this.store.bot
+  botConfig:any = this.store.bot
   constructor(
     public msgService:MsgService,
     public store:StoreService,
@@ -18,10 +19,9 @@ export class BodyComponent implements OnInit {
   ){ }
 
   ngOnInit(): void {
-    // this.store.bot?.jsondata.subscribe((botConfig)=>{
-    //   this.botConfig = botConfig;
-    //   this.ref.detectChanges();
-    // })
+    setTimeout(()=>{
+      this.botConfig = this.store.bot;
+    },100)
   }
 
   get msgs(){
@@ -29,9 +29,8 @@ export class BodyComponent implements OnInit {
   }
 
   ngStyle(msg:ChatMessageEntity){
+    let botConfig = this.store.bot;
     if(msg.sender?.type==ChatUserType.USER){
-      // let botConfig = this.botConfig;
-      let botConfig = this.store.bot;
       let styles:any = {}
       styles["color"] = botConfig?.jsondata.textColor;
       if(botConfig?.jsondata.isGradient){

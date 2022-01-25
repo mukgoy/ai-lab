@@ -8,8 +8,8 @@ import { StoreService } from 'src/app/mybot/services/store.service';
 })
 export class HeaderComponent implements OnInit {
 
-  botConfig:any = {}
-  constructor(public store:StoreService,private ref:ChangeDetectorRef) { }
+  botConfig:any = this.store.bot
+  constructor(public store:StoreService,private ref:ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // this.store.botConfig.subscribe((botConfig)=>{
@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngStyle(){
-    // let botConfig = this.botConfig;
+    this.botConfig = this.store.bot;
     let botConfig = this.store.bot;
     let styles:any = {}
     styles["color"] = botConfig?.jsondata.textColor;

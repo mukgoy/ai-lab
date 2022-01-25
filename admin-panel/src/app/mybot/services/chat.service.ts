@@ -11,7 +11,8 @@ import { ApiHttpService } from "./api-http.service";
 export class ChatService {
 
     private socket: Socket = {} as Socket;
-
+    public isReady: boolean = false;
+    public msgQueue: ChatMessageEntity[] = [];
     constructor(
         public http: ApiHttpService,
     ) { }
@@ -22,7 +23,12 @@ export class ChatService {
     }
 
     setSocketData(data: SocketData) {
-        this.socket.emit('setSocketData', data);
+        this.socket.emit('setSocketData', data, (res: boolean) => {
+            if (res) { 
+                this.isReady = true 
+                this.checkQueue()
+            }
+        });
     }
 
     joinRoom(room: string) {
@@ -30,11 +36,27 @@ export class ChatService {
     }
 
     sendMessage(message: ChatMessageEntity) {
-        this.socket.emit('message', message);
+        if (this.isReady) {
+            console.log('message', message);
+            this.socket.emit('message', message);
+        } else {
+            this.msgQueue.push(message)
+        }
     }
 
-    getOnlineUsers(data: any) {
-        this.socket.emit('getOnlineUsers', data);
+    checkQueue() {
+        if (this.msgQueue.length > 0) {
+            this.msgQueue.forEach(item => {
+                this.sendMessage(item);
+            })
+            this.msgQueue = [];
+        }
+    }
+
+    getOnlineUsers(data: any):Promise<ChatUserEntity[]> {
+        return new Promise((resolve, reject)=>{
+            this.socket.emit('getOnlineUsers', data, resolve);
+        })
     }
 
     onMessageReceived(key: string) {
@@ -48,6 +70,6 @@ export class ChatService {
     }
 
     getPreviousMessages(selectedUser: ChatUserEntity, offset: string = "") {
-        return this.http.get(userbotApi.getPreviousMessages, {room:selectedUser.id, offset})
+        return this.http.get(userbotApi.getPreviousMessages, { room: selectedUser.id, offset })
     }
 }

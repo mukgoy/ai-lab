@@ -35,7 +35,12 @@ export class ConversationsComponent implements OnInit {
         this.store.botUser = { id: userId, email, phone, name, type: ChatUserType.AGENT }
         this.msgService.connectChatServer()
         this.initAllSubscribers();
-        this.chatService.getOnlineUsers({ botId: this.store.bot.botId });
+        this.chatService.getOnlineUsers({ botId: this.store.bot.botId })
+          .then((onlineUsers: ChatUserEntity[]) => {
+            console.log("getOnlineUsers", onlineUsers);
+            onlineUsers.map(item => { item.chatMessages = [] })
+            this.store.onlineUsers = onlineUsers
+          });
       }
     }, (error: any) => {
       // this.helperService.notify('error', error);
@@ -77,9 +82,20 @@ export class ConversationsComponent implements OnInit {
   }
 
   initAllSubscribers() {
-    this.chatService.onMessageReceived('joinRoom').subscribe((data: any) => {
-      console.log("joinRoom", data);
-      this.store.onlineUsers.unshift(data.user)
+    this.chatService.onMessageReceived('reconnect').subscribe((res: any) => {
+      console.log("updateOnlineUsers", res);
+    });
+
+    this.chatService.onMessageReceived('updateOnlineUsers').subscribe((res: any) => {
+      console.log("updateOnlineUsers", res);
+      if (res.connect) {
+        this.store.onlineUsers.unshift(res.connect.user)
+      } else if (res.disconnect) {
+        const index = this.store.onlineUsers.findIndex(x => x.id === res.disconnect.user.id);
+        if (index > -1) {
+          this.store.onlineUsers.splice(index, 1);
+        }
+      }
     });
     this.chatService.onMessageReceived('lastMessage').subscribe((lastMessage: ChatMessageEntity) => {
       console.log("lastMessage", lastMessage);
@@ -90,11 +106,6 @@ export class ConversationsComponent implements OnInit {
         user.chatMessages = user.chatMessages || []
         user.chatMessages.push(lastMessage)
       }
-    });
-    this.chatService.onMessageReceived('getOnlineUsers').subscribe((onlineUsers: ChatUserEntity[]) => {
-      console.log("getOnlineUsers", onlineUsers);
-      onlineUsers.map(item => item.chatMessages = [])
-      this.store.onlineUsers = onlineUsers
     });
   }
 
@@ -114,11 +125,11 @@ export class ConversationsComponent implements OnInit {
       let offset = firstMessage.id ? firstMessage.id : ""
       let selectedUser = this.store.selectedUser;
       this.chatService.getPreviousMessages(this.store.selectedUser, offset).subscribe((chatMessages: any) => {
-          console.log(chatMessages);
-          selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
-        }, (error: any) => {
-          console.log(error);
-        });
+        console.log(chatMessages);
+        selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+      }, (error: any) => {
+        console.log(error);
+      });
     }
   }
 }

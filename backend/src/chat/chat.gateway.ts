@@ -22,18 +22,20 @@ export class ChatGateway implements NestGateway {
   }
   
   @SubscribeMessage('setSocketData')
-  setSocketData(socket: Socket, data: SocketData) {
-    socket.data = data
+  async setSocketData(socket: Socket, data: SocketData): Promise<boolean> {
+    // console.log("setSocketData", socket.data)
     let room:string = ChatUserType.USER + data.user.id;
     if(data.user.type != ChatUserType.USER){
       room = ChatUserType.BOT + data.bot.botId;
     }
+    data.room = room
+    socket.data = data
     socket.join(room);
-    console.log(`${data.user.type} of id = ${data.user.id} setSocketData with the room : ${room}`);
+    // console.log(`${data.user.type} of id = ${data.user.id} setSocketData with the room : ${room}`);
     if(data.user.type == ChatUserType.USER){
-      socket.broadcast.to(ChatUserType.BOT + ChatUserType.BOT + data.bot.botId).emit('setSocketData', data);
       this.chatService.userConnected(socket)
     }
+    return true
   }
 
   @SubscribeMessage('joinRoom')
@@ -51,17 +53,19 @@ export class ChatGateway implements NestGateway {
 
   @SubscribeMessage('message')
   async handleNewMessage(socket: Socket, data: ChatMessageEntity) {
+    // console.log("handleNewMessage", data)
+    data.room = data.room || socket.data.room;
     console.log(`${data.sender.type}:${data.sender.id} send the message in room : ${data.room}: ${data.message}`);
     socket.broadcast.to(data.room).emit('message', data);
     this.chatService.setLastMessage(socket, data)
-    if(data.sender.type == ChatUserType.USER){
+    if(data.sender.type != ChatUserType.AGENT){
       socket.broadcast.to(ChatUserType.BOT + data.bot.botId).emit('lastMessage', data);
     }
   }
 
   @SubscribeMessage('getOnlineUsers')
-  getOnlineUsers(socket: Socket, data: any) {
-    console.log("getOnlineUsers");
-    socket.emit('getOnlineUsers', this.chatService.getConnectedUsers(data));
+  async getOnlineUsers(socket: Socket, data: any):Promise<any> {
+    // console.log("getOnlineUsers", data);
+    return this.chatService.getConnectedUsers(data)
   }
 }
