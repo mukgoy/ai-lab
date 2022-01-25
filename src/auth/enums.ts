@@ -1,12 +1,12 @@
 export class User {
-    id: number;
+    id: string;
     isAdmin: boolean;
 }
 
 export class Article {
-    id: number;
+    id: string;
     isPublished: boolean;
-    authorId: number;
+    authorId: string;
 }
 
 

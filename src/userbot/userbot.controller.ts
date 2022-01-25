@@ -10,15 +10,13 @@ export class UserbotController {
   constructor(private readonly userbotService: UserbotService) {}
 
   @Get("get-faqs/:botId")
-  getFaqs(@Param('botId') botId: number) {
+  getFaqs(@Param('botId') botId: string) {
     return this.userbotService.getFaqs(botId);
   }
 
   @Get("get-bot/:botId")
-  async getBot(@Param('botId') botId: number) {
+  async getBot(@Param('botId') botId: string) {
     let bot = await this.userbotService.getBot(botId);
-    bot.jsondata = JSON.parse(bot.jsondata)
-    bot.onboardjson = JSON.parse(bot.onboardjson)
     return bot
   }
 
@@ -41,6 +39,6 @@ export class UserbotController {
 
   @Get("get-previous-messages")
   async getPreviousMessages(@Query('room') room: string = "", @Query('offset') offset: number = 0) {
-    return this.userbotService.getPreviousMessages(room, +offset);
+    return this.userbotService.getPreviousMessages(room, offset);
   }
 }

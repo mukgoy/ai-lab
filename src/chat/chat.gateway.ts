@@ -1,10 +1,9 @@
-import {  ConnectedSocket,  MessageBody,  SubscribeMessage,  WebSocketGateway, WebSocketServer, WsResponse,} from '@nestjs/websockets';
+import { SubscribeMessage,  WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { NestGateway } from '@nestjs/websockets/interfaces/nest-gateway.interface';
 import { ChatService } from './chat.service';
-import { Bind, UseInterceptors } from '@nestjs/common';
-import { ChatMessageEntity } from 'src/globals/entities';
 import { Socket } from 'socket.io';
-import { ChatMessage, SenderType, SocketData } from 'src/globals/enums';
+import { SocketData } from 'src/globals/enums';
+import { ChatMessageEntity, ChatUserType } from 'src/globals/entities';
 
 @WebSocketGateway({ namespace: 'chat',  cors: true  })
 export class ChatGateway implements NestGateway {
@@ -15,50 +14,58 @@ export class ChatGateway implements NestGateway {
   server;
 
   handleConnection(socket: any) {
-    console.log('new connection made.');
     socket.emit('connected', "messages");
   }
 
   handleDisconnect(socket: any) {
-    console.log('new desconnection made.');
     this.chatService.userDisconnected(socket)
   }
   
-  @SubscribeMessage('message')
-  async handleNewMessage(socket: Socket, data: ChatMessage) {
-    console.log(`${data.senderType}:${data.senderId} send the message in room : ${data.room}: ${data.message}`);
-    socket.broadcast.to(data.room.toString()).emit('message', data);
-    this.chatService.setLastMessage(socket, data)
-    if(data.senderType == SenderType.USER){
-      socket.broadcast.to(SenderType.BOT + data.botId).emit('lastMessage', data);
+  @SubscribeMessage('setSocketData')
+  async setSocketData(socket: Socket, data: SocketData): Promise<boolean> {
+    // console.log("setSocketData", socket.data)
+    let room:string = ChatUserType.USER + data.user.id;
+    if(data.user.type != ChatUserType.USER){
+      room = ChatUserType.BOT + data.bot.botId;
     }
+    data.room = room
+    socket.data = data
+    socket.join(room);
+    // console.log(`${data.user.type} of id = ${data.user.id} setSocketData with the room : ${room}`);
+    if(data.user.type == ChatUserType.USER){
+      this.chatService.userConnected(socket)
+    }
+    return true
   }
 
   @SubscribeMessage('joinRoom')
-  joinRoom(socket: Socket, data: SocketData) {
-    if(data.senderType == SenderType.USER){
-      let room = data.room;
-      data.user.room = room;
-      socket.data = data
-      socket.join(room.toString());
-      console.log(`${data.senderType} of id = ${data.user.id} joined the room : ${room}`);
-      socket.broadcast.to(SenderType.BOT + data.botId).emit('joinRoom', data);
-      this.chatService.userConnected(socket)
-    }else{
-      socket.join(SenderType.BOT + data.botId);
-    }
+  joinRoom(socket: Socket, room: string) {
+    console.log("joinRoom");
+    socket.join(room);
   }
 
   @SubscribeMessage('leaveRoom')
   leaveRoom(socket: Socket, data: any) {
-    // console.log(data.user + 'left the room : ' + data.room);
+    console.log("leaveRoom");
     socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
     socket.leave(data.room);
   }
 
+  @SubscribeMessage('message')
+  async handleNewMessage(socket: Socket, data: ChatMessageEntity) {
+    // console.log("handleNewMessage", data)
+    data.room = data.room || socket.data.room;
+    console.log(`${data.sender.type}:${data.sender.id} send the message in room : ${data.room}: ${data.message}`);
+    socket.broadcast.to(data.room).emit('message', data);
+    this.chatService.setLastMessage(socket, data)
+    if(data.sender.type != ChatUserType.AGENT){
+      socket.broadcast.to(ChatUserType.BOT + data.bot.botId).emit('lastMessage', data);
+    }
+  }
+
   @SubscribeMessage('getOnlineUsers')
-  getOnlineUsers(socket: Socket, data: any) {
-    console.log("getOnlineUsers");
-    socket.emit('getOnlineUsers', this.chatService.getConnectedUsers(data));
+  async getOnlineUsers(socket: Socket, data: any):Promise<any> {
+    // console.log("getOnlineUsers", data);
+    return this.chatService.getConnectedUsers(data)
   }
 }

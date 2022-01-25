@@ -16,7 +16,7 @@ export class BotController {
 
   @Post()
   create(@Request() req, @Body() createBotDto: CreateBotDto) {
-    console.log(createBotDto);
+    // console.log(createBotDto);
     createBotDto.req = req
     return this.botService.create(createBotDto);
   }
