@@ -37,7 +37,8 @@ export class ConversationsComponent implements OnInit {
         this.store.botUser = { id: userId, email, phone, name, type: ChatUserType.AGENT }
         this.msgService.connectChatServer()
         this.initAllSubscribers();
-        this.chatService.getOnlineUsers({ botId: this.store.bot.botId })
+        let botIds = this.store.bots.map(bot=>bot.botId)
+        this.chatService.getOnlineUsers({ botIds })
           .then((onlineUsers: ChatUserEntity[]) => {
             console.log("getOnlineUsers", onlineUsers);
             onlineUsers.map(item => { item.chatMessages = [] })

@@ -53,4 +53,19 @@ export class ChannelService {
       }
     });
   }
+
+  closeWindow() {
+    return new Promise<boolean>((resolve: (a: boolean) => void): void => {
+      if (this.channel) {
+        this.channel.call({
+          method: "closeWindow",
+          params: {},
+          success: (data: any) => {
+            console.log(data);
+            resolve(true)
+          }
+        });
+      }
+    })
+  }
 }
