@@ -5,21 +5,24 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { adminNotify } from 'src/app/admin/enums';
 import { BotService } from 'src/app/admin/services/bot.service';
 import { UploadService } from 'src/app/admin/services/upload.service';
+import { BotEntity } from 'src/app/shared/entities';
 import { HelperService } from 'src/app/shared/services';
+import { EnumType } from 'typescript';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html'
 })
 export class DetailsComponent implements OnInit {
-  iconActive: any = {
-    header : "http://localhost:4200/assets/mybot/images/bot-header-1.svg",
-    launcher : "http://localhost:4200/assets/mybot/images/launcher-3.svg"
+  defaultBot: BotEntity = new BotEntity();
+  iconActive = {
+    header : this.defaultBot.jsondata.header.logo,
+    launcher : this.defaultBot.jsondata.launcher.logo,
   }
-  colorActive: any = {
-    bgColor1: "#ef5350",
-    bgColor2: "#c62828",
-    textColor: "#ffffff"
+  colorActive = {
+    bgColor1: this.defaultBot.jsondata.bgColor1,
+    bgColor2: this.defaultBot.jsondata.bgColor2,
+    textColor: this.defaultBot.jsondata.textColor
   }
 
   botId: string = "";
@@ -127,20 +130,19 @@ export class DetailsComponent implements OnInit {
       });
   }
 
-  onIconSelect(icon:string, iconType:string){
+  onIconSelect(icon:string, iconType: 'header'|'launcher'){
     this.iconActive[iconType] = icon;
     this.formGroup.controls.jsondata.get(iconType)?.patchValue({
       logo : icon
     })
   }
   
-  onColorSelect(color:string, colorType:string){
+  onColorSelect(color:string, colorType:'bgColor1'|'bgColor2'|'textColor'){
     this.colorActive[colorType] = color;
     let obj:any = {};
     obj[colorType] = color
     this.formGroup.controls.jsondata.patchValue(obj)
   }
-
 
   openModal() {
     if(this.installGuideModel){

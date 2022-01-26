@@ -11,10 +11,10 @@ export class BotDefaultJsondata {
     textColor = "#FFFFFF";
     header = {
         text : "I am a Robot",
-        logo : "http://localhost:4200/assets/mybot/images/bot-header-1.svg"
+        logo : "./assets/mybot/images/bot-header-1.svg"
     };
     launcher = {
-        logo : "http://localhost:4200/assets/mybot/images/launcher-3.svg",
+        logo : "./assets/mybot/images/launcher-3.svg",
         text : "Help"
     }
 }
