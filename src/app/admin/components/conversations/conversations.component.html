@@ -1,7 +1,7 @@
 <div class="card card-chat overflow-hidden">
   <div class="card-body d-flex p-0 h-100">
-    <div class="chat-sidebar">
-      <div class="contacts-list chat-content-scroll-area scrollbar">
+    <div class="chat-sidebar" [ngStyle]="{'left': isChatSidebarOpen ? '0px' : '-100%'}">
+      <div class="contacts-list chat-content-scroll-area scrollbar bg-white">
         <div class="nav nav-tabs border-0 flex-column" role="tablist" aria-orientation="vertical">
           <div class="hover-actions-trigger chat-contact nav-item unread-message active" *ngFor="let user of store.onlineUsers; trackBy: help.trackByIndex" (click)="onUserSelect(user.id)">
             <div class="d-flex p-3">
@@ -20,6 +20,9 @@
               </div>
             </div>
           </div>
+          <div class="text-center mt-3" *ngIf="store.onlineUsers.length == 0">
+            <h6 class="mb-2 text-900">No Active Users</h6>
+          </div>
         </div>
       </div>
       <form class="contacts-search-wrapper">
@@ -35,17 +38,18 @@
         <div class="chat-content-header">
           <div class="row flex-between-center">
             <div class="col-6 col-sm-8 d-flex align-items-center">
-              <div class="min-w-0 ">
-                <div class="avatar avatar-2xl status-online me-3">
-                  <div class="avatar-name rounded-circle"><span>{{store.selectedUser?.name||store.selectedUser?.email | ucwords | shorten: 1: ''}}</span></div>
-                </div>
+              <a class="pe-3 text-700 d-md-none contacts-list-show" [routerLink]="" (click)="isChatSidebarOpen = !isChatSidebarOpen">
+                <div class="fa fa-chevron-left"></div>
+              </a>
+              <div class="avatar avatar-2xl me-3">
+                <div class="avatar-name rounded-circle"><span>{{store.selectedUser?.name||store.selectedUser?.email | ucwords | shorten: 1: ''}}</span></div>
+              </div>
+              <div class="min-w-0">
                 <h5 class="mb-0 text-truncate fs-0">{{store.selectedUser?.name||store.selectedUser?.email}}</h5>
                 <div class="fs--2 text-400">Active On Chat</div>
               </div>
             </div>
-            <div class="col-auto"><button class="btn btn-primary btn-sm mt-3">
-                Create FAQ
-              </button></div>
+            <div class="col-auto"><button class="btn btn-primary btn-sm mt-3">Create FAQ</button></div>
           </div>
         </div>
         <div class="chat-content-body" style="display: inherit;">
