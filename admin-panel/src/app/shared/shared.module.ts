@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import guards from './guards';
 import interceptors from './interceptors';
-import pipes from './pipes';
+import pipes, { ErrortostringPipe } from './pipes';
 import services, { ScriptService } from './services';
 
 
 @NgModule({
   declarations: [
+    ErrortostringPipe
   ],
   imports: [
     CommonModule
@@ -16,6 +17,7 @@ import services, { ScriptService } from './services';
     ...services
   ],
   exports: [
+    ErrortostringPipe
   ]
 })
 export class SharedModule { }
