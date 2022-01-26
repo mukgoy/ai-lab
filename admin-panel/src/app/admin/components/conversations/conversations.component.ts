@@ -12,6 +12,8 @@ import * as _ from 'lodash';
   templateUrl: './conversations.component.html'
 })
 export class ConversationsComponent implements OnInit {
+
+  isChatSidebarOpen = true;
   constructor(
     public help: HelperService,
     public userService: UserService,
@@ -114,6 +116,7 @@ export class ConversationsComponent implements OnInit {
     if (user) {
       this.store.selectedUser = user;
       this.getPreviousMessages();
+      this.isChatSidebarOpen = !this.isChatSidebarOpen
     }
   }
 
@@ -122,14 +125,14 @@ export class ConversationsComponent implements OnInit {
     if (this.store.selectedUser) {
       this.store.selectedUser.chatMessages = this.store?.selectedUser?.chatMessages || [];
       let firstMessage = (this.store.selectedUser?.chatMessages || [])[0];
-      let offset = firstMessage.id ? firstMessage.id : ""
-      let selectedUser = this.store.selectedUser;
-      this.chatService.getPreviousMessages(this.store.selectedUser, offset).subscribe((chatMessages: any) => {
-        console.log(chatMessages);
-        selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
-      }, (error: any) => {
-        console.log(error);
-      });
+      // let offset = firstMessage.id ? firstMessage.id : ""
+      // let selectedUser = this.store.selectedUser;
+      // this.chatService.getPreviousMessages(this.store.selectedUser, offset).subscribe((chatMessages: any) => {
+      //   console.log(chatMessages);
+      //   selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+      // }, (error: any) => {
+      //   console.log(error);
+      // });
     }
   }
 }
