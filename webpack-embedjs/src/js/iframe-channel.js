@@ -1,28 +1,29 @@
 import { env } from './config'
 import dom from './dom-query'
 import Channel from 'js-channel'
+import LauncherBtn from "./launcher-btn"
 
-let instance = null;
-export default class IframeChannel{
+export default class IframeChannel {
 
     isInitiated = false;
     iframeElem = null;
     channel = null;
     resolve;
 
+    static _instance = null
     constructor() {
-        if(!instance){
-          instance = this;
+        if (!IframeChannel._instance) {
+            IframeChannel._instance = this;
         }
-        return instance;
+        return IframeChannel._instance;
     }
 
-    async init(){
-        if(this.isInitiated){
+    async init() {
+        if (this.isInitiated) {
             return;
         }
         this.isInitiated = true;
-        return new Promise((resolve)=>{
+        return new Promise((resolve) => {
             this.resolve = resolve;
             var iframe = document.createElement("iframe");
             iframe.id = env.iframeId;
@@ -31,7 +32,7 @@ export default class IframeChannel{
             document.body.appendChild(iframe);
             if (window.addEventListener) {
                 iframe.addEventListener("load", this.onIframeLoad.bind(this), false);
-            }else if (iframe.attachEvent){
+            } else if (iframe.attachEvent) {
                 iframe.attachEvent("onload", this.onIframeLoad.bind(this), false);
             }
             // iframe.src = env.botURL;
@@ -40,7 +41,7 @@ export default class IframeChannel{
         });
     }
 
-    onIframeLoad(){
+    onIframeLoad() {
         let contentWindow = this.iframeElem.contentWindow
         this.channel = Channel.build({
             // debugOutput: true,
@@ -52,28 +53,35 @@ export default class IframeChannel{
         this.resolve();
     };
 
-    initBind(channel){
-        channel.bind("initChatBox", (t)=>{
-            dom("#"+env.iframeId)
-            .removeClass("chatbotInitiating")
-            .removeClass("isChatClose")
-            .addClass("isChatOpen");
+    initBind(channel) {
+        channel.bind("initChatBox", (t) => {
+            dom("#" + env.iframeId)
+                .removeClass("chatbotInitiating")
+                .removeClass("isChatClose")
+                .addClass("isChatOpen");
         });
 
-        channel.bind("toggleChatBox", function(t, isChatOpen) {
+        channel.bind("toggleChatBox", function (t, isChatOpen) {
             toggleChatBox(isChatOpen, iframe, iframeBubbleSize);
         });
 
-        channel.bind("getVisitorInfo", function(t, s) {
+        channel.bind("getVisitorInfo", function (t, s) {
             return visitor;
         });
 
-        channel.bind("getBotConfig", function(t) {
+        channel.bind("getBotConfig", function (t) {
             return env.botConfig;
+        });
+
+        channel.bind("closeWindow", (t)=>{
+            // console.log("closeWindow",t)
+            let launcherBtn = new LauncherBtn();
+            launcherBtn.closeWindow();
+            return "closeWindow done";
         });
     }
 
-    resetPosition(){
+    resetPosition() {
         console.log("resetPosition iframe position");
     }
 

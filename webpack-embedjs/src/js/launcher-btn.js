@@ -8,6 +8,14 @@ export default class LauncherBtn{
     iframeChannel
     closeSVG = ""
 
+    static _instance = null
+    constructor() {
+        if (!LauncherBtn._instance) {
+            LauncherBtn._instance = this;
+        }
+        return LauncherBtn._instance;
+    }
+
     closedHtml(){
         return `<div class="mybot-launcher-html botclosed">
                     <img class="bubble-btn" src="${env.botConfig.jsondata.launcher.logo}">
@@ -46,24 +54,29 @@ export default class LauncherBtn{
 
     addListner(){
         dom("#"+this.launcherId).on("click",()=>{
-            dom("#"+this.launcherId).toggleClass("botopen").toggleClass("botclose");
+            this.toggleWindow();
             this.createIframeChannel();
         });
     }
 
     createIframeChannel(){
-        if(this.iframeChannel && this.iframeChannel.isInitiated){
-            dom("#"+env.iframeId)
-            .toggleClass("isChatClose")
-            .toggleClass("isChatOpen");
-        }else{
+        if(!this.iframeChannel?.isInitiated){
             this.iframeChannel = new IframeChannel();
             this.iframeChannel.init();
         }
-        
     }
 
     disableselect() {
         dom("#"+this.launcherId).on("onselectstart",new Function ("return false"));
+    }
+
+    closeWindow(){
+        dom("#"+this.launcherId).removeClass("botopen").addClass("botclose");
+        dom("#"+env.iframeId).removeClass("isChatOpen").addClass("isChatClose");
+    }
+
+    toggleWindow(){
+        dom("#"+this.launcherId).toggleClass("botopen").toggleClass("botclose");
+        dom("#"+env.iframeId).toggleClass("isChatClose").toggleClass("isChatOpen");
     }
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChannelService } from 'src/app/mybot/services/channel.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
 
 @Component({
@@ -9,7 +10,11 @@ import { StoreService } from 'src/app/mybot/services/store.service';
 export class HeaderComponent implements OnInit {
 
   botConfig:any = this.store.bot
-  constructor(public store:StoreService,private ref:ChangeDetectorRef) {}
+  constructor(
+    public store:StoreService,
+    public channel:ChannelService,
+    private ref:ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     // this.store.botConfig.subscribe((botConfig)=>{
@@ -31,4 +36,7 @@ export class HeaderComponent implements OnInit {
     return styles
   }
 
+  closeWindow(){
+    this.channel.closeWindow()
+  }
 }
