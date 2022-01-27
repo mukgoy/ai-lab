@@ -12,3 +12,17 @@ export const authApi = {
         signup: authConfig.backend + "signup",
     }
 }
+
+export const authNotify = {
+    success : {
+        signup: 'Signup successfully.',
+        login: 'Login successfully.',
+        verifyEmail: 'Please verify your email.',
+    },
+    error : {
+        unknown: 'Some thing is not correct.',
+        userExist: 'Account with this email already exists.',
+        unauthorized: 'Unauthorized.',
+        emailNotVerify: 'Your email verification is pending.',
+    },
+}

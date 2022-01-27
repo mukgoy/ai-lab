@@ -9,6 +9,8 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { ScriptService } from '../shared/services';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import { social } from 'src/environments/environment';
 
 
 
@@ -25,7 +27,26 @@ import { ScriptService } from '../shared/services';
     AuthRoutingModule,
     FormsModule, 
     ReactiveFormsModule,
-    SharedModule
-  ]
+    SharedModule,
+    SocialLoginModule
+  ],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(social.google.clientId)
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(social.fb.clientId)
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
+  ],
 })
 export class AuthModule { }

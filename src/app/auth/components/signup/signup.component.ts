@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../../shared/services/user.service';
+import { HelperService, UserService, ValidationService } from 'src/app/shared/services';
+import { authNotify } from '../../enums';
 
 @Component({
   selector: 'app-signup',
@@ -11,10 +12,12 @@ import { UserService } from '../../../shared/services/user.service';
 export class SignupComponent implements OnInit {
 
   myForm: FormGroup = this.fb.group({
-    name: [""],
-    email: [""],
-    password: [""],
-    cpassword: [""]
+    name: ["",[Validators.required]],
+    email: ["",[Validators.required, Validators.email]],
+    password: ["",[Validators.required]],
+    cpassword: ["",[Validators.required]]
+  }, { 
+    validators: [ValidationService.MustMatch('password', 'cpassword')]
   });
   formSubmited: boolean = false;
   queryParams: any;
@@ -24,6 +27,7 @@ export class SignupComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     public userService: UserService,
+    private help: HelperService,
   ) { }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => this.queryParams = params);
@@ -35,6 +39,8 @@ export class SignupComponent implements OnInit {
       this.authService.postUserSignup(this.myForm.value)
         .subscribe((response: any) => {
           console.log("signup");
+          this.help.notify('success', authNotify.success.signup);
+          setTimeout(()=>this.help.notify('success', authNotify.success.verifyEmail),2000)
           if (this.queryParams.returnUrl) {
             this.router.navigateByUrl(this.queryParams.returnUrl);
           } else {
@@ -43,6 +49,7 @@ export class SignupComponent implements OnInit {
           
         }, (error: any) => {
           console.log("error", error);
+          this.help.notify('error', error.error.message);
         });
     }
   };

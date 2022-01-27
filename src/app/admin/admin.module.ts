@@ -25,7 +25,6 @@ import { InstallGuideModelComponent } from './components/chat-flows/models/insta
 import { ManageWelcomeComponent } from './components/chat-flows/manage-welcome/manage-welcome.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { ErrortostringPipe } from '../shared/pipes';
 import { BotuiFocusDirective, BotuiScrollDirective } from '../shared/directives';
 import { SharedModule } from '../shared/shared.module';
 
@@ -48,7 +47,6 @@ import { SharedModule } from '../shared/shared.module';
     ColorPickerComponent,
     ImagePickerComponent,
     AddEditFaqModelComponent,
-    ErrortostringPipe,
     InstallGuideModelComponent,
     BotuiScrollDirective,
     BotuiFocusDirective,
