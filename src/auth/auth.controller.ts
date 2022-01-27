@@ -11,7 +11,7 @@ import { SignupDto } from './dto/singup.dto';
 export class AuthController {
   constructor(
     private authService: AuthService
-  ) {}
+  ) { }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -21,8 +21,8 @@ export class AuthController {
 
   @Post('signup')
   async signup(@Body() signupDto: SignupDto) {
-    return this.authService.signup(signupDto).catch(err=>{
-      if(err.code == "ER_DUP_ENTRY"){
+    return this.authService.signup(signupDto).catch(err => {
+      if (err.writeErrors) {
         throw new BadRequestException(
           'Account with this email already exists.',
         );
