@@ -35,8 +35,6 @@ export class AuthService {
     );
   }
 
-
-  
   postUserSignup(form:any){
     // console.log(form);
     const url = authApi.auth.signup;
@@ -53,4 +51,22 @@ export class AuthService {
     );
   }
   
+  postSocialLogin(form:any){
+    const url = authApi.auth.socialLogin;
+    const {email, name, idToken, authToken, provider} = form;
+    const body = {email, name, idToken, authToken, provider};
+
+    return this.http.post(url, body).pipe(
+      tap((response:any)=>{
+        console.log(response);
+        const { access_token } = response;
+        if (access_token && access_token.length) {
+          this.userService.login(response);
+          return true;
+        } else {
+          throw new Error('no token')
+        }
+      })
+    );
+  }
 }

@@ -10,6 +10,7 @@ export const authApi = {
     auth:{
         login: authConfig.backend + "login",
         signup: authConfig.backend + "signup",
+        socialLogin: authConfig.backend + "social-login",
     }
 }
 

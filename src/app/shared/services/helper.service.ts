@@ -60,14 +60,14 @@ export class HelperService {
     this.downloadFile(result);
   }
   downloadFile(data: any[]) {
-    // const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-    // const header = Object.keys(data[0]);
-    // let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
-    // csv.unshift(header.join(','));
-    // let csvArray = csv.join('\r\n');
+    const replacer = (key:string, value:any) => value === null ? '' : value; // specify how you want to handle null values here
+    const header = Object.keys(data[0]);
+    let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+    csv.unshift(header.join(','));
+    let csvArray = csv.join('\r\n');
 
-    // var blob = new Blob([csvArray], {type: 'text/csv' })
-    // saveAs(blob, "export.csv");
+    var blob = new Blob([csvArray], {type: 'text/csv' })
+    saveAs(blob, "export.csv");
   }
 
   csvToJSON(csv: string) {

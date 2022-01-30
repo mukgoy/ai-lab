@@ -27,6 +27,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BotuiFocusDirective, BotuiScrollDirective } from '../shared/directives';
 import { SharedModule } from '../shared/shared.module';
+import { AddEditCustomerModelComponent } from './components/crm/models/add-edit-customer-model/add-edit-customer-model.component';
 
 
 
@@ -51,6 +52,7 @@ import { SharedModule } from '../shared/shared.module';
     BotuiScrollDirective,
     BotuiFocusDirective,
     ManageWelcomeComponent,
+    AddEditCustomerModelComponent
   ],
   imports: [
     CommonModule,
