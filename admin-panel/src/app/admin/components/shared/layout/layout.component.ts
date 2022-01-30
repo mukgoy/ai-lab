@@ -15,7 +15,7 @@ export class LayoutComponent implements OnInit {
   constructor(public script: ScriptService) {
     this.script.load([environment.bundleJs]).then(data => {
         console.log('script loaded ', data);
-        lalabot.init("61edb19ca221da3a442646cc");
+        lalabot.init("61f65d1feaaeab3104cd9f6d");
     }).catch(error => console.log(error));
   }
 

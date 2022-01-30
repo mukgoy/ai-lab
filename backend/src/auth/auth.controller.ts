@@ -5,6 +5,7 @@ import { AuthService } from './services/auth.service';
 import { LoginDto } from './dto/login.dto';
 import { LocalAuthGuard } from './services/local-auth.guard';
 import { SignupDto } from './dto/singup.dto';
+import { SocialDto } from './dto/social.dto';
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -23,6 +24,19 @@ export class AuthController {
   async signup(@Body() signupDto: SignupDto) {
     return this.authService.signup(signupDto).catch(err => {
       if (err.writeErrors) {
+        throw new BadRequestException(
+          'Account with this email already exists.',
+        );
+      }
+    });
+  }
+
+  @Post("social-login")
+  async socialLogin(@Body() socialDto: SocialDto) {
+    return this.authService.socialLogin(socialDto).catch(err=>{
+      console.log(err)
+      return err
+      if(err.code == "ER_DUP_ENTRY"){
         throw new BadRequestException(
           'Account with this email already exists.',
         );

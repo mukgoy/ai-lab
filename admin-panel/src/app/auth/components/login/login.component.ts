@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
 
   user: SocialUser = <SocialUser>{};
   myForm: FormGroup = this.fb.group({
-    username: ["",[Validators.required, Validators.email]],
-    password: ["",[Validators.required]]
+    username: ["", [Validators.required, Validators.email]],
+    password: ["", [Validators.required]]
   });
   formSubmited: boolean = false;
   queryParams: any;
@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params:any) => this.queryParams = params);
+    this.route.queryParams.subscribe((params: any) => this.queryParams = params);
     let obj = this.socialAuthService.authState.subscribe((user) => {
-      if(user){
+      if (user) {
         this.user = user;
         this.signInBySocial(user)
         obj.unsubscribe();
@@ -68,28 +68,20 @@ export class LoginComponent implements OnInit {
   signInWithFB(): void {
     this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
-  
-  signInBySocial(user:any){
-    console.log(user)
-    // let url = javaHost + javaApis.auth.addUpdateUser
-    // this.http.post(url, userdata).subscribe((res:any)=>{
-    //   let user = res.response;
-    //   let userdata:any = {
-    //     id: user.id,
-    //     firstName: user.firstName,
-    //     lastName: user.lastName,
-    //     email: user.userEmailColl[0]?.email,
-    //     phone: user.userPhoneColl[0]?.phone,
-    //     orgId: user.orgId,
-    //     token: user.jwtToken,
-    //   }
-    //   let url = javaHost + javaApis.auth.getUserPermissions
-    //   this.http.postform(url, {userId: userdata.id}).subscribe((res:any)=>{
-    //     userdata.role = res.response.roleName
-    //     userdata.permissions = res.response.functanilityCode
-    //     this.userService.setUser(userdata);
-    //     this.router.navigateByUrl(this.queryParams.returnUrl);
-    //   });
-    // });
+
+  signInBySocial(user: any) {
+    // console.log(user)
+    this.authService.postSocialLogin(user).subscribe((response: any) => {
+      console.log("login");
+      this.help.notify('success', authNotify.success.login);
+      if (this.queryParams.returnUrl) {
+        this.router.navigateByUrl(this.queryParams.returnUrl);
+      } else {
+        this.router.navigateByUrl("/admin");
+      }
+    }, (error: any) => {
+      console.log("error", error);
+      this.help.notify('error', error.error.message);
+    });
   }
 }

@@ -1,6 +1,7 @@
 .isChatOpen{
 	width : 350px;
-	height : calc(100% - 50px);
+	/* height : calc(100% - 50px); */
+	height : calc(100% - 80px);
 	position: fixed; 
 	right: 10px; 
 	bottom: 10px; 

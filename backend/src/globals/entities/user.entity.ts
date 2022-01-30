@@ -35,4 +35,12 @@ export class UserEntity extends CommonProperty{
     faqs: BotEntity[];
     uploads: UploadEntity[];
     chatUsers: ChatUserEntity[];
+
+    idToken?: string;
+    provider?: string;
+
+    constructor(user?: Partial<UserEntity>) {
+        super()
+        Object.assign(this, user);
+    }
 }
