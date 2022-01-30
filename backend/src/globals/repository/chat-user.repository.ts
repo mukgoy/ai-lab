@@ -15,6 +15,8 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
     }
 
     async updateUser(updateChatUserDto) {
+        updateChatUserDto.req = {}
+        console.log(updateChatUserDto);
         let user = await this.findOne(updateChatUserDto.id);
         delete updateChatUserDto.id
         Object.assign(user, updateChatUserDto);
