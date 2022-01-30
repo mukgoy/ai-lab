@@ -4,6 +4,7 @@ import { SignupDto } from '../dto/singup.dto';
 import { UserEntity } from '../../globals/entities/user.entity';
 import { Permission } from '../enums';
 import { UserRepository } from 'src/globals/repository/user.repository';
+import { SocialDto } from '../dto/social.dto';
 
 export type User = any;
 
@@ -30,18 +31,14 @@ export class UserService {
   ) { }
 
   async findOne(username: string): Promise<UserEntity> {
-    let user = await this.userRepository.findOne({
-      where: { email: username },
-      relations: [ "owner" ],
-    });
-    if(user && !user.owner){
-      user.owner = new UserEntity();
-      user.owner.userId = user.userId
-    }
-    return user
+    return await this.userRepository.findByEmail(username)
   }
 
   create(signupDto: SignupDto): Promise<UserEntity> {
     return this.userRepository.createUser(signupDto);
+  }
+
+  socialLogin(socialDto: SocialDto): Promise<UserEntity> {
+    return this.userRepository.socialLogin(socialDto);
   }
 }

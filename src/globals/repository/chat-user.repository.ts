@@ -1,12 +1,16 @@
 import { EntityRepository, Repository } from "typeorm";
-import { ChatUserEntity } from "../entities/chat-user.entity";
+import { ChatUserEntity, ChatUserType } from "../entities/chat-user.entity";
 
 @EntityRepository(ChatUserEntity)
 export class ChatUserRepository extends Repository<ChatUserEntity> {
 
     async createUser(createChatUserDto) {
-        createChatUserDto.primaryKey = createChatUserDto.email;
-        let user = new ChatUserEntity(createChatUserDto);
+        // console.log(createChatUserDto.req.user)
+        let {name, email, phone, type, bot, owner } = createChatUserDto;
+        owner = owner || createChatUserDto.req.user.owner
+        type = type || ChatUserType.USER
+        let primaryKey = email;
+        let user = new ChatUserEntity({name, email, phone, type, bot, owner, primaryKey});
         return user.save().catch(err => {
             if (err.writeErrors) {
                 return this.findOne(createChatUserDto);
@@ -15,6 +19,8 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
     }
 
     async updateUser(updateChatUserDto) {
+        updateChatUserDto.req = {}
+        // console.log(updateChatUserDto);
         let user = await this.findOne(updateChatUserDto.id);
         delete updateChatUserDto.id
         Object.assign(user, updateChatUserDto);

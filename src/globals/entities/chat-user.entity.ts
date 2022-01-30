@@ -1,5 +1,5 @@
 import { BotEntity, ChatMessageEntity, UserEntity } from 'src/globals/entities';
-import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, ObjectID, Unique } from 'typeorm';
 import { CommonProperty } from './common.property';
 
 export enum ChatUserType {
@@ -8,12 +8,13 @@ export enum ChatUserType {
     USER = "user",
 }
 
+@Unique("index_name", ["primaryKey", "bot"])
 @Entity({ name: 'chat_users' })
 export class ChatUserEntity extends CommonProperty {
     @ObjectIdColumn()
     id: ObjectID;
 
-    @Column({ unique: true })
+    @Column()
     primaryKey: string;
 
     @Column({ nullable: true })
@@ -31,6 +32,9 @@ export class ChatUserEntity extends CommonProperty {
 
     @Column({ nullable: true })
     bot: BotEntity;
+
+    @Column()
+    owner: UserEntity;
 
     @Column({ nullable: true })
     agent: UserEntity;

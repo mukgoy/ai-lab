@@ -31,8 +31,20 @@ export class UserEntity extends CommonProperty{
     @Column({ default: true })
     isActive: boolean;
 
+    profileName? : string;
+    about? : string;
+
     bots: BotEntity[];
     faqs: BotEntity[];
     uploads: UploadEntity[];
     chatUsers: ChatUserEntity[];
+
+    idToken?: string;
+    authToken?: string;
+    provider?: string;
+
+    constructor(user?: Partial<UserEntity>) {
+        super()
+        Object.assign(this, user);
+    }
 }

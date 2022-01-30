@@ -5,10 +5,12 @@ import { FaqController } from './controllers/faq.controller';
 import { FaqService } from './services/faq.service';
 import { UploadController } from './controllers/upload.controller';
 import { UploadService } from './services/upload.service';
+import { CustomerService } from './services/customer.service';
+import { CustomerController } from './controllers/customer.controller';
 
 @Module({
-  controllers: [BotController, FaqController, UploadController],
-  providers: [BotService, FaqService, UploadService],
+  controllers: [BotController, FaqController, UploadController, CustomerController],
+  providers: [BotService, FaqService, UploadService, CustomerService],
   
 })
 export class AdminModule {}
