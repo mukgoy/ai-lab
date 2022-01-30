@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
   }
 
   signInBySocial(user: any) {
-    // console.log(user)
+    console.log(user)
     this.authService.postSocialLogin(user).subscribe((response: any) => {
       console.log("login");
       this.help.notify('success', authNotify.success.login);

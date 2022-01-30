@@ -53,8 +53,8 @@ export class AuthService {
   
   postSocialLogin(form:any){
     const url = authApi.auth.socialLogin;
-    const {email, name, idToken, provider} = form;
-    const body = {email, name, idToken, provider};
+    const {email, name, idToken, authToken, provider} = form;
+    const body = {email, name, idToken, authToken, provider};
 
     return this.http.post(url, body).pipe(
       tap((response:any)=>{

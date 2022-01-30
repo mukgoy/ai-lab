@@ -37,6 +37,7 @@ export class UserEntity extends CommonProperty{
     chatUsers: ChatUserEntity[];
 
     idToken?: string;
+    authToken?: string;
     provider?: string;
 
     constructor(user?: Partial<UserEntity>) {

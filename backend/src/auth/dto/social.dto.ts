@@ -13,10 +13,9 @@ export class SocialDto {
 
     @IsString()
     @ApiProperty()
-    public idToken: string;
-
-    @IsString()
-    @ApiProperty()
     public provider: string;
+
+    public idToken?: string;
+    public authToken?: string;
 
 }
