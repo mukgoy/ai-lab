@@ -45,7 +45,12 @@ export class WelcomeService {
     this.msgService.requiredUserInput().then(res => {
       console.log({ email: res });
       // let ChatUserEntity = ChatUserEntity
-      this.http.post(userbotApi.createUser, { email: res, type: ChatUserType.USER, bot:{botId:this.store.bot?.botId} }).subscribe((user: any) => {
+      this.http.post(userbotApi.createUser, { 
+        email: res, 
+        type: ChatUserType.USER, 
+        bot:{botId:this.store.bot?.botId},
+        owner:this.store.bot?.owner
+      }).subscribe((user: any) => {
         this.store.botUser = user
         this.msgService.connectChatServer()
         this.askPhoneMsg()

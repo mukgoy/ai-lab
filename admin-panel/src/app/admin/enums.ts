@@ -6,6 +6,7 @@ export const adminConfig = {
     frontend : environment.frontend,
     botEntity : "bot",
     faqEntity : "faq",
+    customerEntity : "customer",
 }
 
 export const adminApi = {
@@ -22,6 +23,13 @@ export const adminApi = {
         findOne: adminConfig.backend + adminConfig.faqEntity,
         update: adminConfig.backend + adminConfig.faqEntity,
         remove: adminConfig.backend + adminConfig.faqEntity,
+    },
+    customer:{
+        create: adminConfig.backend + adminConfig.customerEntity,
+        findAll: adminConfig.backend + adminConfig.customerEntity,
+        findOne: adminConfig.backend + adminConfig.customerEntity,
+        update: adminConfig.backend + adminConfig.customerEntity,
+        remove: adminConfig.backend + adminConfig.customerEntity,
     },
     upload: adminConfig.backend + "upload"
 }
