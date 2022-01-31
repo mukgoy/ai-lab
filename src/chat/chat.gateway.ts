@@ -24,15 +24,12 @@ export class ChatGateway implements NestGateway {
   @SubscribeMessage('setSocketData')
   async setSocketData(socket: Socket, data: SocketData): Promise<boolean> {
     // console.log("setSocketData", socket.data)
-    let room:string = ChatUserType.USER + data.user.id;
-    if(data.user.type != ChatUserType.USER){
-      room = ChatUserType.BOT + data.bot.botId;
-    }
-    data.room = room
-    socket.data = data
-    socket.join(room);
-    // console.log(`${data.user.type} of id = ${data.user.id} setSocketData with the room : ${room}`);
     if(data.user.type == ChatUserType.USER){
+      // console.log(`${data.user.type} of id = ${data.user.id} setSocketData with the room : ${room}`);
+      let room:string = ChatUserType.USER + data.user.id;
+      data.room = room
+      socket.data = data
+      socket.join(room);
       this.chatService.userConnected(socket)
     }
     return true
@@ -64,8 +61,12 @@ export class ChatGateway implements NestGateway {
   }
 
   @SubscribeMessage('getOnlineUsers')
-  async getOnlineUsers(socket: Socket, data: any):Promise<any> {
+  async getOnlineUsers(socket: Socket, data: {botIds:any[]}):Promise<any> {
     // console.log("getOnlineUsers", data);
+    data.botIds.forEach(botId => {
+      socket.join(ChatUserType.BOT + botId);
+    });
+    
     return this.chatService.getConnectedUsers(data)
   }
 }
