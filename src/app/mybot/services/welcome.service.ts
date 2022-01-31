@@ -70,7 +70,7 @@ export class WelcomeService {
       console.log({ phone: res });
       let id = this.store.botUser.id;
       this.http.put(userbotApi.updateUser, { id: id, phone: res }).subscribe((user: any) => {
-        this.store.botUser = user
+        this.store.botUser = user || this.store.botUser
         this.askNameMsg()
       }, err => {
         this.askPhoneMsg(err.error.message || this.onboardjson.askPhoneMsg)
@@ -88,7 +88,7 @@ export class WelcomeService {
       console.log({ name: res });
       let id = this.store.botUser.id;
       this.http.put(userbotApi.updateUser, { id: id, name: res }).subscribe((user: any) => {
-        this.store.botUser = user
+        this.store.botUser = user || this.store.botUser
         this.getChatHistory();
       }, err => {
         console.log(err);

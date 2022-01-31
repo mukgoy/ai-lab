@@ -7,6 +7,7 @@ export const adminConfig = {
     botEntity : "bot",
     faqEntity : "faq",
     customerEntity : "customer",
+    report : "report",
 }
 
 export const adminApi = {
@@ -30,6 +31,11 @@ export const adminApi = {
         findOne: adminConfig.backend + adminConfig.customerEntity,
         update: adminConfig.backend + adminConfig.customerEntity,
         remove: adminConfig.backend + adminConfig.customerEntity,
+    },
+    report:{
+        leadcount: adminConfig.backend + adminConfig.report+'/leadcount',
+        usercount: adminConfig.backend + adminConfig.report+'/usercount',
+        visitorcount: adminConfig.backend + adminConfig.report+'/visitorcount',
     },
     upload: adminConfig.backend + "upload"
 }
