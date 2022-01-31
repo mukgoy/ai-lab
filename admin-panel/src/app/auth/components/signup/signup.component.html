@@ -41,7 +41,7 @@
                                     </ng-container>
                                 </div>
                                 <div class="mb-3 col-sm-12">
-                                    <input class="form-control" formControlName="cpassword" type="cpassword" autocomplete="on" placeholder="Confirm Password" />
+                                    <input class="form-control" formControlName="cpassword" type="password" autocomplete="on" placeholder="Confirm Password" />
                                     <ng-container *ngIf="myForm.touched || formSubmited">
                                         <small class="form-text text-danger" *ngFor="let errorMsg of myForm.controls.cpassword.errors | keyvalue | slice:0:1">
                                             {{"Confirm password" | errortostring : errorMsg}}

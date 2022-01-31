@@ -12,6 +12,7 @@ declare var lalabot: any;
 export class LayoutComponent implements OnInit {
 
   isOpen = true;
+  isOpenMobile = false;
   constructor(public script: ScriptService) {
     this.script.load([environment.bundleJs]).then(data => {
         console.log('script loaded ', data);
