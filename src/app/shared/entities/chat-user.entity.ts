@@ -17,6 +17,7 @@ export class ChatUserEntity extends CommonProperty{
     name?: string;
     type: ChatUserType = ChatUserType.USER;
     bot?: BotEntity;
+    owner?: UserEntity;
     agent?: UserEntity;
     lastMessage?: ChatMessageEntity
     chatMessages?: ChatMessageEntity[]
