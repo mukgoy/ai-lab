@@ -33,17 +33,10 @@ export class ConversationsComponent implements OnInit {
       this.store.bots = res
       if (this.store.bots.length > 0) {
         const { userId, email, phone, name, owner } = this.userService.currentUserValue;
-        this.store.bot = this.store.bots[0]
-        this.store.botUser = { id: userId, email, phone, name, type: ChatUserType.AGENT }
+        // this.store.bot = this.store.bots[0]
+        this.store.botUser = { id: userId, email, phone, name, type: ChatUserType.AGENT, owner }
         this.msgService.connectChatServer()
         this.initAllSubscribers();
-        let botIds = this.store.bots.map(bot=>bot.botId)
-        this.chatService.getOnlineUsers({ botIds })
-          .then((onlineUsers: ChatUserEntity[]) => {
-            console.log("getOnlineUsers", onlineUsers);
-            onlineUsers.map(item => { item.chatMessages = [] })
-            this.store.onlineUsers = onlineUsers
-          });
       }
     }, (error: any) => {
       // this.helperService.notify('error', error);
@@ -88,7 +81,6 @@ export class ConversationsComponent implements OnInit {
     this.chatService.onMessageReceived('reconnect').subscribe((res: any) => {
       console.log("updateOnlineUsers", res);
     });
-
     this.chatService.onMessageReceived('updateOnlineUsers').subscribe((res: any) => {
       console.log("updateOnlineUsers", res);
       if (res.connect) {
@@ -110,6 +102,16 @@ export class ConversationsComponent implements OnInit {
         user.chatMessages.push(lastMessage)
       }
     });
+    this.chatService.newSocketSubject.subscribe((res: boolean) => {
+      if(!res){return}
+      let botIds = this.store.bots.map(bot => bot.botId)
+      this.chatService.getOnlineUsers({ botIds })
+      .then((onlineUsers: ChatUserEntity[]) => {
+        console.log("getOnlineUsers", onlineUsers);
+        onlineUsers.map(item => { item.chatMessages = [] })
+        this.store.onlineUsers = onlineUsers
+      });
+    })
   }
 
   onUserSelect(botUserId: string) {

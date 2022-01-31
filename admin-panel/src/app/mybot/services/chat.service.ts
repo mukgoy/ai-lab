@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { io, Socket } from "socket.io-client";
 import { ChatMessageEntity, ChatUserEntity } from "src/app/shared/entities";
 import { SocketData, userbotApi } from "../enums";
@@ -20,28 +20,40 @@ export class ChatService {
     connect(data: SocketData) {
         this.socket = io('http://localhost:3000/chat');
         this.setSocketData(data)
+        this.socket.onAny((event, ...args) => {  console.log(event, args);});
+        this.socket.on("connect_error", (err) => {
+            console.log("connect_error", err);
+            this.isReady = false
+            this.setSocketData(data)
+        });
     }
 
+    newSocketSubject = new BehaviorSubject<boolean>(false);
     setSocketData(data: SocketData) {
         this.socket.emit('setSocketData', data, (res: boolean) => {
             if (res) { 
                 this.isReady = true 
                 this.checkQueue()
             }
+            this.newSocketSubject.next(true);
         });
     }
 
     joinRoom(room: string) {
-        this.socket.emit('joinRoom', room);
+        return new Promise((resolve, reject)=>{
+            this.socket.emit('joinRoom', room, resolve);
+        })
     }
 
     sendMessage(message: ChatMessageEntity) {
-        if (this.isReady) {
-            console.log('message', message);
-            this.socket.emit('message', message);
-        } else {
-            this.msgQueue.push(message)
-        }
+        return new Promise((resolve, reject)=>{
+            if (this.isReady) {
+                console.log('message', message);
+                this.socket.emit('message', message, resolve);
+            } else {
+                this.msgQueue.push(message)
+            }
+        })
     }
 
     checkQueue() {

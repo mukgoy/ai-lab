@@ -55,14 +55,12 @@ export class ChatService {
     }
   }
 
-  getConnectedUsers(data: any) {
+  getConnectedUsers(data: {botIds:any[]}) {
     let users = [];
     // console.log(data, this.connectedUsers)
     for (let room in this.connectedUsers) {
       let socketdata = this.connectedUsers[room].data;
-      if (data.botId && socketdata.bot.botId == data.botId) {
-        users.push(socketdata.user)
-      } else if (data.botIds && data.botIds.indexOf(socketdata.bot.botId) > -1) {
+      if (data.botIds && data.botIds.indexOf(socketdata.bot.botId) > -1) {
         users.push(socketdata.user)
       }
     }
