@@ -6,11 +6,11 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
 
     async createUser(createChatUserDto) {
         // console.log(createChatUserDto.req.user)
-        let {name, email, phone, type, bot, owner } = createChatUserDto;
+        let { name, email, phone, type, bot, owner } = createChatUserDto;
         owner = owner || createChatUserDto.req.user.owner
         type = type || ChatUserType.USER
         let primaryKey = email;
-        let user = new ChatUserEntity({name, email, phone, type, bot, owner, primaryKey});
+        let user = new ChatUserEntity({ name, email, phone, type, bot, owner, primaryKey });
         return user.save().catch(err => {
             if (err.writeErrors) {
                 return this.findOne(createChatUserDto);
@@ -20,10 +20,12 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
 
     async updateUser(updateChatUserDto) {
         updateChatUserDto.req = {}
-        // console.log(updateChatUserDto);
+        console.log(updateChatUserDto);
         let user = await this.findOne(updateChatUserDto.id);
-        delete updateChatUserDto.id
-        Object.assign(user, updateChatUserDto);
-        return user.save();
+        if (user) {
+            delete updateChatUserDto.id
+            Object.assign(user, updateChatUserDto);
+            return user.save();
+        }
     }
 }

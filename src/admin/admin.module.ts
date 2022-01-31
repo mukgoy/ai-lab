@@ -7,10 +7,12 @@ import { UploadController } from './controllers/upload.controller';
 import { UploadService } from './services/upload.service';
 import { CustomerService } from './services/customer.service';
 import { CustomerController } from './controllers/customer.controller';
+import { ReportController } from './controllers/report.controller';
+import { ReportService } from './services/report.service';
 
 @Module({
-  controllers: [BotController, FaqController, UploadController, CustomerController],
-  providers: [BotService, FaqService, UploadService, CustomerService],
+  controllers: [BotController, FaqController, UploadController, CustomerController, ReportController],
+  providers: [BotService, FaqService, UploadService, CustomerService, ReportService],
   
 })
 export class AdminModule {}
