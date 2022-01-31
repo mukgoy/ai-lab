@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { io, Socket } from "socket.io-client";
 import { ChatMessageEntity, ChatUserEntity } from "src/app/shared/entities";
+import { environment } from "src/environments/environment";
 import { SocketData, userbotApi } from "../enums";
 import { ApiHttpService } from "./api-http.service";
 
@@ -18,7 +19,7 @@ export class ChatService {
     ) { }
 
     connect(data: SocketData) {
-        this.socket = io('http://localhost:3000/chat');
+        this.socket = io(environment.backend+'chat');
         this.setSocketData(data)
         this.socket.onAny((event, ...args) => {  console.log(event, args);});
         this.socket.on("connect_error", (err) => {
