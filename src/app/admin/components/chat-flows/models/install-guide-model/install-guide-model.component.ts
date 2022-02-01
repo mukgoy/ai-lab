@@ -13,6 +13,7 @@ export class InstallGuideModelComponent implements OnInit {
   @Input() modalRef: BsModalRef = new BsModalRef();
   @Input() botId: any;
 
+  bundleJs = environment.bundleJs
   constructor(private help: HelperService,) { }
 
   ngOnInit(): void {
