@@ -19,14 +19,16 @@ export class ChatService {
     ) { }
 
     connect(data: SocketData) {
-        this.socket = io(environment.backend+'chat');
-        this.setSocketData(data)
-        this.socket.onAny((event, ...args) => {  console.log(event, args);});
-        this.socket.on("connect_error", (err) => {
-            console.log("connect_error", err);
-            this.isReady = false
+        if(!this.isReady){
+            this.socket = io(environment.backend+'chat');
             this.setSocketData(data)
-        });
+            this.socket.onAny((event, ...args) => {  console.log(event, args);});
+            this.socket.on("connect_error", (err) => {
+                console.log("connect_error", err);
+                this.isReady = false
+                this.setSocketData(data)
+            });
+        }
     }
 
     newSocketSubject = new BehaviorSubject<boolean>(false);
