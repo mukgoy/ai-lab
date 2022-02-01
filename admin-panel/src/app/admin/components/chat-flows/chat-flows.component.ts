@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BotService } from '../../services/bot.service';
 
 @Component({
@@ -8,8 +9,12 @@ import { BotService } from '../../services/bot.service';
 export class ChatFlowsComponent implements OnInit {
 
   mybots: any[] = [];
+  selectedBot:any
+  modalRef: BsModalRef = new BsModalRef();
+  @ViewChild('installGuideModel') installGuideModel?: TemplateRef<any>;
   constructor(
-    private botService: BotService
+    private botService: BotService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -26,4 +31,10 @@ export class ChatFlowsComponent implements OnInit {
     });
   }
 
+  openModal(bot:any) {
+    this.selectedBot = bot
+    if(this.installGuideModel){
+      this.modalRef  = this.modalService.show(this.installGuideModel, {class: 'modal-xl bg-transparent',backdrop : 'static',keyboard : false});
+    }
+  }
 }
