@@ -13,7 +13,7 @@ import { join } from 'path';
         port: 465,
         secure: true, // use SSL
         auth: {
-          user: 'ansh.goyal24032016@gmail.com',
+          user: 'lalabot2222@gmail.com',
           pass: 'Pass@123'
         },
       },
