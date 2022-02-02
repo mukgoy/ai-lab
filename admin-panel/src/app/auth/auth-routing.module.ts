@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BeforeloginGuard } from '../shared/guards/beforelogin.guard';
+import { LogoutGuard } from '../shared/guards/logout.guard';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { LoginComponent } from './components/login/login.component';
@@ -9,6 +10,11 @@ import { SignupComponent } from './components/signup/signup.component';
 
 
 const routes: Routes = [
+  {
+    path: 'logout',
+    component: LayoutComponent,
+    canActivate: [LogoutGuard],
+  },
   {
     path: '',
     component: LayoutComponent,

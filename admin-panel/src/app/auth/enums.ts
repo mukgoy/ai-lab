@@ -11,6 +11,8 @@ export const authApi = {
         login: authConfig.backend + "login",
         signup: authConfig.backend + "signup",
         socialLogin: authConfig.backend + "social-login",
+        forgotPassword: authConfig.backend + "forgot-password",
+        resetPassword: authConfig.backend + "reset-password",
     }
 }
 
@@ -19,6 +21,8 @@ export const authNotify = {
         signup: 'Signup successfully.',
         login: 'Login successfully.',
         verifyEmail: 'Please verify your email.',
+        forgotPassword: 'Password reset link sent to your email.',
+        resetPassword: 'Password reset successfully.',
     },
     error : {
         unknown: 'Some thing is not correct.',
