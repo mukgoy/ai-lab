@@ -37,15 +37,26 @@ export class UserbotService {
     return this.chatUserRepository.updateUser(updateChatUserDto);
   }
 
-  getPreviousMessages(room: string, offset: number = 0) {
-    let where:any = {room: room};
-    if(offset > 0){
+  getPreviousMessagesHold(room: string, offset: string = "") {
+    // let where:any = {room: room};
+    // if(offset > 0){
+    //   where.id = LessThan(offset)
+    // }
+    // return this.chatMessageRepository.find({
+    //   where: where,
+    //   order: { id: "DESC" },
+    //   take: 10,
+    // });
+  }
+
+  getPreviousMessages(room: string, offset: string = "") {
+    let where: any = { room: room };
+    if (offset) {
       where.id = LessThan(offset)
     }
+    console.log(where)
     return this.chatMessageRepository.find({
-      where: where,
-      order: { id: "DESC" },
-      take: 10,
+        where: ""
     });
   }
 }

@@ -55,9 +55,9 @@ export class ChatGateway implements NestGateway {
     if (data.room) {
       console.log(`${data.sender.type}:${data.sender.id} send the message in room : ${data.room}: ${data.message}`);
       socket.broadcast.to(data.room).emit('message', data);
-      this.chatService.setLastMessage(socket, data)
+      const createdChat = await this.chatService.setLastMessage(socket, data)
       if (data.sender.type != ChatUserType.AGENT) {
-        socket.broadcast.to(ChatUserType.BOT + data.bot.botId).emit('lastMessage', data);
+        socket.broadcast.to(ChatUserType.BOT + data.bot.botId).emit('lastMessage', createdChat);
       }
     }else{
       console.log(`${data.sender.type} msg from test bot`);

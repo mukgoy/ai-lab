@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="chat-content-body" style="display: inherit;">
-          <div class="chat-content-scroll-area scrollbar">
+          <div class="chat-content-scroll-area scrollbar" (scroll)="handleScrollUpChats($event)">
             <div class="text-center fs--2 text-500"><span>May 5, 2019, 11:54 am</span></div>
             <ng-container *ngFor="let chatMessage of store.selectedUser?.chatMessages; trackBy: help.trackByIndex">
               <div class="d-flex p-3" *ngIf="chatMessage.sender.type=='user'" appBotuiScroll>

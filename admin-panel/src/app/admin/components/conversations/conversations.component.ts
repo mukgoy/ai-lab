@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/mybot/services/chat.service';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
@@ -72,6 +72,7 @@ export class ConversationsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.textMsg = this.htmlToText(this.textMsg);
     console.log(this.textMsg);
     this.textMsgBox.nativeElement.innerHTML = "";
     this.msgService.onAgentReply(this.textMsg);
@@ -128,14 +129,31 @@ export class ConversationsComponent implements OnInit {
     if (this.store.selectedUser) {
       this.store.selectedUser.chatMessages = this.store?.selectedUser?.chatMessages || [];
       let firstMessage = (this.store.selectedUser?.chatMessages || [])[0];
-      // let offset = firstMessage.id ? firstMessage.id : ""
+      let offset = firstMessage.id ? firstMessage.id : ""
       // let selectedUser = this.store.selectedUser;
-      // this.chatService.getPreviousMessages(this.store.selectedUser, offset).subscribe((chatMessages: any) => {
+      this.chatService.getPreviousMessages(this.store.selectedUser?.id||"", offset).subscribe((chatMessages: any) => {
       //   console.log(chatMessages);
       //   selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
       // }, (error: any) => {
       //   console.log(error);
-      // });
+      });
+    }
+  }
+
+  htmlToText(html: string) {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  }
+
+  // Console for ng-dropdown ends
+  @HostListener('scroll', ['$event'])
+  handleScrollUpChats(event: any) {
+    if (event.target.scrollTop < 10) {
+      setTimeout(()=>{
+        this.getPreviousMessages()
+      },500)
+      console.log("scroll end");
     }
   }
 }

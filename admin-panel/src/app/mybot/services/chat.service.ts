@@ -84,7 +84,7 @@ export class ChatService {
         return observable;
     }
 
-    getPreviousMessages(selectedUser: ChatUserEntity, offset: string = "") {
-        return this.http.get(userbotApi.getPreviousMessages, { room: selectedUser.id, offset })
+    getPreviousMessages(selectedUserId: string, offset: string = "") {
+        return this.http.get(userbotApi.getPreviousMessages, { room: selectedUserId, offset })
     }
 }
