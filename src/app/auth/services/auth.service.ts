@@ -69,4 +69,15 @@ export class AuthService {
       })
     );
   }
+
+  forgotPassword(form:any){
+    const url = authApi.auth.forgotPassword;
+    return this.http.post(url, form)
+  }
+
+  resetPassword(form:any, token:string){
+    console.log({Authorization: `Bearer ${token}`});
+    const url = authApi.auth.resetPassword;
+    return this.http.post(url, form, {headers:{Authorization: `Bearer ${token}`}})
+  }
 }
