@@ -124,16 +124,24 @@ export class ConversationsComponent implements OnInit {
     }
   }
 
+  isloading = false
   getPreviousMessages() {
+    
     console.log("selectedUser", this.store.selectedUser)
-    if (this.store.selectedUser) {
+    if (this.store.selectedUser && !this.isloading) {
+      this.isloading = true;
       this.store.selectedUser.chatMessages = this.store?.selectedUser?.chatMessages || [];
-      let firstMessage = (this.store.selectedUser?.chatMessages || [])[0];
+      let firstMessage = (this.store.selectedUser?.chatMessages || [])[0] || this.store.selectedUser?.lastMessage;
       let offset = firstMessage.id ? firstMessage.id : ""
-      // let selectedUser = this.store.selectedUser;
-      this.chatService.getPreviousMessages(this.store.selectedUser?.id||"", offset).subscribe((chatMessages: any) => {
-      //   console.log(chatMessages);
-      //   selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+      let selectedUser = this.store.selectedUser;
+      let room = "user" + this.store.selectedUser?.id;
+      this.chatService.getPreviousMessages(room, offset).subscribe((chatMessages: any) => {
+        this.isloading = false
+        console.log(chatMessages.length);
+       
+        if(this.store.selectedUser)
+        this.store.selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+        // this.store.selectedUser.chatMessages = chatMessages.concat(selectedUser.chatMessages)
       // }, (error: any) => {
       //   console.log(error);
       });
