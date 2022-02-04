@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from 'src/app/mybot/services/chat.service';
 import { MsgService } from 'src/app/mybot/services/msg.service';
 import { StoreService } from 'src/app/mybot/services/store.service';
@@ -7,6 +7,7 @@ import { BotService } from '../../services/bot.service';
 import { BotEntity, ChatMessageEntity, ChatUserEntity, ChatUserType } from 'src/app/shared/entities';
 import { SocketData } from 'src/app/mybot/enums';
 import * as _ from 'lodash';
+import { ChatAgentService } from '../../services/chat-agent.service';
 @Component({
   selector: 'app-conversations',
   templateUrl: './conversations.component.html'
@@ -19,6 +20,7 @@ export class ConversationsComponent implements OnInit {
     public userService: UserService,
     public store: StoreService,
     public chatService: ChatService,
+    public chatAgentService: ChatAgentService,
     public msgService: MsgService,
     private botService: BotService,
   ) { }
@@ -29,14 +31,11 @@ export class ConversationsComponent implements OnInit {
 
   getBots() {
     this.botService.getBots().subscribe((res: any) => {
-      console.log(res);
       this.store.bots = res
       if (this.store.bots.length > 0) {
         const { userId, email, phone, name, owner } = this.userService.currentUserValue;
-        // this.store.bot = this.store.bots[0]
         this.store.botUser = { id: userId, email, phone, name, type: ChatUserType.AGENT, owner }
-        this.msgService.connectChatServer()
-        this.initAllSubscribers();
+        this.chatAgentService.init()
       }
     }, (error: any) => {
       // this.helperService.notify('error', error);
@@ -72,47 +71,13 @@ export class ConversationsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.textMsg = this.htmlToText(this.textMsg);
     console.log(this.textMsg);
     this.textMsgBox.nativeElement.innerHTML = "";
     this.msgService.onAgentReply(this.textMsg);
   }
 
-  initAllSubscribers() {
-    this.chatService.onMessageReceived('reconnect').subscribe((res: any) => {
-      console.log("updateOnlineUsers", res);
-    });
-    this.chatService.onMessageReceived('updateOnlineUsers').subscribe((res: any) => {
-      console.log("updateOnlineUsers", res);
-      if (res.connect) {
-        this.store.onlineUsers.unshift(res.connect.user)
-      } else if (res.disconnect) {
-        const index = this.store.onlineUsers.findIndex(x => x.id === res.disconnect.user.id);
-        if (index > -1) {
-          this.store.onlineUsers.splice(index, 1);
-        }
-      }
-    });
-    this.chatService.onMessageReceived('lastMessage').subscribe((lastMessage: ChatMessageEntity) => {
-      console.log("lastMessage", lastMessage);
-      console.log("onlineUsers", this.store.onlineUsers);
-      let user = this.store.onlineUsers.find(item => item.id == lastMessage.sender?.id);
-      if (user) {
-        user.lastMessage = lastMessage
-        user.chatMessages = user.chatMessages || []
-        user.chatMessages.push(lastMessage)
-      }
-    });
-    this.chatService.newSocketSubject.subscribe((res: boolean) => {
-      if(!res){return}
-      let botIds = this.store.bots.map(bot => bot.botId)
-      this.chatService.getOnlineUsers({ botIds })
-      .then((onlineUsers: ChatUserEntity[]) => {
-        console.log("getOnlineUsers", onlineUsers);
-        onlineUsers.map(item => { item.chatMessages = [] })
-        this.store.onlineUsers = onlineUsers
-      });
-    })
-  }
+  
 
   onUserSelect(botUserId: string) {
     let user = this.store.onlineUsers.find(item => item.id == botUserId);
@@ -123,19 +88,43 @@ export class ConversationsComponent implements OnInit {
     }
   }
 
+  isloading = false
   getPreviousMessages() {
     console.log("selectedUser", this.store.selectedUser)
-    if (this.store.selectedUser) {
+    if (this.store.selectedUser && !this.isloading) {
+      this.isloading = true;
       this.store.selectedUser.chatMessages = this.store?.selectedUser?.chatMessages || [];
-      let firstMessage = (this.store.selectedUser?.chatMessages || [])[0];
-      // let offset = firstMessage.id ? firstMessage.id : ""
-      // let selectedUser = this.store.selectedUser;
-      // this.chatService.getPreviousMessages(this.store.selectedUser, offset).subscribe((chatMessages: any) => {
-      //   console.log(chatMessages);
-      //   selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+      let firstMessage = (this.store.selectedUser?.chatMessages || [])[0] || this.store.selectedUser?.lastMessage;
+      let offset = firstMessage.id ? firstMessage.id : ""
+      let selectedUser = this.store.selectedUser;
+      let room = "user" + this.store.selectedUser?.id;
+      this.chatService.getPreviousMessages(room, offset).subscribe((chatMessages: any) => {
+        this.isloading = false
+        console.log(chatMessages.length);
+       
+        if(this.store.selectedUser)
+        this.store.selectedUser.chatMessages = chatMessages.reverse().concat(selectedUser.chatMessages)
+        // this.store.selectedUser.chatMessages = chatMessages.concat(selectedUser.chatMessages)
       // }, (error: any) => {
       //   console.log(error);
-      // });
+      });
+    }
+  }
+
+  htmlToText(html: string) {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  }
+
+  // Console for ng-dropdown ends
+  @HostListener('scroll', ['$event'])
+  handleScrollUpChats(event: any) {
+    if (event.target.scrollTop < 10) {
+      setTimeout(()=>{
+        this.getPreviousMessages()
+      },500)
+      console.log("scroll end");
     }
   }
 }

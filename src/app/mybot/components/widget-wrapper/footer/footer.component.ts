@@ -8,20 +8,20 @@ import { MsgService } from 'src/app/mybot/services/msg.service';
 })
 export class FooterComponent implements OnInit {
 
-  textMsg="";
+  textMsg = "";
   @ViewChild('textMsgBox') textMsgBox: ElementRef<HTMLInputElement> = {} as ElementRef;
-  
+
   constructor(
-    public msgService:MsgService
-  ){ }
+    public msgService: MsgService
+  ) { }
 
   ngOnInit(): void {
   }
 
   previousKey = "";
-  onChangeHTML(event:any){
+  onChangeHTML(event: any) {
     let textMsg = this.textMsgBox.nativeElement.textContent || "";
-    if(!textMsg){
+    if (!textMsg) {
       this.textMsgBox.nativeElement.textContent = "";
       return;
     }
@@ -31,18 +31,25 @@ export class FooterComponent implements OnInit {
     this.textMsg = this.textMsg.replace(/<br\s*[\/]?>/gi, "\n");
     this.textMsg = this.textMsg.trim();
 
-    if(event.key == "Enter" && this.previousKey!="Shift"){
+    if (event.key == "Enter" && this.previousKey != "Shift") {
       this.onSubmit();
-    }else{
+    } else {
       this.previousKey = event.key;
     }
-    
+
   }
 
-  onSubmit(){
+  onSubmit() {
+    this.textMsg = this.htmlToText(this.textMsg);
     console.log(this.textMsg);
     this.textMsgBox.nativeElement.innerHTML = "";
     this.msgService.onUserReply(this.textMsg);
+  }
+
+  htmlToText(html: string) {
+    const tmp = document.createElement('DIV');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
   }
 
 }

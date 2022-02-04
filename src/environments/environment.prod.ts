@@ -9,7 +9,7 @@ export const environment = {
 export const social = {
   google: {
     AppName: "balajieshoplogin->vidfly",
-    clientId: "413467584153-u2cr0t2h9pcku4jlq311b02iok9vkcqa.apps.googleusercontent.com"
+    clientId: "413467584153-6607ddk7u965khj28s4jsvceil6908f1.apps.googleusercontent.com"
   },
   fb: {
     AppName: "lalbot",
