@@ -8,7 +8,6 @@ import { FaqRepository } from 'src/globals/repository/faq.repository';
 import { LessThan } from 'typeorm';
 import { CreateChatUserDto } from './dto/create-chat-user.dto';
 import { UpdateChatUserDto } from './dto/update-chat-user.dto';
-import { ObjectId } from "mongoose";
 
 @Injectable()
 export class UserbotService {
