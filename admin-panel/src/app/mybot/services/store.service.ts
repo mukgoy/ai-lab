@@ -35,9 +35,9 @@ export class StoreService {
     this.botUserSubject.next(user);
   }
   get botUser() {
-    if(this.isAgent){ 
-      return {} as ChatUserEntity
-    }
+    // if(this.isAgent){ 
+    //   return {} as ChatUserEntity
+    // }
     return this.botUserSubject.value;
   }
 
