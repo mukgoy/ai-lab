@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ChatMessageEntity } from 'src/globals/entities';
 import { BotRepository } from 'src/globals/repository/bot.repository';
 import { ChatMessageRepository } from 'src/globals/repository/chat-message.repository';
 import { ChatUserRepository } from 'src/globals/repository/chat-user.repository';
@@ -7,6 +8,7 @@ import { FaqRepository } from 'src/globals/repository/faq.repository';
 import { LessThan } from 'typeorm';
 import { CreateChatUserDto } from './dto/create-chat-user.dto';
 import { UpdateChatUserDto } from './dto/update-chat-user.dto';
+import { ObjectId } from "mongoose";
 
 @Injectable()
 export class UserbotService {
@@ -37,14 +39,30 @@ export class UserbotService {
     return this.chatUserRepository.updateUser(updateChatUserDto);
   }
 
-  getPreviousMessages(room: string, offset: number = 0) {
-    let where:any = {room: room};
-    if(offset > 0){
-      where.id = LessThan(offset)
+  getPreviousMessagesHold(room: string, offset: string = "") {
+    // let where:any = {room: room};
+    // if(offset > 0){
+    //   where.id = LessThan(offset)
+    // }
+    // return this.chatMessageRepository.find({
+    //   where: where,
+    //   order: { id: "DESC" },
+    //   take: 10,
+    // });
+  }
+
+  async getPreviousMessages(room: string, offset: string = "") {
+    let msg = await this.chatMessageRepository.findOne(offset);
+    let where: any = { room: room };
+    if (offset) {
+      where._id = {"$lt":msg.id}
+      console.log(typeof msg.id)
     }
     return this.chatMessageRepository.find({
-      where: where,
-      order: { id: "DESC" },
+      select:['id','room','message','sender'],
+      // select:['id','room','message'],
+      where : where,
+      order: { createdAt: -1 },
       take: 10,
     });
   }

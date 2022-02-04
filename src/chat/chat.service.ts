@@ -33,12 +33,13 @@ export class ChatService {
     // console.log("userConnected", this.connectedUsers)
   }
 
-  setLastMessage(socket: Socket, chat: ChatMessageEntity){
+  async setLastMessage(socket: Socket, chat: ChatMessageEntity){
     // console.log("setLastMessage", {room:socket.data.room, socketdata:socket.data, cuser:this.connectedUsers[socket.data.room]});
-    socket.data.user.lastMessage = chat
-    this.connectedUsers[socket.data.room].data = socket.data;
     const createdChat = this.chatRepository.create(new ChatMessageEntity(chat));
-    createdChat.save();
+    await createdChat.save();
+    socket.data.user.lastMessage = createdChat
+    this.connectedUsers[socket.data.room].data = socket.data;
+    return createdChat;
   }
 
   userDisconnected(socket: Socket) {
