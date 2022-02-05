@@ -37,18 +37,33 @@
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Ask email</label>
                         <input type="email" class="form-control" id="inputEmail4" formControlName="askEmailMsg">
+                        <ng-container *ngIf="formGroup.controls.askEmailMsg?.touched || formSubmited">
+                            <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.askEmailMsg.errors | keyvalue" appBotuiScroll>
+                                {{"Ask email" | errortostring : errorMsg}}
+                            </p>
+                        </ng-container>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Ask phone number</label>
                         <input type="email" class="form-control" id="inputEmail4" formControlName="askPhoneMsg">
+                        <ng-container *ngIf="formGroup.controls.askPhoneMsg?.touched || formSubmited">
+                            <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.askPhoneMsg.errors | keyvalue" appBotuiScroll>
+                                {{"Ask phone number" | errortostring : errorMsg}}
+                            </p>
+                        </ng-container>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Ask name</label>
                         <input type="email" class="form-control" id="inputEmail4" formControlName="askNameMsg">
+                        <ng-container *ngIf="formGroup.controls.askNameMsg?.touched || formSubmited">
+                            <p class="text-danger" *ngFor="let errorMsg of formGroup.controls.askNameMsg.errors | keyvalue" appBotuiScroll>
+                                {{"Ask name" | errortostring : errorMsg}}
+                            </p>
+                        </ng-container>
                     </div>
                 </div>
             </div>
