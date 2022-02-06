@@ -42,7 +42,7 @@
                         <button class="btn btn-info btn-sm mr-1 " (click)="openModal(faq)" >
                             <i class="fa fa-pencil"></i> Edit
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm " ><i class="fa fa-times"></i> Delete </button>
+                        <button  type="button" class="btn btn-danger btn-sm "(click)="deleteFaqById(faq.faqId)" ><i class="fa fa-times"></i> Delete </button>
                     </div>
                     </div>
                     <div class="pl-3" [innerHtml]="faq.answer"></div>

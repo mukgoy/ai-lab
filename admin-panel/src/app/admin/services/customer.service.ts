@@ -36,5 +36,10 @@ export class CustomerService {
         return this.http.put(url, body);
     }
 
+    deleteCustomerById(id:any){
+        const url = adminApi.customer.remove+'/'+id;
+        return this.http.delete(url);
+      }
+
 
 }

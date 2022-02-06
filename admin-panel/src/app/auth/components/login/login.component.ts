@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   user: SocialUser = <SocialUser>{};
   myForm: FormGroup = this.fb.group({
     username: ["", [Validators.required, Validators.email]],
-    password: ["", [Validators.required]]
+    password: ["", [Validators.required]],
   });
   formSubmited: boolean = false;
   queryParams: any;

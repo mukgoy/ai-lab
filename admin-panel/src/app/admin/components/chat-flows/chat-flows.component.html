@@ -57,7 +57,7 @@
                                     <a [routerLink]="['/admin/manage-bots',bot.botId,'welcome']" class="btn btn-info btn-sm mr-1">OnBoard</a>
                                     <a [routerLink]="['/mybot/bot-test',bot.botId]" target="_blank" class="btn btn-info btn-sm mr-1">Test</a>
                                     <button (click)="openModal(bot)" type="button" class="btn btn-secondary btn-sm mr-1">Code</button>
-                                    <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</button>
+                                    <button (click)="deleteBotById(bot.botId)" type="button" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</button>
                                 </td>
                             </tr>
                         </tbody>

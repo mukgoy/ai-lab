@@ -47,6 +47,10 @@ export const adminNotify = {
         createFaq: 'Faq have been created.',
         updateFaq: 'Faq have been updated.',
         copyContent: 'Copied successfully.',
+        deleteBot: 'Delete successfully.',
+        faqBot: 'Delete successfully',
+        deleteCustomer: 'Delete successfully',
+        
     },
     error : {
         updateProfileDetails: 'Some thing is not correct.',

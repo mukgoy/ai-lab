@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChatUserEntity } from 'src/globals/entities';
 import { ChatUserRepository } from 'src/globals/repository/chat-user.repository';
@@ -50,7 +50,11 @@ export class CustomerService {
     return this.chatUserRepository.updateUser(updateCustomerDto);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} customer`;
+  public async remove(req: any, id: string): Promise<any> {
+    const customer: ChatUserEntity = await this.chatUserRepository.findOne(id);
+
+    if (!customer) throw new NotFoundException(`customer with ID ${id} Not Found`);
+    await this.chatUserRepository.delete(customer);
+    return { msg: `This action removes a #${id} customer` };
   }
 }

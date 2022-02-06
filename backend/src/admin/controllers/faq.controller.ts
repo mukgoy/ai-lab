@@ -36,7 +36,7 @@ export class FaqController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.faqService.remove(id);
+  remove(@Request() req, @Param('id') id: string) {
+    return this.faqService.remove(req, id);
   }
 }

@@ -17,7 +17,7 @@ export class BotService {
   }
 
   getBotById(botId:string){
-    const url = adminApi.bot.findAll+'/'+botId;
+    const url = adminApi.bot.findOne+'/'+botId;
     return this.http.get(url);
   }
 
@@ -32,5 +32,8 @@ export class BotService {
       const url = adminApi.bot.update+'/'+obj.botId;
       return this.http.put(url, body);
   }
-
+  deleteBotById(botId:string){
+    const url = adminApi.bot.remove+'/'+botId;
+    return this.http.delete(url);
+  }
 }

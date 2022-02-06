@@ -3,6 +3,8 @@ import { FaqService } from '../../services/faq.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BotService } from '../../services/bot.service';
 import { ActivatedRoute } from '@angular/router';
+import { HelperService } from 'src/app/shared/services';
+import { adminNotify } from '../../enums';
 
 
 
@@ -24,6 +26,7 @@ export class FaqsComponent implements OnInit {
     private faqService: FaqService,
     private botService: BotService,
     private modalService: BsModalService,
+    private help: HelperService,
     
   ) { }
 
@@ -75,5 +78,17 @@ export class FaqsComponent implements OnInit {
     }else{
       return this.faqs
     }
+  }
+  deleteFaqById(faqId:number){
+    console.log(faqId)
+    this.faqService.deleteFaqById(faqId)
+    .subscribe((res:any)=>{
+      console.log(res);
+      this.getFaqs();
+      this.help.notify('success',adminNotify.success.faqBot);
+    },(error:any)=>{
+      console.log(error)
+        // this.helperService.notify('error', error);
+    });
   }
 }

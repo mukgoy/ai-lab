@@ -15,7 +15,8 @@ export class SignupComponent implements OnInit {
     name: ["",[Validators.required]],
     email: ["",[Validators.required, Validators.email]],
     password: ["",[Validators.required]],
-    cpassword: ["",[Validators.required]]
+    cpassword: ["",[Validators.required]],
+    checkbox: ["",[Validators.required]]
   }, { 
     validators: [ValidationService.MustMatch('password', 'cpassword')]
   });

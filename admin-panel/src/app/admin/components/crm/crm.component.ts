@@ -1,6 +1,7 @@
 import { Component, KeyValueDiffer, KeyValueDiffers, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { HelperService, PageParamsServer } from 'src/app/shared/services';
+import { adminNotify } from '../../enums';
 import { CustomerService } from '../../services/customer.service';
 
 @Component({
@@ -76,5 +77,18 @@ export class CrmComponent implements OnInit {
   export(){
     // console.log("this feature is pending for all export");
     this.help.downloadFile(this.pageParams.data);
+  }
+
+  deleteCustomerById(id:any){
+    this.customerService.deleteCustomerById(id)
+    .subscribe((res:any)=>{
+      console.log(res);
+      this.getAllCustomers();
+      this.help.notify('success',adminNotify.success.deleteCustomer);
+
+    },(error:any)=>{
+      console.log(error)
+        // this.helperService.notify('error', error);
+    });
   }
 }
