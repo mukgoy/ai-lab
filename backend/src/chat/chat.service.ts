@@ -37,8 +37,10 @@ export class ChatService {
     // console.log("setLastMessage", {room:socket.data.room, socketdata:socket.data, cuser:this.connectedUsers[socket.data.room]});
     const createdChat = this.chatRepository.create(new ChatMessageEntity(chat));
     await createdChat.save();
-    socket.data.user.lastMessage = createdChat
-    this.connectedUsers[socket.data.room].data = socket.data;
+		if(socket.data.user){
+			socket.data.user.lastMessage = createdChat
+    	this.connectedUsers[socket.data.room].data = socket.data;
+		}
     return createdChat;
   }
 

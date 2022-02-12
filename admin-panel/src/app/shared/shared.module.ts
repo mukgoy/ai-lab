@@ -4,11 +4,13 @@ import guards from './guards';
 import interceptors from './interceptors';
 import pipes, { ErrortostringPipe } from './pipes';
 import services, { ScriptService } from './services';
+import { HasPermissionDirective } from './directives/has-permission.directive';
 
 
 @NgModule({
   declarations: [
-    ErrortostringPipe
+    ErrortostringPipe,
+		HasPermissionDirective
   ],
   imports: [
     CommonModule
@@ -17,7 +19,8 @@ import services, { ScriptService } from './services';
     ...services
   ],
   exports: [
-    ErrortostringPipe
+    ErrortostringPipe,
+		HasPermissionDirective
   ]
 })
 export class SharedModule { }

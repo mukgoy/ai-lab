@@ -31,6 +31,9 @@ export class UserEntity extends CommonProperty{
     @Column({ default: true })
     isActive: boolean;
 
+		@Column({ default: ['basic'] })
+		plans?: any[] = ['basic'];
+
     profileName? : string;
     about? : string;
 
