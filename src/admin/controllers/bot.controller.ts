@@ -41,7 +41,7 @@ export class BotController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.botService.remove(id);
+  remove(@Request() req, @Param('id') id: string) {
+    return this.botService.remove(req, id);
   }
 }

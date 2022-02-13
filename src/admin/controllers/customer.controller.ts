@@ -36,7 +36,7 @@ export class CustomerController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.customerService.remove(id);
+  remove(@Request() req, @Param('id') id: any) {
+    return this.customerService.remove(req, id);
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBotDto } from '../dto/create-bot.dto';
 import { UpdateBotDto } from '../dto/update-bot.dto';
@@ -33,7 +33,12 @@ export class BotService {
     return this.botRepository.updateBot(updateBotDto);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} bot`;
+
+  public async remove(req: any, id: string): Promise<any> {
+    const bot: BotEntity = await this.botRepository.findOne(id);
+
+    if (!bot) throw new NotFoundException(`Bot with ID ${id} Not Found`);
+    await this.botRepository.delete(bot);
+    return { msg: `This action removes a #${id} bot` };
   }
 }
