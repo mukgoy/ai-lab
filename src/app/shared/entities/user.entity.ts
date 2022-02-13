@@ -14,6 +14,7 @@ export class UserEntity extends CommonProperty{
     name? : string;
     password? : string;
     isActive?: boolean = true;
+    plans?: any[] = ['basic'];
     bots?: BotEntity[];
     faqs?: FaqEntity[];
     uploads?: UploadEntity[];

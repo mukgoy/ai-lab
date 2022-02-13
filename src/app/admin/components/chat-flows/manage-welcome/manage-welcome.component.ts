@@ -20,9 +20,9 @@ export class ManageWelcomeComponent implements OnInit {
   formSubmited = false;
   formGroup = this.fb.group({
     welcomeMsg: ["", [Validators.required]],
-    askEmailMsg: ["", ],
-    askPhoneMsg: ["", ],
-    askNameMsg: ["", ],
+    askEmailMsg: ["",[Validators.required] ],
+    askPhoneMsg: ["",[Validators.required] ],
+    askNameMsg: ["",[Validators.required] ],
    
   });
 

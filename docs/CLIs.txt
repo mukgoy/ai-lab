@@ -58,3 +58,7 @@ ng g s admin/services/faq
 ng g s admin/services/helper
 
 ng g m shared
+
+
+ng g m master
+ng g c master/components/dashboard

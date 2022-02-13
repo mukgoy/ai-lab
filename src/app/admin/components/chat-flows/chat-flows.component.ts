@@ -1,5 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { HelperService } from 'src/app/shared/services';
+import { adminNotify } from '../../enums';
 import { BotService } from '../../services/bot.service';
 
 @Component({
@@ -14,7 +16,8 @@ export class ChatFlowsComponent implements OnInit {
   @ViewChild('installGuideModel') installGuideModel?: TemplateRef<any>;
   constructor(
     private botService: BotService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private help: HelperService,
   ) { }
 
   ngOnInit(): void {
@@ -37,4 +40,18 @@ export class ChatFlowsComponent implements OnInit {
       this.modalRef  = this.modalService.show(this.installGuideModel, {class: 'modal-xl bg-transparent',backdrop : 'static',keyboard : false});
     }
   }
+
+  deleteBotById(botId:string){
+    this.botService.deleteBotById(botId)
+    .subscribe((res:any)=>{
+      console.log(res);
+      this.getBots();
+      this.help.notify('success',adminNotify.success.deleteBot);
+
+    },(error:any)=>{
+      console.log(error)
+        // this.helperService.notify('error', error);
+    });
+  }
+
 }

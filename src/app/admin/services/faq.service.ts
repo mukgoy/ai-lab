@@ -32,4 +32,9 @@ export class FaqService {
       const url = adminApi.faq.update+'/'+obj.faqId;
       return this.http.put(url, body);
   }
+
+  deleteFaqById(faqId:number){
+    const url = adminApi.faq.remove+'/'+faqId;
+    return this.http.delete(url);
+  }
 }

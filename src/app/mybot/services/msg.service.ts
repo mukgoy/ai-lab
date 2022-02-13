@@ -73,6 +73,9 @@ export class MsgService {
     }
     else if(msgObj.sender?.type == ChatUserType.AGENT){
       this.store.selectedUser?.chatMessages?.push(msgObj)
+			if(this.store.selectedUser){
+				this.store.selectedUser.lastMessage = msgObj
+			}
     }
 
     this.msgs.push(msgObj);
