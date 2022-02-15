@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, ObjectID, Column, UpdateDateColumn } from "typeorm";
+import { Entity, ObjectIdColumn, ObjectID, Column, UpdateDateColumn, BaseEntity, Unique } from "typeorm";
 import { UserEntity } from "./user.entity";
 
 export enum Resource {
@@ -8,7 +8,8 @@ export enum Resource {
 }
 
 @Entity({ name: 'resource_usage' })
-export class ResourceUsageEntity {
+@Unique("unique", ["owner", "resource"])
+export class ResourceUsageEntity extends BaseEntity{
 	@ObjectIdColumn()
 	id: ObjectID;
 
@@ -29,6 +30,7 @@ export class ResourceUsageEntity {
 	updatedAt: Date;
 
 	constructor(data?: Partial<ResourceUsageEntity>) {
+		super()
 		Object.assign(this, data);
 	}
 }
