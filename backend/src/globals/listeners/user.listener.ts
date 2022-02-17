@@ -1,33 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import { OnEvent } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity, BotEntity, ResourceUsageEntity, Resource } from '../entities';
-import { BotRepository } from '../repository/bot.repository';
+import { UserEntity, ResourceUsageEntity, Resource } from '../entities';
 import { ResourceUsageRepository } from '../repository/resource-usage.repository';
 import { eventname } from './event-names';
 
 @Injectable()
-export class BotListener {
+export class UserListener {
 
 	constructor(
-		@InjectRepository(BotRepository)
-		private readonly botRepository: BotRepository,
 		@InjectRepository(ResourceUsageRepository)
-		private readonly usageRepository: ResourceUsageRepository,
-		private eventEmitter: EventEmitter2
+		private readonly usageRepository: ResourceUsageRepository
 	) { }
 
-	@OnEvent(eventname.bot.created)
-	async handleBotCreatedEvent(event: { user: UserEntity, bot: BotEntity }) {
+	@OnEvent(eventname.user.created)
+	async handleUserCreatedEvent(event: { user: UserEntity, dtouser: UserEntity }) {
 		this.resourceCreateOrDelete(event, true)
 	}
 
-	@OnEvent(eventname.bot.deleted)
-	async handleBotDeletedEvent(event: { user: UserEntity, bot: BotEntity }) {
+	@OnEvent(eventname.user.deleted)
+	async handleUserDeletedEvent(event: { user: UserEntity, dtouser: UserEntity }) {
 		this.resourceCreateOrDelete(event, false)
 	}
 
-	async resourceCreateOrDelete(event: { user: UserEntity, bot: BotEntity }, isCreated = true) {
+	async resourceCreateOrDelete(event: { user: UserEntity, dtouser: UserEntity }, isCreated = true) {
 		let usage = new ResourceUsageEntity({
 			owner: new UserEntity({ userId: event.user.owner.userId }),
 			resource: Resource.BOT,

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChatMessageEntity } from 'src/globals/entities';
+import { eventname } from 'src/globals/listeners/event-names';
 import { BotRepository } from 'src/globals/repository/bot.repository';
 import { ChatMessageRepository } from 'src/globals/repository/chat-message.repository';
 import { ChatUserRepository } from 'src/globals/repository/chat-user.repository';
@@ -13,6 +15,7 @@ import { UpdateChatUserDto } from './dto/update-chat-user.dto';
 export class UserbotService {
 
   constructor(
+		private eventEmitter: EventEmitter2,
     @InjectRepository(BotRepository) private readonly botRepository: BotRepository,
     @InjectRepository(FaqRepository) private readonly faqRepository: FaqRepository,
     @InjectRepository(ChatUserRepository) private readonly chatUserRepository: ChatUserRepository,
@@ -30,8 +33,17 @@ export class UserbotService {
   }
 
   async createChatUser(createChatUserDto: CreateChatUserDto) {
-    const user = await this.chatUserRepository.createUser(createChatUserDto);
-    return user;
+    return this.chatUserRepository.createUser(createChatUserDto)
+		.then((chatUser)=>{
+			let dto : any = createChatUserDto;
+			this.eventEmitter.emit(eventname.customer.created, {user:dto, customer:chatUser});
+			return chatUser
+		})
+		.catch(err => {
+				if (err.writeErrors) {
+						return this.chatUserRepository.findOne(createChatUserDto);
+				}
+		});
   }
 
   updateChatUser(updateChatUserDto: UpdateChatUserDto) {

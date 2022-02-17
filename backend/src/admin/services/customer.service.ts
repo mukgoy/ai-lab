@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ChatUserEntity } from 'src/globals/entities';
+import { eventname } from 'src/globals/listeners/event-names';
 import { ChatUserRepository } from 'src/globals/repository/chat-user.repository';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
@@ -10,12 +12,14 @@ import { BotService } from './bot.service';
 export class CustomerService {
 
   constructor(
-    private botService: BotService,
+    private eventEmitter: EventEmitter2,
     @InjectRepository(ChatUserRepository) private readonly chatUserRepository: ChatUserRepository,
   ) { }
 
-  create(createCustomerDto: CreateCustomerDto): Promise<ChatUserEntity> {
-    return this.chatUserRepository.createUser(createCustomerDto);
+  async create(createCustomerDto: CreateCustomerDto): Promise<ChatUserEntity> {
+    let customer = await this.chatUserRepository.createUser(createCustomerDto);
+		this.eventEmitter.emit(eventname.customer.created, {user:createCustomerDto.req.user, customer});
+		return customer
   }
 
   findAllHOLD(req, botId = null) {
@@ -55,6 +59,7 @@ export class CustomerService {
 
     if (!customer) throw new NotFoundException(`customer with ID ${id} Not Found`);
     await this.chatUserRepository.delete(customer);
+		this.eventEmitter.emit(eventname.customer.deleted, {user:req.user, customer});
     return { msg: `This action removes a #${id} customer` };
   }
 }

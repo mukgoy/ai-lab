@@ -5,6 +5,7 @@ import { UpdateBotDto } from '../dto/update-bot.dto';
 import { BotEntity } from '../../globals/entities/bot.entity';
 import { BotRepository } from 'src/globals/repository/bot.repository';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { eventname } from 'src/globals/listeners/event-names';
 
 @Injectable()
 export class BotService {
@@ -17,7 +18,7 @@ export class BotService {
 
   async create(createBotDto: CreateBotDto):Promise<BotEntity> {
     let bot = await this.botRepository.createBot(createBotDto);
-		this.eventEmitter.emit('bot.created', {user:createBotDto.req.user, bot});
+		this.eventEmitter.emit(eventname.bot.created, {user:createBotDto.req.user, bot});
 		return bot
   }
 
@@ -43,7 +44,7 @@ export class BotService {
 
     if (!bot) throw new NotFoundException(`Bot with ID ${id} Not Found`);
     await this.botRepository.delete(bot);
-		this.eventEmitter.emit('bot.deleted', {user:req.user, bot});
+		this.eventEmitter.emit(eventname.bot.deleted, {user:req.user, bot});
     return { msg: `This action removes a #${id} bot` };
   }
 }

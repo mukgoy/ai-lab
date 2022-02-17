@@ -22,14 +22,9 @@ export class UserbotController {
 
   @Post("create-user")
   async createChatUser(@Body() createChatUserDto: CreateChatUserDto) {
-    return this.userbotService.createChatUser(createChatUserDto).catch(err=>{
-      return err
-      if(err.code == "ER_DUP_ENTRY"){
-        throw new BadRequestException(
-          'Account with this email already exists.',
-        );
-      }
-    });
+    return this.userbotService.createChatUser(createChatUserDto)
+		.then(user=>user)
+		.catch(err=>err);
   }
 
   @Put('update-user')

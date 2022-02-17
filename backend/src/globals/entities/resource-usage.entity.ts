@@ -3,8 +3,10 @@ import { UserEntity } from "./user.entity";
 
 export enum Resource {
 	BOT = "bot",
-	FAQ = "agent",
-	LEAD = "lead",
+	FAQ = "faq",
+	USER = "user",
+	UPLOAD = "upload",
+	CUSTOMER = "customer",
 }
 
 @Entity({ name: 'resource_usage' })
@@ -16,7 +18,7 @@ export class ResourceUsageEntity extends BaseEntity{
 	@Column()
 	owner: UserEntity;
 
-	@Column({ type: "enum", enum: Resource, default: Resource.LEAD })
+	@Column({ type: "enum", enum: Resource, default: Resource.CUSTOMER })
 	resource: string;
 
 	@Column({ default: 0 })

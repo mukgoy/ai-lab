@@ -11,11 +11,7 @@ export class ChatUserRepository extends Repository<ChatUserEntity> {
         type = type || ChatUserType.USER
         let primaryKey = email;
         let user = new ChatUserEntity({ name, email, phone, type, bot, owner, primaryKey });
-        return user.save().catch(err => {
-            if (err.writeErrors) {
-                return this.findOne(createChatUserDto);
-            }
-        });
+        return user.save();
     }
 
     async updateUser(updateChatUserDto) {
