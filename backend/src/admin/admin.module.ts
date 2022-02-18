@@ -9,10 +9,12 @@ import { CustomerService } from './services/customer.service';
 import { CustomerController } from './controllers/customer.controller';
 import { ReportController } from './controllers/report.controller';
 import { ReportService } from './services/report.service';
+import { ResourceUsageController } from './controllers/resource-usage.controller';
+import { ResourceUsageService } from './services/resource-usage.service';
 
 @Module({
-  controllers: [BotController, FaqController, UploadController, CustomerController, ReportController],
-  providers: [BotService, FaqService, UploadService, CustomerService, ReportService],
+  controllers: [BotController, FaqController, UploadController, CustomerController, ReportController, ResourceUsageController],
+  providers: [BotService, FaqService, UploadService, CustomerService, ReportService, ResourceUsageService],
   
 })
 export class AdminModule {}
