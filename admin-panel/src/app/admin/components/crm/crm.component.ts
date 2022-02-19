@@ -22,7 +22,7 @@ export class CrmComponent implements OnInit {
     private customerService: CustomerService,
     private differs: KeyValueDiffers,
     private modalService: BsModalService,
-		private _confirm: ConfirmationDialogService,
+		private confirmService: ConfirmationDialogService,
   ) { }
 
   ngOnInit(): void {
@@ -82,7 +82,7 @@ export class CrmComponent implements OnInit {
   }
 
   deleteCustomerById(id:any){
-		this._confirm.confirm(adminNotify.confirm.customerDelete).subscribe((result:boolean) => {
+		this.confirmService.confirm(adminNotify.confirm.customerDelete).subscribe((result:boolean) => {
       if(result){
         this.customerService.deleteCustomerById(id)
 				.subscribe((res:any)=>{

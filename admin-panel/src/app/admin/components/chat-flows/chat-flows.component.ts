@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { HelperService } from 'src/app/shared/services';
 import { adminNotify } from '../../enums';
 import { BotService } from '../../services/bot.service';
+import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-chat-flows',
@@ -18,6 +19,7 @@ export class ChatFlowsComponent implements OnInit {
     private botService: BotService,
     private modalService: BsModalService,
     private help: HelperService,
+		private confirmService: ConfirmationDialogService,
   ) { }
 
   ngOnInit(): void {
@@ -42,16 +44,19 @@ export class ChatFlowsComponent implements OnInit {
   }
 
   deleteBotById(botId:string){
-    this.botService.deleteBotById(botId)
-    .subscribe((res:any)=>{
-      console.log(res);
-      this.getBots();
-      this.help.notify('success',adminNotify.success.deleteBot);
+		this.confirmService.confirm(adminNotify.confirm.customerDelete).subscribe((result:boolean) => {
+      if(result){
+				this.botService.deleteBotById(botId).subscribe((res:any)=>{
+					console.log(res);
+					this.getBots();
+					this.help.notify('success',adminNotify.success.deleteBot);
 
-    },(error:any)=>{
-      console.log(error)
-        // this.helperService.notify('error', error);
-    });
+				},(error:any)=>{
+					console.log(error)
+						// this.helperService.notify('error', error);
+				});
+			}
+		});
   }
 
 }

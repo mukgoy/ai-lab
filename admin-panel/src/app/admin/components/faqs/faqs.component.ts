@@ -5,6 +5,7 @@ import { BotService } from '../../services/bot.service';
 import { ActivatedRoute } from '@angular/router';
 import { HelperService } from 'src/app/shared/services';
 import { adminNotify } from '../../enums';
+import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 
 
 
@@ -27,6 +28,7 @@ export class FaqsComponent implements OnInit {
     private botService: BotService,
     private modalService: BsModalService,
     private help: HelperService,
+		private confirmService: ConfirmationDialogService,
     
   ) { }
 
@@ -81,14 +83,17 @@ export class FaqsComponent implements OnInit {
   }
   deleteFaqById(faqId:number){
     console.log(faqId)
-    this.faqService.deleteFaqById(faqId)
-    .subscribe((res:any)=>{
-      console.log(res);
-      this.getFaqs();
-      this.help.notify('success',adminNotify.success.faqBot);
-    },(error:any)=>{
-      console.log(error)
-        // this.helperService.notify('error', error);
-    });
+		this.confirmService.confirm(adminNotify.confirm.customerDelete).subscribe((result:boolean) => {
+      if(result){
+				this.faqService.deleteFaqById(faqId).subscribe((res:any)=>{
+					console.log(res);
+					this.getFaqs();
+					this.help.notify('success',adminNotify.success.faqBot);
+				},(error:any)=>{
+					console.log(error)
+						// this.helperService.notify('error', error);
+				});
+			}
+		});
   }
 }
