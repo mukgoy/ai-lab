@@ -7,6 +7,7 @@ export const adminConfig = {
     botEntity : "bot",
     faqEntity : "faq",
     customerEntity : "customer",
+    resourceUsageEntity : "resource-usage",
     report : "report",
 }
 
@@ -37,6 +38,13 @@ export const adminApi = {
         usercount: adminConfig.backend + adminConfig.report+'/usercount',
         visitorcount: adminConfig.backend + adminConfig.report+'/visitorcount',
     },
+		resourceUsage:{
+			create: adminConfig.backend + adminConfig.resourceUsageEntity,
+			findAll: adminConfig.backend + adminConfig.resourceUsageEntity,
+			findOne: adminConfig.backend + adminConfig.resourceUsageEntity,
+			update: adminConfig.backend + adminConfig.resourceUsageEntity,
+			remove: adminConfig.backend + adminConfig.resourceUsageEntity,
+	},
     upload: adminConfig.backend + "upload"
 }
 
@@ -56,12 +64,14 @@ export const adminNotify = {
         updateProfileDetails: 'Some thing is not correct.',
     },
     confirm : {
-        groupMemberDelete: "Delete member",
-        currencyDelete: "Delete currency",
-        feeDelete: "Delete fee",
-        tradePairDelete: "Delete trade pair",
-        ticketDelete: "Delete ticket",
-        limitDelete:"Delete limit"
+        botDelete: {title:"Delete bot"},
+        faqDelete: {title:"Delete faq"},
+        customerDelete: {title:"Delete customer"},
+        resourceLimit: {
+					title:"Create resource limit",
+					message:"you have reached to create new resourse limit",
+					btnOkText:"Buy Now"
+				},
     },
     texts : {
         noDataToDisplay : "No data to display",

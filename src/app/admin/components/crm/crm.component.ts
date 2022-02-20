@@ -3,6 +3,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { HelperService, PageParamsServer } from 'src/app/shared/services';
 import { adminNotify } from '../../enums';
 import { CustomerService } from '../../services/customer.service';
+import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-crm',
@@ -21,6 +22,7 @@ export class CrmComponent implements OnInit {
     private customerService: CustomerService,
     private differs: KeyValueDiffers,
     private modalService: BsModalService,
+		private confirmService: ConfirmationDialogService,
   ) { }
 
   ngOnInit(): void {
@@ -80,15 +82,20 @@ export class CrmComponent implements OnInit {
   }
 
   deleteCustomerById(id:any){
-    this.customerService.deleteCustomerById(id)
-    .subscribe((res:any)=>{
-      console.log(res);
-      this.getAllCustomers();
-      this.help.notify('success',adminNotify.success.deleteCustomer);
+		this.confirmService.confirm(adminNotify.confirm.customerDelete).subscribe((result:boolean) => {
+      if(result){
+        this.customerService.deleteCustomerById(id)
+				.subscribe((res:any)=>{
+					console.log(res);
+					this.getAllCustomers();
+					this.help.notify('success',adminNotify.success.deleteCustomer);
 
-    },(error:any)=>{
-      console.log(error)
-        // this.helperService.notify('error', error);
+				},(error:any)=>{
+					console.log(error)
+						// this.helperService.notify('error', error);
+				});
+      }
     });
+    
   }
 }

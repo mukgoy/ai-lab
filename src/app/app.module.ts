@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ErrorInterceptor, JwtInterceptor } from './shared/interceptors';
+import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -22,10 +23,12 @@ import { ErrorInterceptor, JwtInterceptor } from './shared/interceptors';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     BsDropdownModule.forRoot(),
+		ModalModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+		BsModalService
   ],
   bootstrap: [AppComponent]
 })

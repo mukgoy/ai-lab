@@ -16,7 +16,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ColorPickerComponent } from './components/shared/utils/color-picker/color-picker.component';
 import { ImagePickerComponent } from './components/shared/utils/image-picker/image-picker.component';
 import { AddEditFaqModelComponent } from './components/faqs/models/add-edit-faq-model/add-edit-faq-model.component';
-import { BsModalService } from 'ngx-bootstrap/modal';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule } from 'ngx-bootstrap/accordion'
 import { NgPipesModule } from 'ngx-pipes';
@@ -28,6 +27,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BotuiFocusDirective, BotuiScrollDirective } from '../shared/directives';
 import { SharedModule } from '../shared/shared.module';
 import { AddEditCustomerModelComponent } from './components/crm/models/add-edit-customer-model/add-edit-customer-model.component';
+import { ConfirmationDialogComponent } from './components/shared/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -52,7 +52,8 @@ import { AddEditCustomerModelComponent } from './components/crm/models/add-edit-
     BotuiScrollDirective,
     BotuiFocusDirective,
     ManageWelcomeComponent,
-    AddEditCustomerModelComponent
+    AddEditCustomerModelComponent,
+		ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -67,6 +68,6 @@ import { AddEditCustomerModelComponent } from './components/crm/models/add-edit-
     CollapseModule.forRoot(),
     SharedModule
   ],
-  providers: [BsModalService],
+	entryComponents: [ConfirmationDialogComponent],
 })
 export class AdminModule { }
