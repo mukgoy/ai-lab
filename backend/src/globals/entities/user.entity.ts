@@ -29,10 +29,10 @@ export class UserEntity extends CommonProperty{
     password : string;
 
     @Column({ default: true })
-    isActive: boolean;
+    isActive: boolean = true;
 
 		@Column({ default: ['basic'] })
-		plans?: any[];
+		plans: any[] = ['basic'];
 
     profileName? : string;
     about? : string;
