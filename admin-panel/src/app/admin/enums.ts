@@ -64,9 +64,14 @@ export const adminNotify = {
         updateProfileDetails: 'Some thing is not correct.',
     },
     confirm : {
-        botDelete: "Delete bot",
-        faqDelete: "Delete faq",
-        customerDelete: "Delete customer",
+        botDelete: {title:"Delete bot"},
+        faqDelete: {title:"Delete faq"},
+        customerDelete: {title:"Delete customer"},
+        resourceLimit: {
+					title:"Create resource limit",
+					message:"you have reached to create new resourse limit",
+					btnOkText:"Buy Now"
+				},
     },
     texts : {
         noDataToDisplay : "No data to display",

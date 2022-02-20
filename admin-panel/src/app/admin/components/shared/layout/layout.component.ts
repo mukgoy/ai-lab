@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AdminStoreService } from 'src/app/admin/services/admin-store.service';
 import { ResourceUsageService } from 'src/app/admin/services/resource-usage.service';
-import { AppStoreService, ScriptService } from 'src/app/shared/services';
+import { ScriptService } from 'src/app/shared/services';
 import { environment } from 'src/environments/environment';
 declare var lalabot: any;
 
@@ -16,11 +17,11 @@ export class LayoutComponent implements OnInit {
   isOpenMobile = false;
   constructor(
 		public script: ScriptService, 
-		public store: AppStoreService,
+		public store: AdminStoreService,
 		public usage: ResourceUsageService
 	) {
 		this.loadLalaBot();
-		this.setResourceUsage();
+		this.usage.getUsages();
 	}
 
   ngOnInit(): void {
@@ -31,11 +32,5 @@ export class LayoutComponent implements OnInit {
 			console.log('script loaded ', data);
 			lalabot.init("61f65d1feaaeab3104cd9f6d");
 		}).catch(error => console.log(error));
-	}
-
-	setResourceUsage(){
-		this.usage.getUsages().subscribe((res:any)=>{
-			this.store.usages.next(res)
-		})
 	}
 }

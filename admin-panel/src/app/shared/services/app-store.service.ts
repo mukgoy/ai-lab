@@ -6,5 +6,5 @@ import { ResourceUsageEntity } from '../entities/resource-usage.entity';
   providedIn: 'root'
 })
 export class AppStoreService {
-  public usages: BehaviorSubject<ResourceUsageEntity[]> = new BehaviorSubject([new ResourceUsageEntity()]);
+  // public usages: BehaviorSubject<ResourceUsageEntity[]> = new BehaviorSubject([new ResourceUsageEntity()]);
 }
