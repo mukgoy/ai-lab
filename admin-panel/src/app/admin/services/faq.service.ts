@@ -33,7 +33,7 @@ export class FaqService {
       return this.http.put(url, body);
   }
 
-  deleteFaqById(faqId:number){
+  deleteFaqById(faqId:string){
     const url = adminApi.faq.remove+'/'+faqId;
     return this.http.delete(url);
   }

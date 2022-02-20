@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
           }
         }, (error: any) => {
           console.log("error", error);
-          this.help.notify('error', error.error.message);
+          this.help.notify('error', error);
         });
     }
   };
