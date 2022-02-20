@@ -1,45 +1,62 @@
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ApiHttpService } from 'src/app/shared/services';
 import { adminApi } from '../enums';
+import { AdminEventService } from './admin-event.service';
+import { ResourceUsageService } from './resource-usage.service';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 export class CustomerService {
 
-    
-    constructor(
-        public http: ApiHttpService,
-    ) { }
 
-    allCustomers = [];
-    getCustomers(pageObject: any) {
-        let url = adminApi.customer.findAll;
-        return this.http.get(url, pageObject);
-    }
+	constructor(
+		public http: ApiHttpService,
+		private event: AdminEventService,
+		private usageService: ResourceUsageService
+	) { }
 
-    getCustomerById(customerId: string) {
-        const url = adminApi.customer.findOne + '/' + customerId;
-        return this.http.get(url);
-    }
+	allCustomers = [];
+	getCustomers(pageObject: any) {
+		let url = adminApi.customer.findAll;
+		return this.http.get(url, pageObject);
+	}
 
-    createCustomer(obj: any) {
-        const body = obj;
-        const url = adminApi.customer.create;
-        return this.http.post(url, body);
-    }
+	getCustomerById(customerId: string) {
+		const url = adminApi.customer.findOne + '/' + customerId;
+		return this.http.get(url);
+	}
 
-    updateCustomerById(obj: any) {
-        const body = obj;
-        const url = adminApi.customer.update + '/' + obj.id;
-        return this.http.put(url, body);
-    }
+	createCustomer(obj: any) {
+		let isAllowed = this.usageService.checkUsage("lead");
+		if (isAllowed) {
+			const body = obj;
+			const url = adminApi.customer.create;
+			return this.http.post(url, body).pipe(
+				tap((res: any) => {
+					this.event.botCreated.next(res)
+				})
+			);
+		}
+		return throwError(new Error("Resource Limit"));
+	}
 
-    deleteCustomerById(id:any){
-        const url = adminApi.customer.remove+'/'+id;
-        return this.http.delete(url);
-      }
+	updateCustomerById(obj: any) {
+		const body = obj;
+		const url = adminApi.customer.update + '/' + obj.id;
+		return this.http.put(url, body);
+	}
+
+	deleteCustomerById(id: any) {
+		const url = adminApi.customer.remove + '/' + id;
+		return this.http.delete(url).pipe(
+			tap((res: any) => {
+				this.event.botDeleted.next(id)
+			})
+		);
+	}
 
 
 }

@@ -23,16 +23,17 @@ export const adminResources = {
 	},
 }
 
-export const plans = {
+export const availablePlans: any = {
 	basic: {
 		permits: [
 			adminResources.dashboard.basic,
 			adminResources.crm.basic,
 		],
-		limits:{
-			bot : 2,
-			faq : 100,
-			lead : 10000,
+		limits: {
+			bot: 2,
+			faq: 20,
+			lead: 10000,
+			upload: 5,
 		}
 	},
 	advance: {
@@ -43,10 +44,11 @@ export const plans = {
 			adminResources.crm.create,
 			adminResources.crm.export,
 		],
-		limits:{
-			bot : 10,
-			faq : 1000,
-			lead : 100000,
+		limits: {
+			bot: 10,
+			faq: 1000,
+			lead: 100000,
+			upload: 10,
 		}
 	},
 	pro: {
@@ -58,6 +60,6 @@ export const plans = {
 			adminResources.crm.create,
 			adminResources.crm.export,
 		],
-		limits:{}
+		limits: {}
 	},
 }

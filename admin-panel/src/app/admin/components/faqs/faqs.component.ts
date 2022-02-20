@@ -11,89 +11,89 @@ import { ConfirmationDialogService } from '../shared/confirmation-dialog/confirm
 
 
 @Component({
-  selector: 'app-faqs',
-  templateUrl: './faqs.component.html'
+	selector: 'app-faqs',
+	templateUrl: './faqs.component.html'
 })
 export class FaqsComponent implements OnInit {
-  botId = ""
-  editingFaq = null;
-  modalRef?: BsModalRef;
-  @ViewChild('faqModel') faqModel?: TemplateRef<any>;
-  
-  faqs: any[] = [];
+	botId = ""
+	editingFaq = null;
+	modalRef?: BsModalRef;
+	@ViewChild('faqModel') faqModel?: TemplateRef<any>;
 
-  constructor(
-    private route: ActivatedRoute,
-    private faqService: FaqService,
-    private botService: BotService,
-    private modalService: BsModalService,
-    private help: HelperService,
+	faqs: any[] = [];
+
+	constructor(
+		private route: ActivatedRoute,
+		private faqService: FaqService,
+		private botService: BotService,
+		private modalService: BsModalService,
+		private help: HelperService,
 		private confirmService: ConfirmationDialogService,
-    
-  ) { }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if(params.botId){
-        this.botId = params.botId;
-      }
-      this.getFaqs();
-      this.getBots();
-    });
-  }
+	) { }
 
-  getFaqs(){
-    this.faqService.getFaqs()
-    .subscribe((res:any)=>{
-      console.log(res);
-      this.faqs = res
-    },(error:any)=>{
-        // this.helperService.notify('error', error);
-    });
-  }
+	ngOnInit(): void {
+		this.route.params.subscribe(params => {
+			if (params.botId) {
+				this.botId = params.botId;
+			}
+			this.getFaqs();
+			this.getBots();
+		});
+	}
 
-  mybots: any[] = [];
-  getBots(){
-    this.botService.getBots()
-    .subscribe((res:any)=>{
-      console.log(res);
-      this.mybots = res
-    },(error:any)=>{
-        // this.helperService.notify('error', error);
-    });
-  }
+	getFaqs() {
+		this.faqService.getFaqs()
+			.subscribe((res: any) => {
+				console.log(res);
+				this.faqs = res
+			}, (error: any) => {
+				// this.helperService.notify('error', error);
+			});
+	}
 
-  openModal(editingFaq=null) {
-    if(this.faqModel){
-      this.editingFaq = editingFaq;
-      this.modalRef = this.modalService.show(this.faqModel, {class: 'modal-xl bg-transparent',backdrop : 'static',keyboard : false});
-    }
-  }
+	mybots: any[] = [];
+	getBots() {
+		this.botService.getBots()
+			.subscribe((res: any) => {
+				console.log(res);
+				this.mybots = res
+			}, (error: any) => {
+				// this.helperService.notify('error', error);
+			});
+	}
 
-  onSuccess(event : Event){
-    this.getFaqs();
-  }
- 
-  getFilteredFaqs(){
-    if(this.botId){
-      return this.faqs.filter(faq => faq.bot.botId == this.botId)
-    }else{
-      return this.faqs
-    }
-  }
-  deleteFaqById(faqId:number){
-    console.log(faqId)
-		this.confirmService.confirm(adminNotify.confirm.customerDelete).subscribe((result:boolean) => {
-      if(result){
-				this.faqService.deleteFaqById(faqId).subscribe((res:any)=>{
+	openModal(editingFaq = null) {
+		if (this.faqModel) {
+			this.editingFaq = editingFaq;
+			this.modalRef = this.modalService.show(this.faqModel, { class: 'modal-xl bg-transparent', backdrop: 'static', keyboard: false });
+		}
+	}
+
+	onSuccess(event: Event) {
+		this.getFaqs();
+	}
+
+	getFilteredFaqs() {
+		if (this.botId) {
+			return this.faqs.filter(faq => faq.bot.botId == this.botId)
+		} else {
+			return this.faqs
+		}
+	}
+	deleteFaqById(faqId: string) {
+		console.log(faqId)
+		this.confirmService.confirm(adminNotify.confirm.customerDelete).subscribe((result: boolean) => {
+			if (result) {
+				this.faqService.deleteFaqById(faqId).subscribe((res: any) => {
 					console.log(res);
 					this.getFaqs();
-					this.help.notify('success',adminNotify.success.faqBot);
-				},(error:any)=>{
+					this.help.notify('success', adminNotify.success.faqBot);
+				}, (error: any) => {
 					console.log(error)
-						// this.helperService.notify('error', error);
+					// this.helperService.notify('error', error);
 				});
 			}
 		});
-  }
+	}
 }
