@@ -2,8 +2,8 @@ export const environment = {
   production: true,
   uploads: "https://lalabot-api.onrender.com/",
   backend: "https://lalabot-api.onrender.com/",
-  frontend: "https://ai-lab-frontend.herokuapp.com/",
-  bundleJs : "https://ai-lab-frontend.herokuapp.com/assets/mybot/js/bundle.js",
+  frontend: "https://lalabot.onrender.com/",
+  bundleJs : "https://lalabot.onrender.com/assets/mybot/js/bundle.js",
 };
 
 export const social = {
